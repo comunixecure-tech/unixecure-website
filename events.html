@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>行銷活動 · uniXecure 智慧資安科技</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="bright/custom-select.js" defer></script>
+<script src="image-slot.js"></script>
+<style>
+.lc-thumb{height:170px}
+.lc-datebadge{position:absolute;top:12px;left:12px;z-index:2;background:var(--b-amber,#ffb415);border-radius:10px;padding:6px 12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.18);min-width:46px}
+.lc-datebadge .mon{display:block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:oklch(22% .06 75)}
+.lc-datebadge .day{display:block;font-size:18px;font-weight:700;color:oklch(15% .06 75);line-height:1.1}
+.lc-body{flex:1;padding:16px 20px 18px;display:flex;flex-direction:column;gap:6px}
+.lc-status{font-size:12px;font-weight:700;padding:2px 10px;border-radius:20px;width:fit-content;letter-spacing:.02em}
+.lc-status--up{background:rgba(60,73,186,.1);color:var(--b-indigo)}
+.lc-status--past{background:rgba(0,0,0,.06);color:var(--b-ink-3)}
+[data-theme="dark"] .lc-status--up{background:rgba(60,73,186,.22);color:#93a8f4}
+[data-theme="dark"] .lc-status--past{background:rgba(255,255,255,.08);color:rgba(255,255,255,.4)}
+.lc-title{font-size:16px;font-weight:700;color:var(--b-ink);line-height:1.45;margin:0}
+.lc-card:hover .lc-title{color:var(--b-indigo)}
+.lc-meta{font-size:14px;color:var(--b-ink-3);display:flex;align-items:center;gap:6px}
+.lc-meta i{color:var(--b-indigo);opacity:.7;font-size:12px}
+.lc-toprow{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.events-hero .tag--indigo,.list-main .tag--indigo{color:var(--b-ink-3);background:rgba(0,0,0,.05)}
+[data-theme="dark"] .list-main .tag--indigo{background:rgba(255,255,255,.08);color:rgba(255,255,255,.55)}
+.events-hero{background:var(--b-amber)}
+[data-theme="dark"] .events-hero{background:var(--ux-secondary-900)}
+.events-hero::before{background-image:radial-gradient(rgba(17,19,28,.10) 1px, transparent 1px)}
+[data-theme="dark"] .events-hero::before{background-image:radial-gradient(rgba(255,255,255,.10) 1px, transparent 1px)}
+.events-hero .page-hero__title{color:var(--b-ink)}
+.events-hero .page-hero__title em{color:var(--b-ink)}
+.events-hero .page-hero__sub{color:rgba(17,19,28,.65)}
+.events-hero .page-hero__count{color:rgba(17,19,28,.45)}
+[data-theme="dark"] .events-hero .page-hero__title{color:#f2f4fb}
+[data-theme="dark"] .events-hero .page-hero__title em{color:#f2f4fb}
+[data-theme="dark"] .events-hero .page-hero__sub{color:rgba(242,244,251,.65)}
+[data-theme="dark"] .events-hero .page-hero__count{color:rgba(242,244,251,.45)}
+.list-main{background:var(--ux-secondary-50)}
+[data-theme="dark"] .list-main{background:oklch(12% 0.04 266)}
+</style>
+</head>
+<body>
+  <site-nav active="events"></site-nav>
+
+<header class="page-hero page-hero--list events-hero">
+  <div class="page-hero__deco" aria-hidden="true">
+    <svg width="420" height="420" viewBox="0 0 468 468" fill="none" style="position:absolute;right:-60px;top:-80px;opacity:.13;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#ega)" />
+      <defs><linearGradient id="ega" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#FFB415" /><stop offset="1" stop-color="#E1251B" /></linearGradient></defs>
+    </svg>
+    <svg width="260" height="260" viewBox="0 0 468 468" fill="none" style="position:absolute;left:-40px;bottom:-30px;opacity:.07;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#egb)" />
+      <defs><linearGradient id="egb" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#FFB415" /><stop offset="1" stop-color="#E1251B" /></linearGradient></defs>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="page-hero__titlerow">
+      <h1 class="page-hero__title">行銷<em>活動</em></h1>
+      <span class="page-hero__count" id="resultCount"></span>
+    </div>
+    <p class="page-hero__sub">研討會、展會與線上活動，掌握第一手參與機會。</p>
+    <div class="filter-bar">
+      <div class="filter-bar__row">
+        <div class="filter-bar__select-wrap">
+          <select class="filter-bar__select" id="typeFilter">
+            <option value="">所有類型</option>
+            <option value="實體">實體</option>
+            <option value="線上">線上</option>
+          </select>
+          <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+        </div>
+        <div class="filter-bar__select-wrap">
+          <select class="filter-bar__select" id="statusFilter">
+            <option value="">所有狀態</option>
+            <option value="up">即將登場</option>
+            <option value="past">已結束</option>
+          </select>
+          <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+        </div>
+        <div class="ux-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="kwFilter" placeholder="關鍵字搜尋" />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="list-main">
+  <div class="wrap">
+    <div class="lc-grid lc-grid--3" id="listGrid"></div>
+    <div class="c-pagination" id="pagination"></div>
+  </div>
+</section>
+
+<site-cta></site-cta>
+<site-footer></site-footer>
+
+<script>
+const items = [
+  { type:'Webinar', mode:'線上', status:'up', mon:'AUG', day:'18', title:'從 GCB 到 EDR：政府機關資安合規實戰', loc:'線上 Zoom' },
+  { type:'實體展覽', mode:'實體', status:'up', mon:'SEP', day:'02', title:'uniXecure × CYBERSEC 資安年會：上市公司、金融業與公部門的中區進行式定位識與提前佈局、自評檢核兩大主題展區現場直擊', loc:'南港展覽館' },
+  { type:'Webinar', mode:'線上', status:'up', mon:'SEP', day:'25', title:'資安太空號邀您一同探索數位宇宙', loc:'線上直播' },
+  { type:'教育訓練', mode:'實體', status:'up', mon:'OCT', day:'14', title:'跡證保存與法遵鑑識實務工作坊：從日誌搜集、保存鏈完整性驗證到官司提供與官司案例解析的完整學習旅程', loc:'台北場' },
+  { type:'實體展覽', mode:'實體', status:'past', mon:'MAY', day:'12', title:'2026 智慧城市資安高峰論壇', loc:'台北世貿' },
+  { type:'Webinar', mode:'線上', status:'past', mon:'APR', day:'08', title:'HEIS 人因風險分析新版功能發表會', loc:'線上直播' },
+  { type:'教育訓練', mode:'實體', status:'past', mon:'MAR', day:'21', title:'公部門 G-SOC 聯防串接教育訓練', loc:'台中場' },
+  { type:'實體展覽', mode:'實體', status:'past', mon:'FEB', day:'06', title:'資安產業趨勢交流餐會', loc:'台北君悅' },
+];
+const stockPhotos = [
+  'assets/placeholder/ph-10.avif',
+  'assets/placeholder/ph-03.avif',
+  'assets/placeholder/ph-01.avif',
+  'assets/placeholder/ph-09.avif'
+];
+const PER_PAGE = 6; let filtered=[...items]; let page=1;
+function applyFilter(){
+  // TODO(CMS 上線後): 關鍵字目前只比對 title 純文字，之後應同時比對內文全文與標籤（tags）欄位，
+  // 讓從標籤連結進來的篩選（如 ?tag=Webinar）與手動關鍵字搜尋都能準確命中。
+  const t=document.getElementById('typeFilter').value, s=document.getElementById('statusFilter').value, kw=document.getElementById('kwFilter').value.trim().toLowerCase();
+  const active = !!(t||s||kw);
+  filtered = items.filter(it => (!t||it.mode===t) && (!s||it.status===s) && (!kw||it.title.toLowerCase().includes(kw)));
+  page=1; render(active);
+}
+function goPage(n){ page=n; render(); const top=document.querySelector('.list-main').offsetTop-88; window.scrollTo({top,behavior:'smooth'}); }
+function render(isFiltered){
+  const grid=document.getElementById('listGrid'), pg=document.getElementById('pagination');
+  document.getElementById('resultCount').textContent=(isFiltered?'符合 ':'共 ')+filtered.length+' 場';
+  const slice=filtered.slice((page-1)*PER_PAGE,page*PER_PAGE);
+  if(!slice.length){ grid.innerHTML='<div class="c-empty"><i class="fa-regular fa-calendar-xmark"></i>找不到符合的活動</div>'; pg.innerHTML=''; return; }
+  grid.innerHTML=slice.map((it,i)=>`
+    <a class="lc-card lc-card--col" href="events-detail.html">
+      <div class="lc-thumb">
+        <image-slot id="ev-${it.mon}${it.day}-${i}" placeholder="活動照片" shape="rect" src="${stockPhotos[i%stockPhotos.length]}"></image-slot>
+        <div class="lc-datebadge"><span class="mon">${it.mon}</span><span class="day">${it.day}</span></div>
+      </div>
+      <div class="lc-body">
+        <div class="lc-toprow">
+          <span class="lc-status ${it.status==='up'?'lc-status--up':'lc-status--past'}">${it.status==='up'?'即將登場':'已結束'}</span>
+          <div class="lc-meta"><i class="fa-solid fa-location-dot"></i>${it.loc}</div>
+        </div>
+        <h3 class="lc-title">${it.title}</h3>
+        <div class="lc-tags"><span class="tag tag--indigo">${it.type}</span><span class="tag tag--indigo">${it.mode}</span></div>
+      </div>
+    </a>`).join('');
+  const total=Math.ceil(filtered.length/PER_PAGE);
+  if(total<=1){ pg.innerHTML=''; return; }
+  let h=`<button class="c-pg" ${page===1?'disabled':''} onclick="goPage(${page-1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+  for(let i=1;i<=total;i++) h+=`<button class="c-pg ${i===page?'is-active':''}" onclick="goPage(${i})">${i}</button>`;
+  h+=`<button class="c-pg" ${page===total?'disabled':''} onclick="goPage(${page+1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+  pg.innerHTML=h;
+}
+document.getElementById('kwFilter').addEventListener('input',applyFilter);
+document.getElementById('typeFilter').addEventListener('change',applyFilter);
+document.getElementById('statusFilter').addEventListener('change',applyFilter);
+const urlTag=new URLSearchParams(location.search).get('tag');
+if(urlTag){ document.getElementById('kwFilter').value=urlTag; }
+render();
+if(urlTag){ applyFilter(); }
+</script>
+<site-back-to-top></site-back-to-top>
+<script src="site-chrome.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>影音專區 · uniXecure 智慧資安科技</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="bright/custom-select.js" defer></script>
+<script src="image-slot.js"></script>
+<style>
+.lc-thumb{background:oklch(20% .06 266);height:180px}
+.lc-playbtn{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.18);transition:background .2s}
+.lc-card:hover .lc-playbtn{background:rgba(0,0,0,.28)}
+.lc-playbtn i{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.22);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;padding-left:4px;transition:background .15s,transform .15s}
+.lc-card:hover .lc-playbtn i{background:var(--b-indigo);transform:scale(1.1)}
+.lc-dur{position:absolute;bottom:10px;right:12px;z-index:3;font-family:var(--ux-font-mono);font-size:12px;font-weight:600;color:#fff;background:rgba(0,0,0,.62);padding:2px 8px;border-radius:4px}
+.lc-body{flex:1;padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px}
+.lc-title{font-size:16px;font-weight:700;color:var(--b-ink);line-height:1.45;margin:0}
+.lc-card:hover .lc-title{color:oklch(62% 0.18 266)}
+.lc-tags{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.lc-tags-prod{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-left:auto}
+.lc-tag-logo{height:28px;width:auto;display:block;color:var(--b-ink)}
+.videos-hero{background:var(--b-indigo)}
+[data-theme="dark"] .videos-hero{background:var(--ux-primary-950)}
+.videos-hero .page-hero__title em{color:var(--ux-primary-400)}
+.list-main{background:var(--ux-primary-100)}
+[data-theme="dark"] .list-main{background:oklch(12% 0.04 266)}
+</style>
+</head>
+<body>
+  <site-nav active="videos"></site-nav>
+
+<header class="page-hero page-hero--list videos-hero">
+  <div class="page-hero__deco" aria-hidden="true">
+    <svg width="420" height="420" viewBox="0 0 468 468" fill="none" style="position:absolute;right:-60px;top:-80px;opacity:.32;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#vga)" />
+      <defs><linearGradient id="vga" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#3C49BA" /><stop offset="1" stop-color="#41A320" /></linearGradient></defs>
+    </svg>
+    <svg width="260" height="260" viewBox="0 0 468 468" fill="none" style="position:absolute;left:-40px;bottom:-30px;opacity:.18;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#vgb)" />
+      <defs><linearGradient id="vgb" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#3C49BA" /><stop offset="1" stop-color="#41A320" /></linearGradient></defs>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="page-hero__titlerow">
+      <h1 class="page-hero__title">影音<em>專區</em></h1>
+      <span class="page-hero__count" id="resultCount"></span>
+    </div>
+    <p class="page-hero__sub">產品介紹、維運現場直擊與資安趨勢分析影片。</p>
+    <div class="filter-bar">
+      <div class="filter-bar__row">
+        <div class="filter-bar__select-wrap">
+          <select class="filter-bar__select" id="typeFilter">
+            <option value="">所有類型</option>
+            <option value="產品介紹">產品介紹</option>
+            <option value="維運直擊">維運直擊</option>
+            <option value="趨勢分析">趨勢分析</option>
+          </select>
+          <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+        </div>
+        <div class="filter-bar__select-wrap">
+          <select class="filter-bar__select" id="prodFilter">
+            <option value="">所有產品線</option>
+            <option value="RAVEN">RAVEN</option>
+            <option value="HEIS">HEIS</option>
+            <option value="SRMAS">SRMAS</option>
+            <option value="LUCAS">LUCAS</option>
+            <option value="代理產品">代理產品</option>
+          </select>
+          <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+        </div>
+        <div class="ux-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="kwFilter" placeholder="關鍵字搜尋" />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="list-main">
+  <div class="wrap">
+    <div class="lc-grid lc-grid--3" id="listGrid"></div>
+    <div class="c-pagination" id="pagination"></div>
+  </div>
+</section>
+
+<site-cta></site-cta>
+<site-footer></site-footer>
+
+<script>
+const items = [
+  { type:'產品介紹', prod:'RAVEN', dur:'04:20', title:'uniXecure 智慧資安科技服務總覽' },
+  { type:'維運直擊', prod:'RAVEN', dur:'07:18', title:'走進 RAVEN：24 小時資安監控現場直擊' },
+  { type:'趨勢分析', prod:'RAVEN', dur:'12:05', title:'2026 台灣資安威脅態勢分析與因應策略' },
+  { type:'產品介紹', prod:'HEIS', dur:'05:42', title:'HEIS 資安意識人因分析系統功能介紹' },
+  { type:'產品介紹', prod:'SRMAS', dur:'06:10', title:'SRMAS 系統資源監控暨告警系統操作演示' },
+  { type:'產品介紹', prod:'LUCAS', dur:'05:03', title:'LUCAS 跡證保存系統合規應用場景' },
+  { type:'趨勢分析', prod:'HEIS', dur:'09:37', title:'社交工程演練實戰：從識別到防範' },
+  { type:'維運直擊', prod:'LUCAS', dur:'08:12', title:'跡證鑑識案例分享：從事件到結案' },
+  { type:'趨勢分析', prod:'SRMAS', dur:'10:24', title:'雲端資源監控的下一步：多雲時代的挑戰' },
+];
+const stockPhotos = [
+  'assets/placeholder/ph-11.avif',
+  'assets/placeholder/ph-12.avif',
+  'assets/placeholder/ph-12.avif',
+  'assets/placeholder/ph-03.avif'
+];
+const PER_PAGE = 6; let filtered=[...items]; let page=1;
+function applyFilter(){
+  const t=document.getElementById('typeFilter').value, p=document.getElementById('prodFilter').value, kw=document.getElementById('kwFilter').value.trim().toLowerCase();
+  const active = !!(t||p||kw);
+  filtered = items.filter(it => (!t||it.type===t) && (!p||it.prod===p) && (!kw||it.title.toLowerCase().includes(kw)));
+  page=1; render(active);
+}
+function goPage(n){ page=n; render(lastActive); const top=document.querySelector('.list-main').offsetTop-88; window.scrollTo({top,behavior:'smooth'}); }
+let lastActive=false;
+function render(isFiltered){
+  lastActive = !!isFiltered;
+  const grid=document.getElementById('listGrid'), pg=document.getElementById('pagination');
+  document.getElementById('resultCount').textContent=(isFiltered?'符合 ':'共 ')+filtered.length+' 部';
+  const slice=filtered.slice((page-1)*PER_PAGE,page*PER_PAGE);
+  if(!slice.length){ grid.innerHTML='<div class="c-empty"><i class="fa-regular fa-circle-play"></i>找不到符合的影片</div>'; pg.innerHTML=''; return; }
+  grid.innerHTML=slice.map((it,i)=>`
+    <a class="lc-card lc-card--col" href="https://www.youtube.com/@unixecure3203" target="_blank" rel="noopener" aria-label="${it.title}">
+      <div class="lc-thumb">
+        <image-slot id="vid-${it.prod}-${i}" placeholder="影片縮圖" shape="rect" src="${stockPhotos[i%stockPhotos.length]}"></image-slot>
+        <div class="lc-playbtn"><i class="fa-solid fa-play"></i></div>
+        <span class="lc-dur">${it.dur}</span>
+      </div>
+      <div class="lc-body">
+        <div class="lc-tags"><span class="tag tag--indigo">${it.type}</span><div class="lc-tags-prod">${(Array.isArray(it.prod)?it.prod:[it.prod]).map(p=>`<svg class="lc-tag-logo" viewBox="0 0 1770 500" role="img" aria-label="${p}"><use href="#lg-${p.toLowerCase()}"></use></svg>`).join('')}</div></div>
+        <h3 class="lc-title">${it.title}</h3>
+      </div>
+    </a>`).join('');
+  const total=Math.ceil(filtered.length/PER_PAGE);
+  if(total<=1){ pg.innerHTML=''; return; }
+  let h=`<button class="c-pg" ${page===1?'disabled':''} onclick="goPage(${page-1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+  for(let i=1;i<=total;i++) h+=`<button class="c-pg ${i===page?'is-active':''}" onclick="goPage(${i})">${i}</button>`;
+  h+=`<button class="c-pg" ${page===total?'disabled':''} onclick="goPage(${page+1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+  pg.innerHTML=h;
+}
+document.getElementById('kwFilter').addEventListener('input',applyFilter);
+document.getElementById('typeFilter').addEventListener('change',applyFilter);
+document.getElementById('prodFilter').addEventListener('change',applyFilter);
+render();
+</script>
+<site-back-to-top></site-back-to-top>
+<script src="site-chrome.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>新聞中心 · uniXecure 智慧資安科技</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="bright/custom-select.js" defer></script>
+<script src="image-slot.js"></script>
+<style>
+.lc-thumb{width:260px;flex-shrink:0}
+.lc-body{flex:1;padding:18px 22px;display:flex;flex-direction:column;gap:6px;justify-content:center;min-width:0}
+.lc-meta-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.lc-date{font-size:14px;color:var(--b-ink-4)}
+.lc-title{font-size:16px;font-weight:700;color:var(--b-indigo);line-height:1.5;margin:0}
+.lc-card:hover .lc-title{color:oklch(62% 0.18 266)}
+.lc-desc{font-size:14px;color:var(--b-ink-3);line-height:1.6;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-tag-logo{height:28px;width:auto;display:block;color:var(--b-ink)}
+@media(max-width:640px){.lc-thumb{width:100%;height:160px}}
+.news-hero{background:var(--ux-primary-100)}
+[data-theme="dark"] .news-hero{background:var(--ux-primary-950)}
+.news-hero::before{background-image:radial-gradient(rgba(48,56,120,.08) 1px, transparent 1px)}
+[data-theme="dark"] .news-hero::before{background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px)}
+.news-hero .page-hero__title{color:var(--ux-primary-900)}
+.news-hero .page-hero__title em{color:var(--b-indigo)}
+.news-hero .page-hero__sub{color:rgba(48,56,120,.65)}
+.news-hero .page-hero__count{color:rgba(48,56,120,.45)}
+[data-theme="dark"] .news-hero .page-hero__title{color:#f2f4fb}
+[data-theme="dark"] .news-hero .page-hero__title em{color:#93a8f4}
+[data-theme="dark"] .news-hero .page-hero__sub{color:rgba(242,244,251,.65)}
+[data-theme="dark"] .news-hero .page-hero__count{color:rgba(242,244,251,.45)}
+.list-main{background:var(--ux-primary-50)}
+[data-theme="dark"] .list-main{background:oklch(12% 0.04 266)}
+</style>
+</head>
+<body>
+  <site-nav active="news"></site-nav>
+
+<header class="page-hero page-hero--list news-hero">
+  <div class="page-hero__deco" aria-hidden="true">
+    <svg width="420" height="420" viewBox="0 0 468 468" fill="none" style="position:absolute;right:-60px;top:-80px;opacity:.05;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#nga)" />
+      <defs><linearGradient id="nga" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#3C49BA" /><stop offset="1" stop-color="#2795FB" /></linearGradient></defs>
+    </svg>
+    <svg width="260" height="260" viewBox="0 0 468 468" fill="none" style="position:absolute;left:-40px;bottom:-30px;opacity:.03;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#ngb)" />
+      <defs><linearGradient id="ngb" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#3C49BA" /><stop offset="1" stop-color="#2795FB" /></linearGradient></defs>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="page-hero__titlerow">
+      <h1 class="page-hero__title">新聞<em>中心</em></h1>
+      <span class="page-hero__count" id="resultCount"></span>
+    </div>
+    <p class="page-hero__sub">掌握 uniXecure 最新產品動態、合規升級與資安產業觀察。</p>
+    <div class="filter-bar">
+      <div class="filter-bar__row">
+        <div class="filter-bar__select-wrap">
+          <select class="filter-bar__select" id="yearFilter">
+            <option value="">所有年度</option>
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+          </select>
+          <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+        </div>
+        <div class="filter-bar__select-wrap">
+          <select class="filter-bar__select" id="prodFilter">
+            <option value="">所有產品線</option>
+            <option value="RAVEN">RAVEN</option>
+            <option value="HEIS">HEIS</option>
+            <option value="SRMAS">SRMAS</option>
+            <option value="LUCAS">LUCAS</option>
+            <option value="代理產品">代理產品</option>
+            <option value="活動">活動</option>
+          </select>
+          <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+        </div>
+        <div class="ux-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="kwFilter" placeholder="關鍵字搜尋" />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="list-main">
+  <div class="wrap">
+    <div class="lc-grid lc-grid--1" id="listGrid"></div>
+    <div class="c-pagination" id="pagination"></div>
+  </div>
+</section>
+
+<site-cta></site-cta>
+<site-footer></site-footer>
+
+<script>
+const items = [
+  { year:'2026', prod:'RAVEN', date:'2026 / 05 / 12', title:'uniXecure 攜手主管機關推動公部門 G-SOC 2.0 升級', desc:'強化跨部會威脅情資聯防能力，打造一體化資安韌性，並與行政院資安處協同建置跨部會事件通報機制，同步導入自動化派工與分級應變流程，大幅縮短從事件發現到跨機關協處完成的整體時間，並定期產出合規報告供主管機關查核。' },
+  { year:'2026', prod:'RAVEN', date:'2026 / 04 / 28', title:'RAVEN 監控中心通過 ISO 27701 隱私資訊管理驗證', desc:'成為國內少數同時取得 ISO 27001 與 27701 雙證的資安維運廠商，強化個資保護與安全管理雙軌並行。' },
+  { year:'2026', prod:'HEIS', date:'2026 / 03 / 15', title:'HEIS 全面升級 AI 行為意識分析引擎，導入跨語系情境模擬與主管儀表板整合功能更新版本說明', desc:'以行為訊號量化員工資安意識，識別準確率提升 47%，並支援多語系報表輸出與主管儀表板整合。' },
+  { year:'2026', prod:'SRMAS', date:'2026 / 02 / 20', title:'SRMAS 新增雲端資源異常告警模組', desc:'即時偵測雲端主機資源異常波動，結合告警規則引擎，降低誤報並縮短事件應變時間。' },
+  { year:'2025', prod:'LUCAS', date:'2025 / 12 / 09', title:'LUCAS 跡證保存系統通過司法鑑識標準相容測試', desc:'完成第三方鑑識工具相容性驗證，確保跡證保存鏈完整可供法遵佐證。' },
+  { year:'2025', prod:'RAVEN', date:'2025 / 10 / 30', title:'uniXecure 資安監控維運中心通過 ISO 20000 續驗', desc:'服務管理制度持續優化，維運 SLA 達成率連續三年超過 99.5%。' },
+  { year:'2025', prod:'HEIS', date:'2025 / 09 / 18', title:'HEIS 攜手金融業者完成大規模社交工程演練', desc:'涵蓋逾萬名員工的模擬釣魚演練，協助客戶掌握真實風險缺口並優化教育訓練。' },
+  { year:'2025', prod:'RAVEN', date:'2025 / 08 / 05', title:'uniXecure 出席資安大會分享公部門聯防實務', desc:'分享跨機關資安事件協處經驗，探討 G-SOC 架構下的自動化應變流程。' },
+  { year:'2025', prod:'SRMAS', date:'2025 / 06 / 22', title:'SRMAS 支援多雲環境資源監控儀表板', desc:'整合公有雲與地端資源監控視角，提供單一儀表板管理跨環境維運狀態。' },
+  { year:'2025', prod:'LUCAS', date:'2025 / 04 / 11', title:'LUCAS 新版本強化日誌保存效能', desc:'重新設計儲存架構，大量日誌寫入效能提升逾 2 倍，降低儲存成本。' },
+  { year:'2026', prod:'', cat:'活動', link:'news-detail-event.html', date:'2026 / 04 / 20', title:'跡證保存與法遵鑑識實務工作坊', desc:'從日誌搜集、保存鏈完整性驗證到司法舉證與案例解析的完整學習旅程，台北場實體教育訓練。' },
+  { year:'2026', prod:'HEIS', cat:'活動', date:'2026 / 01 / 15', title:'HEIS 人因風險分析新版功能發表會', desc:'線上直播發表會，展示 HEIS 最新行為分析引擎與主管儀表板功能。' },
+  { year:'2025', prod:'', cat:'活動', date:'2025 / 11 / 06', title:'資安產業趨勢交流餐會', desc:'台北君悅餐敘交流，邀集資安產業夥伴分享年度趨勢觀察。' },
+  { year:'2025', prod:'', cat:'活動', date:'2025 / 08 / 20', title:'2026 智慧城市資安高峰論壇', desc:'台北世貿實體展覽，探討智慧城市基礎設施的資安防護新趨勢。' },
+];
+items.sort((a,b)=>b.date.localeCompare(a.date));
+const stockPhotos = ['assets/placeholder/ph-02.avif','assets/placeholder/ph-08.avif','assets/placeholder/ph-11.avif','assets/placeholder/ph-06.avif'];
+const PER_PAGE = 6; let filtered=[...items]; let page=1;
+function applyFilter(){
+  // TODO(CMS 上線後): 關鍵字目前只比對 title/desc 純文字，之後接上後台資料應同時比對內文全文與標籤(tags)欄位，
+  // 讓從標籤連結進來的篩選（如 ?tag=SOC）與手動關鍵字搜尋都能命中內文未逐字出現但標籤有標記的文章。
+  const y=document.getElementById('yearFilter').value, p=document.getElementById('prodFilter').value, kw=document.getElementById('kwFilter').value.trim().toLowerCase();
+  const active = !!(y||p||kw);
+  filtered = items.filter(it => (!y||it.year===y) && (!p||(p==='活動'?it.cat==='活動':it.prod===p)) && (!kw||it.title.toLowerCase().includes(kw)||it.desc.toLowerCase().includes(kw)));
+  page=1; render(active);
+}
+function goPage(n){ page=n; render(); const top=document.querySelector('.list-main').offsetTop-88; window.scrollTo({top,behavior:'smooth'}); }
+function render(isFiltered){
+  const grid=document.getElementById('listGrid'), pg=document.getElementById('pagination');
+  document.getElementById('resultCount').textContent=(isFiltered?'符合 ':'共 ')+filtered.length+' 則';
+  const slice=filtered.slice((page-1)*PER_PAGE,page*PER_PAGE);
+  if(!slice.length){ grid.innerHTML='<div class="c-empty"><i class="fa-regular fa-newspaper"></i>找不到符合的新聞</div>'; pg.innerHTML=''; return; }
+  grid.innerHTML=slice.map((it,i)=>`
+    <a class="lc-card lc-card--row" href="${it.link||'news-detail.html'}">
+      <div class="lc-thumb"><image-slot id="news-${it.date.replace(/[\\s/]/g,'')}-${i}" placeholder="${it.cat==='活動'?'活動圖片':'新聞圖片'}" shape="rect" src="${stockPhotos[i%stockPhotos.length]}"></image-slot></div>
+      <div class="lc-body">
+        <div class="lc-meta-row">
+          <span class="lc-date">${it.date}</span>
+          ${it.prod?`<div class="lc-tags"><svg class="lc-tag-logo" viewBox="0 0 1770 500" role="img" aria-label="${it.prod}"><use href="#lg-${it.prod.toLowerCase()}"></use></svg></div>`:''}
+        </div>
+        <h3 class="lc-title">${it.title}</h3>
+        <p class="lc-desc">${it.desc}</p>
+      </div>
+    </a>`).join('');
+  const total=Math.ceil(filtered.length/PER_PAGE);
+  if(total<=1){ pg.innerHTML=''; return; }
+  let h=`<button class="c-pg" ${page===1?'disabled':''} onclick="goPage(${page-1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+  for(let i=1;i<=total;i++) h+=`<button class="c-pg ${i===page?'is-active':''}" onclick="goPage(${i})">${i}</button>`;
+  h+=`<button class="c-pg" ${page===total?'disabled':''} onclick="goPage(${page+1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+  pg.innerHTML=h;
+}
+document.getElementById('kwFilter').addEventListener('input',applyFilter);
+document.getElementById('yearFilter').addEventListener('change',applyFilter);
+document.getElementById('prodFilter').addEventListener('change',applyFilter);
+const urlTag=new URLSearchParams(location.search).get('tag');
+if(urlTag){ document.getElementById('kwFilter').value=urlTag; }
+render();
+if(urlTag){ applyFilter(); }
+</script>
+<site-back-to-top></site-back-to-top>
+<script src="site-chrome.js"></script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>【科技講堂】資安最前線 生成式 AI 時代的資安挑戰 · 行銷活動 · uniXecure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="image-slot.js"></script>
+<style>
+.detail-page{background:var(--ux-secondary-50);min-height:100vh}
+[data-theme="dark"] .detail-page{background:oklch(12% 0.04 266)}
+.article-hero{background:var(--b-amber);padding:112px 0 32px;position:relative;overflow:hidden}
+.article-hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(17,19,28,.10) 1px, transparent 1px);background-size:28px 28px;pointer-events:none}
+.article-hero .wrap{position:relative;z-index:1}
+.article-hero__inner{max-width:760px;margin:0 auto}
+.article-hero__crumb{margin-bottom:18px}
+.article-hero__crumb a,.article-hero__crumb .breadcrumb__current-mid{color:rgba(17,19,28,.6)}
+.article-hero__crumb a:hover{color:var(--b-ink)}
+.article-hero__crumb .breadcrumb__sep{color:rgba(17,19,28,.3)}
+.article-hero__topline{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.article-hero__topline .article-hero__crumb{margin-bottom:0}
+.article-hero__date{font-size:14px;color:rgba(17,19,28,.65);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.article-hero__date i{color:rgba(17,19,28,.45)}
+.article-hero__title{font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.35;letter-spacing:-.015em;color:var(--b-ink);margin:0}
+.breadcrumb__current-mid{color:var(--b-ink-4)}
+.article__lead{font-size:18px;line-height:1.75;color:var(--b-ink-3);margin:0 0 32px;max-width:none}
+.article__tags-top{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 32px}
+.article__banner{border-radius:12px;overflow:hidden;aspect-ratio:16/9;margin-bottom:36px;box-shadow:var(--b-shadow-sm)}
+.article__banner img{display:block;width:100%;height:100%;object-fit:cover}
+.article__body{font-size:16px;line-height:1.9;color:var(--b-ink-2)}
+.article__body p{margin:0 0 22px}
+.article__body a{color:var(--b-indigo);text-decoration:underline;text-decoration-color:var(--b-indigo-100);text-underline-offset:2px;font-weight:600;transition:color .15s,text-decoration-color .15s}
+.article__body a:hover{color:var(--b-indigo-2);text-decoration-color:var(--b-indigo-2)}
+.article__body h2{font-size:22px;font-weight:700;color:var(--b-ink);margin:40px 0 16px;letter-spacing:-.01em}
+.article__figure{margin:32px 0}
+.article__figure img{border-radius:10px;display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.article__figure figcaption{font-size:14px;color:var(--b-ink-4);text-align:center;margin-top:10px}
+.event-box{background:var(--b-card);border:1px solid var(--b-line);box-shadow:var(--b-shadow-sm);border-radius:10px;padding:32px;display:flex;flex-direction:column;margin:36px 0}
+.eb-section{padding:22px 0}
+.eb-section:first-child{padding-top:0}
+.eb-section+.eb-section{border-top:1px solid var(--b-line)}
+.eb-label{font-size:16px;font-weight:700;color:var(--b-ink);letter-spacing:.01em;margin-bottom:14px}
+.event-box__item{display:flex;gap:6px;font-size:16px;line-height:1.9;color:var(--b-ink-2)}
+.event-box__item b{color:var(--b-ink);font-weight:700;flex-shrink:0}
+.event-box__item a{color:var(--b-indigo);font-weight:600;text-decoration:underline;text-decoration-color:var(--b-indigo-100);text-underline-offset:2px;transition:color .15s,text-decoration-color .15s}
+.event-box__item a:hover{color:var(--b-indigo-2);text-decoration-color:var(--b-indigo-2)}
+.event-box__item a i{font-size:12px;margin-left:4px}
+.agenda-list{display:flex;flex-direction:column}
+.agenda-item{display:flex;gap:20px;padding:12px 0;border-top:1px solid var(--b-line)}
+.agenda-item:first-child{border-top:none;padding-top:0}
+.agenda-item__time{font-family:var(--ux-font-mono);font-size:14px;font-weight:600;color:var(--b-indigo);width:104px;flex-shrink:0;padding-top:2px}
+.agenda-item__body{display:flex;flex-direction:column;gap:2px}
+.agenda-item__title{font-size:16px;font-weight:700;color:var(--b-ink);line-height:1.7}
+.agenda-item__speaker{font-size:14px;color:var(--b-ink-3);line-height:1.7}
+@media(max-width:640px){.agenda-item{gap:12px}.agenda-item__time{width:76px;font-size:12px}}
+.event-box__speakers{display:flex;flex-direction:column;gap:20px}
+.speaker-card{display:flex;align-items:center;gap:14px;text-align:left}
+.speaker-card__photo{width:60px;height:60px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.speaker-card__photo image-slot::part(frame){background:linear-gradient(135deg,var(--b-indigo-100),var(--b-indigo-50))!important}
+.photo-slot--blank::part(empty){display:none!important}
+.speaker-card__photo image-slot::part(ring){display:none!important}
+.speaker-card__info{display:flex;flex-direction:column;gap:4px}
+.speaker-card__name{font-size:16px;font-weight:700;color:var(--b-ink);line-height:1.5}
+.speaker-card__title{font-size:14px;color:var(--b-indigo);font-weight:600;line-height:1.5}
+.speaker-card__bio{font-size:14px;color:var(--b-ink-3);line-height:1.8;margin:0}
+.event-box__orgs{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.event-box__orgs img{height:80px;width:auto;max-width:240px}
+.event-box__register{display:flex;flex-direction:column;align-items:center;gap:16px}
+.event-box__qr{width:180px;height:180px;border-radius:10px;background:linear-gradient(-90deg,rgb(23,28,70) -64.58%,rgb(43,53,134) -32.52%,rgb(60,73,186) 60.95%,rgb(171,177,228) 187.5%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px}
+.event-box__qr img{width:120px;height:120px;border-radius:6px;background:#fff}
+.event-box__qr span{color:#fff;font-size:14px;font-weight:700}
+.btn-register{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 32px;border-radius:8px;background:var(--b-btn-primary-bg);color:#fff;font:inherit;font-size:16px;font-weight:700;text-decoration:none;transition:background .15s,transform .15s}
+.btn-register:hover{background:var(--b-btn-primary-hover);transform:translateY(-2px)}
+.event-box__notice{font-size:14px;color:var(--b-ink-3);line-height:1.9;white-space:pre-line}
+.related-box{background:var(--b-bg-tint);border:1px solid var(--b-line);border-radius:10px;padding:18px 22px;margin-bottom:24px}
+.related-box__title{font-size:14px;font-weight:700;color:var(--b-ink-3);margin:0 0 10px}
+.related-box__list{display:flex;flex-direction:column;gap:8px}
+.related-box__list a{font-size:16px;font-weight:600;color:var(--b-indigo);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.related-box__list a:hover{color:var(--b-indigo-2)}
+.related-box__list a i{font-size:12px}
+.article__foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 0;border-top:1px solid var(--b-line);border-bottom:1px solid var(--b-line);margin-bottom:40px;flex-wrap:wrap}
+.article__share{display:flex;align-items:center;gap:10px}
+.article__share span{font-size:14px;color:var(--b-ink-3);margin-right:4px}
+.share-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--b-line);display:inline-flex;align-items:center;justify-content:center;color:var(--b-ink-3);text-decoration:none;transition:border-color .15s,color .15s,background .15s}
+.share-btn:hover{color:var(--b-indigo);background:var(--b-indigo-50)}
+.btn-back:hover{color:var(--b-indigo)}
+.more-sec{padding:0;position:relative;z-index:1}
+.more-sec__title{font-size:18px;font-weight:700;color:var(--b-ink-3);margin:0 0 20px;letter-spacing:-.01em}
+</style>
+</head>
+<body class="detail-page">
+  <site-nav active="events"></site-nav>
+
+<header class="article-hero">
+  <div class="wrap">
+  <div class="article-hero__inner">
+    <div class="article-hero__topline">
+      <nav class="breadcrumb article-hero__crumb" aria-label="麵包屑">
+        <a href="index.html"><i class="fa-solid fa-house" style="font-size:12px"></i></a>
+        <span class="breadcrumb__sep">/</span>
+        <span class="breadcrumb__current-mid">最新消息</span>
+        <span class="breadcrumb__sep">/</span>
+        <a href="events.html">行銷活動</a>
+      </nav>
+      <span class="article-hero__date"><i class="fa-regular fa-calendar"></i>2026 / 08 / 01</span>
+    </div>
+    <h1 class="article-hero__title" id="articleTitle">【科技講堂】資安最前線 生成式 AI 時代的資安挑戰</h1>
+  </div>
+  </div>
+</header>
+
+<div class="read-subnav" id="readSubnav">
+  <div class="wrap">
+  <div class="read-subnav__inner">
+    <span class="read-subnav__title">【科技講堂】資安最前線 生成式 AI 時代的資安挑戰</span>
+  </div>
+  </div>
+  <div class="read-subnav__fill" id="readFill"></div>
+</div>
+
+<div class="detail-content">
+  <div class="wrap">
+    <article class="article">
+      <p class="article__lead">生成式 AI 正快速改變企業的營運模式，也為資安防禦帶來全新挑戰。本場科技講堂邀請第一線資安專家，深入剖析 AI 驅動攻擊手法的演進，以及企業如何建立對應的偵測與應變能力。</p>
+
+      <div class="article__banner"><img src="assets/placeholder/ph-08.avif" alt="活動主視覺" /></div>
+
+      <div class="article__body">
+        <h2>議程重點</h2>
+        <p>從真實案例出發，說明生成式 AI 如何被用於社交工程、惡意程式產製與資料外洩攻擊，並分享 <a href="raven.html">RAVEN</a> 在偵測異常行為與自動化應變上的實務作法。</p>
+        <div class="article__figure">
+          <img src="assets/placeholder/ph-01.avif" alt="講座現場" />
+          <figcaption>過往場次活動現場</figcaption>
+        </div>
+        <p>現場並提供 Q&A 交流時間，歡迎資安主管、IT 部門與相關產業從業人員報名參加，共同掌握 AI 時代的資安防禦新思維。</p>
+      </div>
+
+      <div class="event-box">
+        <div class="eb-section">
+          <div class="eb-label">活動資訊</div>
+          <div class="event-box__item"><b>活動日期：</b><span>2026/09/28（一） 14:00-16:30（13:30 - 14:00 為報到時間）</span></div>
+          <div class="event-box__item"><b>報名日期：</b><span>即日起至 2026/09/20（日）</span></div>
+          <div class="event-box__item"><b>地點：</b><a href="https://maps.google.com/?q=台北市信義區松仁路100號" target="_blank" rel="noopener">台北市信義區松仁路 100 號 3F 國際會議廳 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+
+        <div class="eb-section">
+        <div class="eb-label">活動議程</div>
+        <div class="agenda-list">
+          <div class="agenda-item">
+            <span class="agenda-item__time">13:30-14:00</span>
+            <div class="agenda-item__body"><span class="agenda-item__title">現場報到</span></div>
+          </div>
+          <div class="agenda-item">
+            <span class="agenda-item__time">14:00-14:10</span>
+            <div class="agenda-item__body"><span class="agenda-item__title">開場致詞</span></div>
+          </div>
+          <div class="agenda-item">
+            <span class="agenda-item__time">14:10-14:50</span>
+            <div class="agenda-item__body"><span class="agenda-item__title">生成式 AI 驅動的攻擊手法演進</span><span class="agenda-item__speaker">黃漢璽・智慧資安科技 高級產品專員</span></div>
+          </div>
+          <div class="agenda-item">
+            <span class="agenda-item__time">14:50-15:30</span>
+            <div class="agenda-item__body"><span class="agenda-item__title">從偵測到應變：自動化資安防禦實務</span><span class="agenda-item__speaker">張廷宇・智慧資安科技 高級產品專員</span></div>
+          </div>
+          <div class="agenda-item">
+            <span class="agenda-item__time">15:30-15:40</span>
+            <div class="agenda-item__body"><span class="agenda-item__title">中場休息</span></div>
+          </div>
+          <div class="agenda-item">
+            <span class="agenda-item__time">15:40-16:15</span>
+            <div class="agenda-item__body"><span class="agenda-item__title">產業案例分享與導入建議</span><span class="agenda-item__speaker">陳世堯・智慧資安科技 產品經理</span></div>
+          </div>
+          <div class="agenda-item">
+            <span class="agenda-item__time">16:15-16:30</span>
+            <div class="agenda-item__body"><span class="agenda-item__title">Q&A 交流時間</span></div>
+          </div>
+        </div>
+        </div>
+
+        <div class="eb-section">
+        <div class="eb-label">講師陣容</div>
+        <div class="event-box__speakers">
+          <div class="speaker-card">
+            <div class="speaker-card__photo"><image-slot id="sp-huang" placeholder="講師照片" shape="circle" style="width:60px;height:60px"></image-slot></div>
+            <div class="speaker-card__info">
+              <span class="speaker-card__name">黃漢璽</span>
+              <span class="speaker-card__title">智慧資安科技 高級產品專員</span>
+              <p class="speaker-card__bio">專注 SOC 產品規劃與威脅偵測模型設計，數年來協助多家金融與公部門建置即時監控體系。</p>
+            </div>
+          </div>
+          <div class="speaker-card">
+            <div class="speaker-card__photo"><image-slot id="sp-chang" placeholder="講師照片" shape="circle" style="width:60px;height:60px" class="photo-slot--blank"></image-slot></div>
+            <div class="speaker-card__info">
+              <span class="speaker-card__name">張廷宇</span>
+              <span class="speaker-card__title">智慧資安科技 高級產品專員</span>
+              <p class="speaker-card__bio">長期耕耘於生成式 AI 攻擊手法與自動化應變流程，實戰經驗涵蓋多項重大資安事件處置。</p>
+            </div>
+          </div>
+          <div class="speaker-card">
+            <div class="speaker-card__photo"><image-slot id="sp-chen" placeholder="講師照片" shape="circle" style="width:60px;height:60px" class="photo-slot--blank"></image-slot></div>
+            <div class="speaker-card__info">
+              <span class="speaker-card__name">陳世堯</span>
+              <span class="speaker-card__title">智慧資安科技 產品經理</span>
+              <p class="speaker-card__bio">負責產品技術藍圖規劃，長期專注於高風險產業的量身導入方案。</p>
+            </div>
+          </div>
+        </div>
+        </div>
+
+        <div class="eb-section">
+          <div class="eb-label">聯繫窗口</div>
+          <div class="event-box__item"><b>單位：</b><span>智慧資安科技股份有限公司 黃小姐</span></div>
+          <div class="event-box__item"><b>電話：</b><span>02-8798-6088 #8122</span></div>
+          <div class="event-box__item"><b>信箱：</b><span>sylviahuang@unixecure.com.tw</span></div>
+        </div>
+
+        <div class="eb-section">
+          <div class="eb-label">主辦單位</div>
+          <div class="event-box__orgs">
+            <img src="ds/unixecure-logo-black.png" alt="uniXecure" />
+          </div>
+        </div>
+
+        <div class="eb-section">
+        <div class="event-box__register">
+          <div class="event-box__qr">
+            
+            <span>立即掃瞄/點擊報名</span>
+          </div>
+          <a class="btn-register" href="#">我要報名</a>
+        </div>
+        </div>
+
+        <div class="eb-section">
+        <div class="eb-label">注意事項</div>
+        <div class="event-box__notice">1. 主辦單位確認您的報名資料後，將於活動前一週內寄發提醒函，屆時請留意報名填寫之 Email 信箱。
+2. 主辦單位保留報名資格審核權，請勿偽造他人身分資料以免觸犯法律。
+3. 主辦單位保留變更活動內容、日期、地點等修改權利。
+4. 以上活動若適逢天災等不可抗拒之因素，依照相關主管機關公佈之規定，決定延期與否，不再另行通知，敬請見諒。</div>
+        </div>
+      </div>
+
+      <div class="related-box">
+        <div class="related-box__title">相關連結 / 相關活動</div>
+        <div class="related-box__list">
+          <a href="raven.html">RAVEN 資安監控維運中心產品簡介 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          <a href="events-detail.html">智慧資安科技攜手資安生態圈夥伴共組聯防艦隊 <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="news.html">看更多資安產業新聞 <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="article__tags-top">
+        <a class="tag tag--outline" href="events.html?tag=RAVEN">#RAVEN</a>
+        <a class="tag tag--outline" href="events.html?tag=生成式AI">#生成式 AI</a>
+        <a class="tag tag--outline" href="events.html?tag=科技講堂">#科技講堂</a>
+      </div>
+
+      <div class="article__foot">
+        <div class="article__share">
+          <span>分享</span>
+          <a class="share-btn" href="#" aria-label="分享至 Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a class="share-btn" href="#" aria-label="分享至 LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a class="share-btn" href="#" aria-label="複製連結"><i class="fa-solid fa-link"></i></a>
+        </div>
+        <a class="btn-back" href="events.html"><i class="fa-solid fa-chevron-left"></i> 返回活動列表</a>
+      </div>
+    </article>
+
+    <div class="more-sec">
+      <div class="more-sec__title">更多活動</div>
+      <div class="lc-grid lc-grid--3">
+        <a class="lc-card lc-card--col card-hover" href="events-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-01.avif" alt="資安論壇" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="lc-date">2026 / 09 / 10</span><div class="lc-tags"><span class="tag tag--indigo">教育訓練</span></div></div>
+            <h3 class="lc-title">資安意識培訓實戰工作坊：從社交工程演練談起</h3>
+          </div>
+        </a>
+        <a class="lc-card lc-card--col card-hover" href="events-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-02.avif" alt="產業論壇" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="lc-date">2026 / 08 / 22</span><div class="lc-tags"><span class="tag tag--indigo">實體展覽</span></div></div>
+            <h3 class="lc-title">關鍵基礎設施資安高峰論壇：韌性與監控並重</h3>
+          </div>
+        </a>
+        <a class="lc-card lc-card--col card-hover" href="events-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-06.avif" alt="展會" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="lc-date">2026 / 07 / 30</span><div class="lc-tags"><span class="tag tag--indigo">教育訓練</span></div></div>
+            <h3 class="lc-title">數位鑑識與跡證保存實務分享會</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<site-cta></site-cta>
+<site-footer></site-footer>
+
+<script>
+
+(function () {
+  const heroEl = document.querySelector('.article-hero');
+  const articleEl = document.querySelector('.article');
+  const subnav = document.getElementById('readSubnav');
+  const fill = document.getElementById('readFill');
+  if (!heroEl || !articleEl || !subnav || !fill) return;
+  function onScroll() {
+    const heroBottom = heroEl.getBoundingClientRect().bottom;
+    subnav.classList.toggle('is-visible', heroBottom <= 73);
+    const rect = articleEl.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    const scrolled = -rect.top;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (scrolled / total) * 100)) : 0;
+    fill.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+
+
+</script>
+<site-back-to-top></site-back-to-top>
+  <script src="site-chrome.js"></script>
+</body>
+</html>

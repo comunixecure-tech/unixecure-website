@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>某政府機關導入 RAVEN 強化跨部會聯防監控 · 成功案例 · uniXecure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="image-slot.js"></script>
+<style>
+.detail-page{background:var(--ux-gray-50);min-height:100vh}
+[data-theme="dark"] .detail-page{background:var(--b-bg-tint)}
+.article-hero{background:var(--b-bg);padding:112px 0 32px;position:relative;overflow:hidden}
+[data-theme="dark"] .article-hero{background:var(--ux-primary-950)}
+.article-hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(219,72,137,.12) 1px, transparent 1px);background-size:28px 28px;pointer-events:none}
+[data-theme="dark"] .article-hero::before{background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px)}
+.article-hero .wrap{position:relative;z-index:1}
+.article-hero__inner{max-width:760px;margin:0 auto}
+.article-hero__crumb{margin-bottom:18px}
+.article-hero__crumb a,.article-hero__crumb .breadcrumb__current-mid{color:var(--b-ink-3)}
+.article-hero__crumb a:hover{color:var(--b-indigo)}
+.article-hero__meta{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.article-hero__logo{height:24px;width:auto;color:var(--b-ink)}
+.article-hero__title{font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.35;letter-spacing:-.015em;color:var(--b-ink);margin:0}
+.read-subnav__inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.read-subnav__meta{display:flex;align-items:center;gap:14px;flex-shrink:0}
+.read-subnav__meta .tag{white-space:nowrap}
+.read-subnav__logo{height:20px;width:auto;color:var(--b-ink)}
+.read-subnav__logo-img{height:16px;width:auto;object-fit:contain}
+.read-subnav__title{flex:1;min-width:0}
+.breadcrumb__current-mid{color:var(--b-ink-4)}
+.article__lead{font-size:18px;line-height:1.75;color:var(--b-ink-3);margin:0 0 32px;max-width:none}
+.article__banner{border-radius:12px;overflow:hidden;aspect-ratio:16/9;margin-bottom:36px;box-shadow:var(--b-shadow-sm)}
+.article__banner img{display:block;width:100%;height:100%;object-fit:cover}
+.article__body{font-size:16px;line-height:1.9;color:var(--b-ink-2)}
+.article__body p{margin:0 0 22px}
+.article__body h2{font-size:22px;font-weight:700;color:var(--b-ink);margin:40px 0 16px;letter-spacing:-.01em}
+.case-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0}
+.case-stat{background:var(--b-card);border:1px solid var(--b-line);border-radius:10px;padding:22px 18px;text-align:center}
+.case-stat__num{font-family:var(--ux-font-mono);font-size:30px;font-weight:700;color:var(--b-indigo);line-height:1.1}
+.case-stat__label{font-size:14px;color:var(--b-ink-3);margin-top:8px;line-height:1.5}
+@media(max-width:640px){.case-stats{grid-template-columns:1fr}}
+.article__body blockquote{margin:32px 0;padding:20px 24px;border-left:3px solid var(--b-indigo);background:var(--b-indigo-50);border-radius:0 10px 10px 0;font-size:16.5px;color:var(--b-ink-2);font-style:normal}
+.case-product{display:flex;flex-direction:column;gap:0;background:var(--b-card);border:1px solid var(--b-line);border-radius:10px;padding:22px 26px;margin:0 0 32px;box-shadow:var(--b-shadow-sm)}
+.case-product__label{font-size:12px;font-weight:700;color:var(--b-ink-4);letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
+.case-product__item{display:grid;grid-template-columns:96px 1fr;align-items:center;gap:20px;padding:12px 0}
+.case-product__item+.case-product__item{border-top:1px solid var(--b-line)}
+.case-product__logobox{width:96px;height:32px;display:flex;align-items:center;justify-content:flex-start}
+.case-product__logo{height:28px;width:auto;max-width:100%;color:var(--b-ink);flex-shrink:0}
+.case-product__logobox--chip{width:auto;min-width:96px;justify-content:flex-start}
+.case-product__logo-img{height:20px;width:auto;max-width:100%;object-fit:contain;display:block}
+.case-product__link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--b-indigo);text-decoration:none}
+.case-product__link:hover{color:var(--b-indigo-2)}
+.case-product__link i{font-size:12px}
+.case-product__name{font-size:14px;font-weight:600;color:var(--b-ink)}
+@media(max-width:480px){.case-product__item{grid-template-columns:72px 1fr;gap:14px}}
+.article__promo{background:var(--b-bg-tint);border:1px solid var(--b-line);border-radius:10px;padding:18px 22px;margin-bottom:24px}
+.article__promo-label{font-size:14px;font-weight:700;color:var(--b-ink-3);margin-bottom:6px}
+.article__promo-links{display:flex;flex-direction:column;gap:6px}
+.article__promo-link{font-size:16px;font-weight:600;color:var(--b-indigo);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.article__promo-link:hover{color:var(--b-indigo-2)}
+.article__promo-link i{font-size:12px}
+.article__promo-cta{display:flex;justify-content:center;margin-bottom:32px}
+.article__tags{display:flex;flex-wrap:wrap;gap:8px;margin:40px 0 32px}
+.article__foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 0;border-top:1px solid var(--b-line);border-bottom:1px solid var(--b-line);margin-bottom:40px;flex-wrap:wrap}
+.article__share{display:flex;align-items:center;gap:10px}
+.article__share span{font-size:14px;color:var(--b-ink-3);margin-right:4px}
+.share-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--b-line);display:inline-flex;align-items:center;justify-content:center;color:var(--b-ink-3);text-decoration:none;transition:border-color .15s,color .15s,background .15s}
+.share-btn:hover{color:var(--b-indigo);background:var(--b-indigo-50)}
+.btn-back:hover{color:var(--b-indigo)}
+.article__pagenav{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:56px}
+.pn-card{background:var(--b-card);border:1px solid var(--b-line);border-radius:10px;padding:18px 20px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,transform .15s}
+.pn-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px -4px rgba(60,73,186,.18)}
+.pn-card--next{text-align:right;align-items:flex-end}
+.pn-card__dir{font-size:12px;color:var(--b-ink-4);display:flex;align-items:center;gap:6px}
+.pn-card--next .pn-card__dir{flex-direction:row-reverse}
+.pn-card__title{font-size:14px;font-weight:600;color:var(--b-ink);line-height:1.5}
+@media(max-width:640px){.article__pagenav{grid-template-columns:1fr}.pn-card--next{align-items:flex-start;text-align:left}.pn-card--next .pn-card__dir{flex-direction:row}}
+.more-sec{padding:0;position:relative;z-index:1}
+.more-sec__title{font-size:18px;font-weight:700;color:var(--b-ink-3);margin:0 0 20px;letter-spacing:-.01em}
+.more-sec .lc-body{flex:1;padding:16px 20px 20px;display:flex;flex-direction:column;gap:6px}
+</style>
+</head>
+<body class="detail-page">
+  <site-nav active="cases"></site-nav>
+
+<header class="article-hero" data-screen-label="成功案例內頁">
+  <div class="wrap">
+  <div class="article-hero__inner">
+    <nav class="breadcrumb article-hero__crumb" aria-label="麵包屑">
+      <a href="index.html"><i class="fa-solid fa-house" style="font-size:12px"></i></a>
+      <span class="breadcrumb__sep">/</span>
+      <span class="breadcrumb__current-mid">最新消息</span>
+      <span class="breadcrumb__sep">/</span>
+      <a href="cases.html">成功案例</a>
+      <span class="breadcrumb__sep">/</span>
+      <span class="breadcrumb__current-mid">政府/教育</span>
+    </nav>
+    <h1 class="article-hero__title" id="articleTitle">某政府機關導入 RAVEN 強化跨部會聯防監控</h1>
+  </div>
+  </div>
+</header>
+
+<div class="read-subnav" id="readSubnav">
+  <div class="wrap">
+  <div class="read-subnav__inner">
+    <span class="read-subnav__title">某政府機關導入 RAVEN 強化跨部會聯防監控</span>
+    <div class="read-subnav__meta">
+      <span class="tag tag--indigo">政府/教育</span>
+      <svg class="read-subnav__logo" viewBox="0 0 1770 500" role="img" aria-label="RAVEN"><use href="#lg-raven"></use></svg>
+      <img class="read-subnav__logo-img" src="assets/agents/claroty.png" alt="Claroty" />
+    </div>
+  </div>
+  </div>
+  <div class="read-subnav__fill" id="readFill"></div>
+</div>
+
+<div class="detail-content">
+  <div class="wrap">
+    <article class="article">
+      <a class="tag tag--indigo" href="cases.html?ind=%E6%94%BF%E5%BA%9C/%E6%95%99%E8%82%B2" style="text-decoration:none;margin-bottom:14px;display:inline-block">政府/教育</a>
+      <p class="article__lead">面對日益頻繁的跨機關網路攻擊，該政府機關過去仰賴各單位獨立的資安監控機制，事件研判與情資交換缺乏統一窗口，難以在攻擊初期掌握全貌。</p>
+
+      <div class="article__banner"><img src="assets/placeholder/ph-05.avif" alt="跨部會資安監控中心" style="width:100%;height:100%;object-fit:cover" /></div>
+
+      <div class="article__body">
+        <h2>客戶需求</h2>
+        <p>27 個下屬機關各自建置防護措施，告警規則與通報流程不一致，一旦發生跨機關串連攻擊，資安團隊得耗費大量人力彙整各單位回報資料，往往在釐清全貌時已錯失第一時間應變的黃金時機。</p>
+        <h2>解決方案</h2>
+        <p>uniXecure 導入 <a href="raven.html" style="color:var(--b-indigo);text-decoration:underline;text-decoration-color:var(--b-indigo-100);text-underline-offset:2px;font-weight:600">RAVEN</a> 風險分析暨視覺化平台，建置跨機關聯防指揮中心，統一彙整各下屬機關的資安事件與威脅情資，並以視覺化儀表板呈現攻擊路徑與影響範圍，讓資安團隊能即時掌握全局。</p>
+        <blockquote>「過去光是確認攻擊是否已擴散到其他機關就要花上大半天，現在透過 RAVEN 的跨機關關聯視圖，我們能在第一時間鎖定受影響範圍。」該機關資安主管表示。</blockquote>
+        <h2>創造價值</h2>
+        <p>導入後，該機關已完成 27 個下屬機關的連線整合，建立起跨機關威脅情資聯防機制，大幅提升整體資安韌性。</p>
+      </div>
+
+      <div class="case-product">
+        <div class="case-product__label">導入方案</div>
+        <div class="case-product__item">
+          <div class="case-product__logobox"><svg class="case-product__logo" viewBox="0 0 1770 500" role="img" aria-label="RAVEN"><use href="#lg-raven"></use></svg></div>
+          <a class="case-product__link" href="raven.html">資安監控維運中心 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+        </div>
+        <div class="case-product__item">
+          <div class="case-product__logobox case-product__logobox--chip"><img class="case-product__logo-img" src="assets/agents/claroty.png" alt="Claroty" /></div>
+          <span class="case-product__name">Claroty OT 資安防護平台</span>
+        </div>
+      </div>
+
+      <!-- 相關連結：若本案沒有額外連結，整個 .article__promo 區塊可隱藏 -->
+      <div class="article__promo">
+        <div class="article__promo-label">相關連結</div>
+        <div class="article__promo-links">
+          <a class="article__promo-link" href="raven.html">RAVEN 資安監控維運中心產品簡介 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          <a class="article__promo-link" href="#">白皮書：跨機關聯防实施指引 <i class="fa-solid fa-file-arrow-down"></i></a>
+          <a class="article__promo-link" href="news.html">相關新聞：公部門資安聯防新里程碼 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+          <a class="article__promo-link" href="videos.html">影音：RAVEN 实际操作展示 <i class="fa-solid fa-circle-play"></i></a>
+        </div>
+      </div>
+      <div class="article__promo-cta"><a class="nav__cta" href="#">與我們聯繫 <i class="fa-solid fa-arrow-right"></i></a></div>
+
+      <div class="article__tags">
+        <a class="tag tag--outline" href="cases.html?tag=RAVEN">#RAVEN</a>
+        <a class="tag tag--outline" href="cases.html?tag=跨機關聯防">#跨機關聯防</a>
+      </div>
+
+      <div class="article__foot">
+        <div class="article__share">
+          <span>分享</span>
+          <a class="share-btn" href="#" aria-label="分享至 Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a class="share-btn" href="#" aria-label="分享至 LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a class="share-btn" href="#" aria-label="複製連結"><i class="fa-solid fa-link"></i></a>
+        </div>
+        <a class="btn-back" href="cases.html"><i class="fa-solid fa-chevron-left"></i> 返回成功案例列表</a>
+      </div>
+
+      <div class="article__pagenav">
+        <a class="pn-card" href="cases-detail.html">
+          <span class="pn-card__dir"><i class="fa-solid fa-chevron-left"></i>上一則</span>
+          <span class="pn-card__title">某金融業者以 HEIS 提升員工資安意識</span>
+        </a>
+        <a class="pn-card pn-card--next" href="cases-detail.html">
+          <span class="pn-card__dir">下一則<i class="fa-solid fa-chevron-right"></i></span>
+          <span class="pn-card__title">某製造業大廠以 SRMAS 監控雲端與地端資源</span>
+        </a>
+      </div>
+    </article>
+
+    <div class="more-sec">
+      <div class="more-sec__title">更多案例</div>
+      <div class="lc-grid lc-grid--3">
+        <a class="lc-card lc-card--col card-hover" href="cases-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-05.avif" alt="金融業案例" style="width:100%;height:100%;object-fit:cover" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="tag tag--indigo">金融</span><div class="lc-tags"><svg class="lc-tag-logo" viewBox="0 0 1770 500" role="img" aria-label="HEIS" style="height:22px;color:var(--b-ink)"><use href="#lg-raven"></use></svg></div></div>
+            <h3 class="lc-title">某金融業者以 HEIS 提升員工資安意識</h3>
+          </div>
+        </a>
+        <a class="lc-card lc-card--col card-hover" href="cases-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-12.avif" alt="製造業案例" style="width:100%;height:100%;object-fit:cover" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="tag tag--indigo">一般製造</span><div class="lc-tags"><svg class="lc-tag-logo" viewBox="0 0 1770 500" role="img" aria-label="SRMAS" style="height:22px;color:var(--b-ink)"><use href="#lg-raven"></use></svg></div></div>
+            <h3 class="lc-title">某製造業大廠以 SRMAS 監控雲端與地端資源</h3>
+          </div>
+        </a>
+        <a class="lc-card lc-card--col card-hover" href="cases-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-04.avif" alt="醫療機構案例" style="width:100%;height:100%;object-fit:cover" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="tag tag--indigo">醫療</span><div class="lc-tags"><svg class="lc-tag-logo" viewBox="0 0 1770 500" role="img" aria-label="RAVEN" style="height:22px;color:var(--b-ink)"><use href="#lg-raven"></use></svg></div></div>
+            <h3 class="lc-title">某醫療機構委託 RAVEN 進行全院資安監控</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<site-cta></site-cta>
+<site-footer></site-footer>
+
+<script>
+
+(function () {
+  const heroEl = document.querySelector('.article-hero');
+  const articleEl = document.querySelector('.article');
+  const subnav = document.getElementById('readSubnav');
+  const fill = document.getElementById('readFill');
+  if (!heroEl || !articleEl || !subnav || !fill) return;
+  function onScroll() {
+    const heroBottom = heroEl.getBoundingClientRect().bottom;
+    subnav.classList.toggle('is-visible', heroBottom <= 73);
+    const rect = articleEl.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    const scrolled = -rect.top;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (scrolled / total) * 100)) : 0;
+    fill.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+
+
+</script>
+<site-back-to-top></site-back-to-top>
+  <script src="site-chrome.js"></script>
+</body>
+</html>

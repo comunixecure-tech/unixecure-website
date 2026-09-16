@@ -1,0 +1,382 @@
+/* ════════════════════════════════════════════════════════════
+   uniXecure — 共用內容卡片元件
+   引入此檔即可在任何頁面使用影音、案例、新聞、活動卡片。
+   section 層的 padding / background 由各頁面自行定義。
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Section helpers ─────────────────────────────────────── */
+.ux-section-title {
+  font-size: clamp(20px, 2.5vw, 26px); font-weight: 700;
+  color: var(--b-ink); letter-spacing: -0.01em;
+  margin: 0 0 40px;
+}
+[data-theme="dark"] .ux-section-title { color: #fff; }
+.ux-section-title--light { color: #fff; }
+[data-theme="dark"] .ux-section-title--light { color: #fff; }
+
+.ux-section-header {
+  display: flex; align-items: baseline;
+  justify-content: space-between; gap: 16px;
+  margin-bottom: 32px;
+}
+.ux-section-header .ux-section-title { margin-bottom: 0; }
+
+.ux-more-link {
+  font-size: 14px; font-weight: 600; color: var(--b-indigo);
+  text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+  transition: gap .15s;
+}
+.ux-more-link:hover { gap: 10px; }
+[data-theme="dark"] .ux-more-link { color: #93a8f4; }
+
+/* ── 影片卡片 ─────────────────────────────────────────────
+   用法：搭配深色 section 背景（如 oklch(13% 0.06 266)）
+   ──────────────────────────────────────────────────────── */
+.ux-video-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+@media (max-width: 900px)  { .ux-video-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px)  { .ux-video-grid { grid-template-columns: 1fr; } }
+
+.ux-video-card {
+  border-radius: 12px; overflow: hidden;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  transition: transform .25s var(--b-ease), box-shadow .25s var(--b-ease), border-color .25s;
+}
+.ux-video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(0,0,0,.35);
+  border-color: rgba(60,73,186,.4);
+}
+.ux-video-card__thumb {
+  position: relative;
+  aspect-ratio: 16/9;
+  background: oklch(18% 0.07 266);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.ux-video-card__thumb img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; opacity: .7;
+}
+.ux-video-card__play {
+  position: relative; z-index: 1;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(60,73,186,.85);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 16px;
+  padding-left: 4px;
+  transition: background .15s, transform .15s;
+}
+.ux-video-card:hover .ux-video-card__play {
+  background: var(--b-indigo); transform: scale(1.1);
+}
+.ux-video-card__dur {
+  position: absolute; bottom: 8px; right: 10px; z-index: 1;
+  font-family: var(--ux-font-mono); font-size: 12px; font-weight: 600;
+  color: #fff; background: rgba(0,0,0,.55);
+  padding: 2px 8px; border-radius: 4px;
+}
+.ux-video-card__body {
+  padding: 16px 18px 20px; display: flex; flex-direction: column; gap: 6px;
+}
+.ux-video-card__tag {
+  font-family: var(--ux-font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: #93a8f4;
+}
+.ux-video-card__title {
+  font-size: 14px; font-weight: 600; line-height: 1.5;
+  color: rgba(255,255,255,.88);
+}
+
+/* ── 成功案例卡片 ─────────────────────────────────────────── */
+.ux-case-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+}
+@media (max-width: 720px) { .ux-case-grid { grid-template-columns: 1fr; } }
+
+.ux-case-card {
+  border: 1px solid var(--b-line); border-radius: 14px;
+  padding: 32px; display: flex; flex-direction: column; gap: 12px;
+  transition: border-color .2s, box-shadow .2s, transform .2s var(--b-ease);
+}
+[data-theme="dark"] .ux-case-card { border-color: rgba(255,255,255,.08); background: rgba(24,26,44,.6); }
+.ux-case-card:hover {
+  border-color: var(--b-indigo);
+  box-shadow: var(--b-shadow-sm);
+  transform: translateY(-3px);
+}
+.ux-case-card__head { display: flex; align-items: center; gap: 10px; }
+.ux-case-card__industry {
+  font-family: var(--ux-font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--b-indigo); background: rgba(60,73,186,.08);
+  padding: 4px 10px; border-radius: 10000px;
+  border: 1px solid rgba(60,73,186,.15);
+}
+[data-theme="dark"] .ux-case-card__industry {
+  color: #93a8f4; background: rgba(60,73,186,.18); border-color: rgba(60,73,186,.3);
+}
+.ux-case-card__name {
+  font-size: 20px; font-weight: 700; color: var(--b-ink);
+  line-height: 1.3; margin: 0;
+}
+[data-theme="dark"] .ux-case-card__name { color: #fff; }
+.ux-case-card__desc {
+  font-size: 14px; line-height: 1.75; color: var(--b-ink-3);
+  text-wrap: pretty; flex: 1;
+}
+[data-theme="dark"] .ux-case-card__desc { color: rgba(255,255,255,.5); }
+.ux-case-card__meta {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  font-size: 12px; font-weight: 600; color: var(--b-ink-3);
+  border-top: 1px solid var(--b-line); padding-top: 16px; margin-top: 4px;
+}
+[data-theme="dark"] .ux-case-card__meta { border-color: rgba(255,255,255,.07); color: rgba(255,255,255,.4); }
+.ux-case-card__meta span { display: flex; align-items: center; gap: 6px; }
+.ux-case-card__meta i { color: var(--b-indigo); opacity: .7; }
+[data-theme="dark"] .ux-case-card__meta i { color: #93a8f4; }
+
+.ux-cards-more { text-align: center; margin-top: 36px; }
+
+/* ── 新聞列表 ────────────────────────────────────────────── */
+.ux-news-list {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--b-line); border-radius: 14px; overflow: hidden;
+}
+[data-theme="dark"] .ux-news-list { border-color: rgba(255,255,255,.08); }
+
+.ux-news-card {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  align-items: center; gap: 20px;
+  padding: 22px 28px;
+  text-decoration: none; color: inherit;
+  border-bottom: 1px solid var(--b-line);
+  background: #fff;
+  transition: background .15s;
+}
+[data-theme="dark"] .ux-news-card { background: rgba(24,26,44,.5); border-color: rgba(255,255,255,.07); }
+.ux-news-card:last-child { border-bottom: none; }
+.ux-news-card:hover { background: oklch(97% 0.015 266); }
+[data-theme="dark"] .ux-news-card:hover { background: rgba(60,73,186,.08); }
+@media (max-width: 640px) {
+  .ux-news-card { grid-template-columns: 1fr auto; }
+  .ux-news-card__date { display: none; }
+}
+.ux-news-card__date {
+  font-family: var(--ux-font-mono); font-size: 12px;
+  color: var(--b-ink-3); white-space: nowrap;
+}
+[data-theme="dark"] .ux-news-card__date { color: rgba(255,255,255,.35); }
+.ux-news-card__title {
+  font-size: 16px; font-weight: 600; color: var(--b-ink); line-height: 1.4;
+}
+[data-theme="dark"] .ux-news-card__title { color: rgba(255,255,255,.88); }
+.ux-news-card__arrow {
+  color: var(--b-indigo); font-size: 14px; flex-shrink: 0;
+  opacity: 0; transition: opacity .15s, transform .15s;
+}
+[data-theme="dark"] .ux-news-card__arrow { color: #93a8f4; }
+.ux-news-card:hover .ux-news-card__arrow { opacity: 1; transform: translateX(3px); }
+
+/* ── 活動卡片 ────────────────────────────────────────────── */
+.ux-event-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+}
+@media (max-width: 720px) { .ux-event-grid { grid-template-columns: 1fr; } }
+
+.ux-event-card {
+  display: flex; gap: 20px; align-items: flex-start;
+  border: 1px solid var(--b-line); border-radius: 14px;
+  padding: 24px 28px; text-decoration: none; color: inherit;
+  transition: border-color .2s, box-shadow .2s, transform .2s var(--b-ease);
+}
+[data-theme="dark"] .ux-event-card { border-color: rgba(255,255,255,.08); background: rgba(24,26,44,.4); }
+.ux-event-card:hover {
+  border-color: var(--b-indigo);
+  box-shadow: var(--b-shadow-sm);
+  transform: translateY(-3px);
+}
+.ux-event-card__date {
+  display: flex; flex-direction: column; align-items: center;
+  background: var(--b-indigo); color: #fff;
+  border-radius: 10px; padding: 8px 14px;
+  min-width: 56px; flex-shrink: 0; text-align: center;
+}
+.ux-event-card__month {
+  font-family: var(--ux-font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; opacity: .75; text-transform: uppercase;
+}
+.ux-event-card__day {
+  font-family: var(--ux-font-mono); font-size: 26px; font-weight: 700;
+  line-height: 1.1;
+}
+.ux-event-card__body { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.ux-event-card__badge {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 2px 10px; border-radius: 10000px; width: fit-content;
+}
+.ux-event-card__badge--upcoming {
+  background: rgba(60,73,186,.1); color: var(--b-indigo);
+  border: 1px solid rgba(60,73,186,.2);
+}
+[data-theme="dark"] .ux-event-card__badge--upcoming {
+  background: rgba(60,73,186,.2); color: #93a8f4; border-color: rgba(60,73,186,.35);
+}
+.ux-event-card__badge--past {
+  background: rgba(0,0,0,.05); color: var(--b-ink-3);
+  border: 1px solid rgba(0,0,0,.08);
+}
+[data-theme="dark"] .ux-event-card__badge--past {
+  background: rgba(255,255,255,.06); color: rgba(255,255,255,.35); border-color: rgba(255,255,255,.1);
+}
+.ux-event-card__title {
+  font-size: 16px; font-weight: 700; color: var(--b-ink); line-height: 1.4;
+}
+[data-theme="dark"] .ux-event-card__title { color: rgba(255,255,255,.88); }
+.ux-event-card__meta {
+  font-size: 14px; color: var(--b-ink-3);
+  display: flex; align-items: center; gap: 6px;
+}
+[data-theme="dark"] .ux-event-card__meta { color: rgba(255,255,255,.4); }
+.ux-event-card__meta i { color: var(--b-indigo); font-size: 12px; opacity: .7; }
+[data-theme="dark"] .ux-event-card__meta i { color: #93a8f4; }
+
+/* ── 成功案例卡片 ────────────────────────────────────────── */
+.ux-case-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+}
+@media (max-width: 720px) { .ux-case-grid { grid-template-columns: 1fr; } }
+
+.ux-case-card {
+  border: 1px solid var(--b-line); border-radius: 14px;
+  padding: 32px; display: flex; flex-direction: column; gap: 12px;
+  background: var(--b-card);
+  transition: border-color .2s, box-shadow .2s, transform .2s var(--b-ease);
+}
+[data-theme="dark"] .ux-case-card { border-color: rgba(255,255,255,.08); background: rgba(24,26,44,.6); }
+.ux-case-card:hover {
+  border-color: var(--b-indigo);
+  box-shadow: var(--b-shadow-sm);
+  transform: translateY(-3px);
+}
+.ux-case-card__head { display: flex; align-items: center; gap: 10px; }
+.ux-case-card__industry {
+  font-family: var(--ux-font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--b-indigo); background: rgba(60,73,186,.08);
+  padding: 4px 10px; border-radius: 10000px;
+  border: 1px solid rgba(60,73,186,.15);
+}
+[data-theme="dark"] .ux-case-card__industry {
+  color: #93a8f4; background: rgba(60,73,186,.18); border-color: rgba(60,73,186,.3);
+}
+.ux-case-card__name {
+  font-size: 20px; font-weight: 700; color: var(--b-ink);
+  line-height: 1.3; margin: 0;
+}
+[data-theme="dark"] .ux-case-card__name { color: #fff; }
+.ux-case-card__desc {
+  font-size: 14px; line-height: 1.75; color: var(--b-ink-3);
+  text-wrap: pretty; flex: 1;
+}
+[data-theme="dark"] .ux-case-card__desc { color: rgba(255,255,255,.5); }
+.ux-case-card__meta {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  font-size: 12px; font-weight: 600; color: var(--b-ink-3);
+  border-top: 1px solid var(--b-line); padding-top: 16px; margin-top: 4px;
+}
+[data-theme="dark"] .ux-case-card__meta { border-color: rgba(255,255,255,.07); color: rgba(255,255,255,.4); }
+.ux-case-card__meta span { display: flex; align-items: center; gap: 6px; }
+.ux-case-card__meta i { color: var(--b-indigo); opacity: .7; }
+[data-theme="dark"] .ux-case-card__meta i { color: #93a8f4; }
+
+.ux-cards-more { text-align: center; margin-top: 36px; }
+
+
+/* ════════════════════════════════════════════════════════════
+   統一內容卡片 cc-*  ·  影片 / 新聞 / 活動 / 案例
+   全站共用；section 背景由各頁自行定義
+   ════════════════════════════════════════════════════════════ */
+
+/* ── 新聞卡 ─────────────────────────────────────────────── */
+.cc-news-card {
+  border-radius:16px; overflow:hidden;
+  background:#fff; border:1px solid transparent;
+  box-shadow:var(--b-shadow-sm);
+  text-decoration:none; color:inherit;
+  display:flex; flex-direction:column;
+  transition:transform .25s var(--b-ease),box-shadow .25s,border-color .25s;
+}
+[data-theme=dark] .cc-news-card { background:rgba(24,26,44,.6); border-color:transparent; box-shadow:none; }
+.cc-news-card:hover { transform:translateY(-4px); box-shadow:0 8px 32px -4px rgba(60,73,186,.18); border-color:rgba(60,73,186,.35); }
+.cc-news-card__thumb { position:relative; height:136px; overflow:hidden; flex-shrink:0; }
+.cc-news-card__thumb image-slot { position:absolute; inset:0; width:100%; height:100%; }
+.cc-news-card__body { padding:10px 14px 14px; display:flex; flex-direction:column; gap:4px; flex:1; }
+.cc-news-card__meta-row { display:flex; align-items:center; gap:8px; margin-bottom:2px; }
+.cc-news-card__date { font-family:var(--ux-font-mono); font-size:12px; color:var(--b-ink-3); white-space:nowrap; }
+[data-theme=dark] .cc-news-card__date { color:rgba(255,255,255,.35); }
+.cc-news-card__tag { font-family:var(--ux-font-mono); font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--b-indigo); background:rgba(60,73,186,.08); padding:2px 8px; border-radius:20px; width:fit-content; border:1px solid rgba(60,73,186,.15); flex-shrink:0; }
+[data-theme=dark] .cc-news-card__tag { color:#93a8f4; background:rgba(60,73,186,.2); border-color:rgba(60,73,186,.3); }
+.cc-news-card__title { font-size:14px; font-weight:700; color:var(--b-ink); line-height:1.35; }
+[data-theme=dark] .cc-news-card__title { color:rgba(255,255,255,.88); }
+.cc-news-card__desc { font-size:14px; color:var(--b-ink-3); line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+[data-theme=dark] .cc-news-card__desc { color:rgba(255,255,255,.42); }
+
+/* ── 活動卡 ─────────────────────────────────────────────── */
+.cc-event-card {
+  border-radius:16px; overflow:hidden;
+  background:rgba(255,255,255,.05); border:1px solid transparent;
+  text-decoration:none; color:inherit;
+  display:flex; flex-direction:column;
+  transition:transform .25s var(--b-ease),box-shadow .25s,border-color .25s;
+}
+[data-theme=dark] .cc-event-card { background:rgba(255,255,255,.05); border-color:transparent; box-shadow:none; }
+.cc-event-card:hover { transform:translateY(-4px); box-shadow:0 20px 48px rgba(0,0,0,.32); border-color:rgba(255,255,255,.22); }
+[data-theme=dark] .cc-event-card:hover { box-shadow:0 20px 48px rgba(0,0,0,.32); border-color:rgba(255,255,255,.28); }
+.cc-event-card__thumb { position:relative; height:130px; overflow:hidden; flex-shrink:0; }
+.cc-event-card__thumb image-slot { position:absolute; inset:0; width:100%; height:100%; }
+.cc-event-card__datebadge { position:absolute; top:10px; left:10px; z-index:3; background:var(--b-amber,#f5b731); border-radius:10px; padding:4px 10px; display:flex; flex-direction:column; align-items:center; min-width:42px; box-shadow:0 2px 10px rgba(0,0,0,.2); }
+.cc-event-card__mon { font-family:var(--ux-font-mono); font-size:10px; font-weight:700; letter-spacing:.1em; color:oklch(22% .06 75); text-transform:uppercase; }
+.cc-event-card__day { font-family:var(--ux-font-mono); font-size:20px; font-weight:700; line-height:1.1; color:oklch(15% .06 75); }
+.cc-event-card__body { padding:10px 14px 12px; display:flex; flex-direction:column; gap:4px; flex:1; }
+.cc-event-card__type { font-family:var(--ux-font-mono); font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#93a8f4; margin:0; }
+[data-theme=dark] .cc-event-card__type { color:rgba(255,255,255,.42); }
+.cc-event-card__title { font-size:14px; font-weight:700; color:rgba(255,255,255,.9); line-height:1.35; margin:0; }
+[data-theme=dark] .cc-event-card__title { color:rgba(255,255,255,.88); }
+.cc-event-card__meta { font-size:12px; color:rgba(255,255,255,.5); display:flex; align-items:center; gap:6px; margin:auto 0 0 0; padding-top:6px; }
+[data-theme=dark] .cc-event-card__meta { color:rgba(255,255,255,.42); }
+.cc-event-card__meta i { color:var(--b-amber,#f5b731); font-size:10px; }
+[data-theme=dark] .cc-event-card__meta i { color:var(--b-amber,#f5b731); }
+
+/* ══════════════════════════════════════════════════════════
+   佔位圖 — 各卡片預設視覺（科技感深色底）
+   ::before 覆蓋 image-slot 原生 ring；
+   data-filled 後 :has() 隱藏，露出真實照片。
+   ══════════════════════════════════════════════════════════ */
+
+/* ── 新聞卡 thumb ───────────────────────────────────────── */
+.cc-news-card__thumb::before {
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background: no-repeat center / cover url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 225'> <defs> <linearGradient id='bg' x1='0' y1='1' x2='1' y2='0'> <stop offset='0' stop-color='%23060c22'/><stop offset='1' stop-color='%230f1e44'/> </linearGradient> <linearGradient id='gl' x1='0' y1='0' x2='0' y2='1'> <stop offset='0' stop-color='%232060c0' stop-opacity='.22'/><stop offset='1' stop-color='%232060c0' stop-opacity='0'/> </linearGradient> </defs> <rect width='400' height='225' fill='url(%23bg)'/> <!-- grid --> <line x1='0' y1='45' x2='400' y2='45' stroke='%23162244' stroke-width='1'/> <line x1='0' y1='90' x2='400' y2='90' stroke='%23162244' stroke-width='1'/> <line x1='0' y1='135' x2='400' y2='135' stroke='%23162244' stroke-width='1'/> <line x1='0' y1='180' x2='400' y2='180' stroke='%23162244' stroke-width='1'/> <line x1='80' y1='0' x2='80' y2='225' stroke='%23162244' stroke-width='1'/> <line x1='160' y1='0' x2='160' y2='225' stroke='%23162244' stroke-width='1'/> <line x1='240' y1='0' x2='240' y2='225' stroke='%23162244' stroke-width='1'/> <line x1='320' y1='0' x2='320' y2='225' stroke='%23162244' stroke-width='1'/> <!-- glow overlay --> <rect width='400' height='225' fill='url(%23gl)'/> <!-- network edges --> <line x1='200' y1='112' x2='120' y2='65'  stroke='%231e4a9a' stroke-width='1.5'/> <line x1='200' y1='112' x2='290' y2='70'  stroke='%231e4a9a' stroke-width='1.5'/> <line x1='200' y1='112' x2='310' y2='155' stroke='%231e4a9a' stroke-width='1.5'/> <line x1='200' y1='112' x2='100' y2='160' stroke='%231e4a9a' stroke-width='1.5'/> <line x1='200' y1='112' x2='200' y2='40'  stroke='%231e4a9a' stroke-width='1.5'/> <line x1='120' y1='65'  x2='200' y2='40'  stroke='%23163a7a' stroke-width='1'/> <line x1='290' y1='70'  x2='200' y2='40'  stroke='%23163a7a' stroke-width='1'/> <line x1='100' y1='160' x2='310' y2='155' stroke='%23163a7a' stroke-width='1'/> <!-- nodes --> <circle cx='200' cy='112' r='10' fill='%231a3a8a' stroke='%232a5cbf' stroke-width='1.5'/> <circle cx='200' cy='112' r='5'  fill='%232a5cbf'/> <circle cx='120' cy='65'  r='6'  fill='%231a3070' stroke='%232050a0' stroke-width='1.5'/> <circle cx='290' cy='70'  r='6'  fill='%231a3070' stroke='%232050a0' stroke-width='1.5'/> <circle cx='310' cy='155' r='6'  fill='%231a3070' stroke='%232050a0' stroke-width='1.5'/> <circle cx='100' cy='160' r='6'  fill='%231a3070' stroke='%232050a0' stroke-width='1.5'/> <circle cx='200' cy='40'  r='5'  fill='%23162860' stroke='%231e4080' stroke-width='1'/> </svg>");
+}
+
+/* ── 活動卡 thumb ───────────────────────────────────────── */
+.cc-event-card__thumb::before {
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background: no-repeat center / cover url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 225'> <defs> <linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'> <stop offset='0' stop-color='%23060d24'/><stop offset='1' stop-color='%230c1a40'/> </linearGradient> <radialGradient id='rg' cx='50%' cy='50%' r='50%'> <stop offset='0' stop-color='%232a5cbf' stop-opacity='.18'/> <stop offset='1' stop-color='%232a5cbf' stop-opacity='0'/> </radialGradient> <linearGradient id='sweep' x1='0' y1='0' x2='1' y2='0'> <stop offset='0' stop-color='%232a5cbf' stop-opacity='0'/> <stop offset='1' stop-color='%232a5cbf' stop-opacity='.25'/> </linearGradient> </defs> <rect width='400' height='225' fill='url(%23bg)'/> <!-- radar rings --> <circle cx='200' cy='112' r='90' fill='none' stroke='%23162244' stroke-width='1.2'/> <circle cx='200' cy='112' r='65' fill='none' stroke='%23162244' stroke-width='1.2'/> <circle cx='200' cy='112' r='40' fill='none' stroke='%23162244' stroke-width='1.2'/> <circle cx='200' cy='112' r='18' fill='none' stroke='%231a2a55' stroke-width='1.2'/> <!-- crosshairs --> <line x1='110' y1='112' x2='290' y2='112' stroke='%23162244' stroke-width='1'/> <line x1='200' y1='22'  x2='200' y2='202' stroke='%23162244' stroke-width='1'/> <!-- glow center --> <circle cx='200' cy='112' r='90' fill='url(%23rg)'/> <!-- sweep wedge --> <path d='M200 112 L270 42 A90 90 0 0 1 290 112 Z' fill='url(%23sweep)' opacity='.7'/> <!-- blips --> <circle cx='246' cy='75'  r='4' fill='%232a5cbf' opacity='.9'/> <circle cx='246' cy='75'  r='8' fill='%232a5cbf' opacity='.2'/> <circle cx='165' cy='148' r='3' fill='%231e4a9a' opacity='.7'/> <circle cx='230' cy='130' r='2.5' fill='%231e4a9a' opacity='.5'/> <!-- center dot --> <circle cx='200' cy='112' r='4' fill='%232a5cbf'/> <circle cx='200' cy='112' r='2' fill='%234a7cdf'/> </svg>");
+}
+
+/* ── 拖入照片後隱藏佔位層 ───────────────────────────────── */
+.cc-news-card__thumb:has(image-slot[data-filled])::before,
+.cc-event-card__thumb:has(image-slot[data-filled])::before { display:none; }
+
+/* ── 互動元素保持在佔位層之上 ──────────────────────────── */
+.cc-event-card__datebadge { z-index:3; }

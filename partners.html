@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>代理產品 · uniXecure 智慧資安科技</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<style>
+/* ── Hero: low-key intro, no dark hero block ── */
+.partners-hero { position: relative; background: #fff; padding: 128px 0 32px; color: var(--b-ink); overflow: hidden; }
+[data-theme="dark"] .partners-hero { background: var(--b-bg); }
+.partners-hero::before { display: none; }
+.partners-hero__hex { position: fixed; pointer-events: none; z-index: 0; }
+.partners-hero__hex svg { width: 100%; height: 100%; }
+.partners-hero__hex--1 { top: -30px; right: 40px; width: 220px; height: 220px; opacity: 0.5; animation: float 9s ease-in-out infinite; }
+.partners-hero__hex--2 { top: 120px; right: -60px; width: 140px; height: 140px; opacity: 0.35; animation: float 7s ease-in-out infinite reverse; }
+.partners-hero .page-hero__title { color: var(--b-ink); }
+.partners-hero .page-hero__title em { color: var(--b-indigo); }
+.partners-hero .page-hero__sub { color: var(--b-ink-3); max-width: none; }
+
+/* ── Partner wall: dense logo-forward tile gallery with chip filter ── */
+.partners-main { background: #fff; padding: 8px 0 100px; }
+[data-theme="dark"] .partners-main { background: var(--b-bg); }
+.partners-toolbar { display: flex; flex-direction: column; align-items: stretch; gap: 16px; margin-bottom: 28px; }
+.b-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.b-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+.b-tile {
+  position: relative; background: #fff; border: none; border-radius: 16px;
+  aspect-ratio: 16/11; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  box-shadow: var(--b-shadow-sm);
+  padding: 10px 10px 8px; text-decoration: none; color: inherit; overflow: hidden;
+  transition: transform .28s var(--b-ease), box-shadow .28s var(--b-ease), border-color .28s, background .28s;
+}
+[data-theme="dark"] .b-tile { background: rgba(24,26,44,.9); border-color: transparent; }
+.b-tile:hover { transform: translateY(-4px); box-shadow: 0 8px 32px -4px rgba(60,73,186,.18); }
+[data-theme="dark"] .b-tile:hover { box-shadow: 0 8px 32px -4px rgba(0,0,0,.4); }
+.b-tile__logo-slot { width: 160px; height: 54px; margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+.b-tile__logo-slot img { width: 100%; height: 100%; object-fit: contain; }
+.b-tile__logo-slot .b-tile__logo--dark { display: none; }
+[data-theme="dark"] .b-tile__logo-slot .b-tile__logo--light { display: none; }
+[data-theme="dark"] .b-tile__logo-slot .b-tile__logo--dark { display: block; }
+[data-theme="dark"] .b-tile__logo-slot img.b-tile__logo--autowhite { filter: brightness(0) invert(1); }
+.b-tile__name { font-size: 12.5px; font-weight: 400; color: #a7abb8; letter-spacing: .01em; text-align: center; }
+[data-theme="dark"] .b-tile__name { color: rgba(255,255,255,.4); }
+.b-tile__cue {
+  position: absolute; left: 0; right: 0; bottom: 10px; text-align: center;
+  font-size: 12px; font-weight: 600; color: var(--b-indigo);
+  opacity: 0; transition: opacity .25s var(--b-ease); pointer-events: none;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.b-tile:hover .b-tile__cue { opacity: 1; }
+.b-empty { grid-column: 1/-1; text-align: center; padding: 60px 0; color: var(--b-ink-4); font-size: 16px; }
+.b-empty i { font-size: 32px; margin-bottom: 14px; display: block; opacity: .35; }
+
+/* ── Why us (benefits) ─────────────────────────────────────── */
+.why-sec {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(ellipse 700px 550px at 88% 8%, rgba(90,117,215,0.22), transparent),
+    radial-gradient(ellipse 450px 550px at 8% 96%, rgba(255,180,21,0.1), transparent),
+    oklch(14% 0.07 266);
+}
+.why-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; z-index: 1; }
+@media (max-width: 860px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .why-grid { grid-template-columns: 1fr; } }
+.why-item { display: flex; flex-direction: column; gap: 12px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.14); }
+.why-item__num { font-family: var(--ux-font-sans); font-size: 28px; font-weight: 700; color: #93a8f4; letter-spacing: -0.01em; }
+.why-item__title { font-size: 18px; font-weight: 700; color: #fff; margin: 0; }
+.why-item__desc { font-size: 13.5px; line-height: 1.75; color: rgba(255,255,255,.62); margin: 0; }
+.why-sec + .cta { --cta-top: var(--b-indigo-50); --cta-base: var(--b-indigo-100); }
+</style>
+</head>
+<body>
+<site-nav active="partners"></site-nav>
+
+<!-- ════════════ HERO ════════════ -->
+<header class="partners-hero" id="top">
+  <div class="partners-hero__hex partners-hero__hex--1" aria-hidden="true">
+    <svg viewBox="0 0 100 100">
+      <defs><linearGradient id="phexgrad1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3C49BA" /><stop offset="100%" stop-color="#DB4889" /></linearGradient></defs>
+      <polygon points="50,4 91,27 91,73 50,96 9,73 9,27" fill="none" stroke="url(#phexgrad1)" stroke-width="2.5" />
+    </svg>
+  </div>
+  <div class="partners-hero__hex partners-hero__hex--2" aria-hidden="true">
+    <svg viewBox="0 0 100 100">
+      <defs><linearGradient id="phexgrad2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3C49BA" /><stop offset="100%" stop-color="#DB4889" /></linearGradient></defs>
+      <polygon points="50,4 91,27 91,73 50,96 9,73 9,27" fill="none" stroke="url(#phexgrad2)" stroke-width="2.5" />
+    </svg>
+  </div>
+  <div class="wrap">
+    <h1 class="page-hero__title">資安<em>代理產品</em></h1>
+    <p class="page-hero__sub">匯集全球資安領導品牌，涵蓋關鍵基礎設施防護、身分驗證、應用程式安全與威脅情資，為企業提供最適切的整合方案。</p>
+  </div>
+</header>
+
+<!-- ════════════ 品牌墙 ════════════ -->
+<section class="partners-main">
+  <div class="wrap">
+    <div class="partners-toolbar">
+      <div class="ux-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="kwFilter" placeholder="搜尋品牌名稱" />
+      </div>
+    </div>
+    <div class="b-grid" id="brandGrid"></div>
+  </div>
+</section>
+
+<!-- ════════════ 為何選擇 uniXecure 代理 ════════════ -->
+<section class="page-section page-section--dark why-sec">
+  <div class="wrap">
+    <h2 class="sec-head__title" style="text-align:center;margin:0 0 48px">為何透過 <span class="ink-indigo">uniXecure</span> 導入代理品牌</h2>
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="why-item__num">01</span>
+        <h3 class="why-item__title">原廠認證工程師</h3>
+        <p class="why-item__desc">技術團隊取得原廠授權認證，提供符合原廠標準的建置、調校與維運服務。</p>
+      </div>
+      <div class="why-item">
+        <span class="why-item__num">02</span>
+        <h3 class="why-item__title">在地技術支援</h3>
+        <p class="why-item__desc">台灣在地服務團隊即時回應，免除跨國時差與語言溝通落差。</p>
+      </div>
+      <div class="why-item">
+        <span class="why-item__num">03</span>
+        <h3 class="why-item__title">共同供應契約採購</h3>
+        <p class="why-item__desc">部分品牌已納入政府共同供應契約，公部門採購程序更為簡便合規。</p>
+      </div>
+      <div class="why-item">
+        <span class="why-item__num">04</span>
+        <h3 class="why-item__title">整合建置與售後</h3>
+        <p class="why-item__desc">結合既有資安服務團隊，將代理產品與企業整體資安架構整合部署。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CTA ════════════ -->
+<site-cta title-pre="想了解特定品牌的" title-amber="完整解決方案？" btn-label="產品諮詢"></site-cta>
+
+<!-- ════════════ FOOTER ════════════ -->
+<site-footer></site-footer>
+
+<script>
+const LOGO_FALLBACK = 'ds/unixecure-logo-black.png';
+const ASSET_V = 'v=7';
+const brands = [
+  { name:'CHELPIS', logo:'assets/agents/chelpis.png' },
+  { name:'Delinea', logo:'assets/agents/delinea.png' },
+  { name:'illumio', logo:'assets/agents/illumio.svg' },
+  { name:'Claroty', logo:'assets/agents/claroty.png' },
+  { name:'Entrust', logo:'assets/agents/entrust.png' },
+  { name:'TrendAI', logo:'assets/agents/trendai.png' },
+  { name:'Rapid7', logo:'assets/agents/rapid7.png', href:'brand-detail.html' },
+  { name:'CelloPoint', logo:'assets/agents/cellopoint.png' },
+  { name:'Invicti', logo:'assets/agents/invicti.png' },
+  { name:'Recorded Future', logo:'assets/agents/recordedfuture.svg' },
+  { name:'Tufin', logo:'assets/agents/tufin.png' },
+  { name:'OPSWAT', logo:'assets/agents/opswat.svg' },
+  { name:'NEiTHNET', logo:'assets/agents/neithnet.png' },
+  { name:'AuthenTrend', logo:'assets/agents/authentrend.png' },
+  { name:'eLock', logo:'assets/agents/elock.png' },
+];
+const brandLogosWhite = {
+  'Claroty': 'assets/agents-white/claroty-white.png',
+  'Delinea': 'assets/agents-white/delinea-white.png',
+  'illumio': 'assets/agents-white/illumio-white.svg',
+  'Entrust': 'assets/agents-white/entrust-white.png',
+  'TrendAI': 'assets/agents-white/trendai-white.png',
+  'Rapid7': 'assets/agents-white/rapid7-white.png',
+  'CelloPoint': 'assets/agents-white/cellopoint-white.png',
+  'Invicti': 'assets/agents-white/invicti-white.png',
+  'AuthenTrend': 'assets/agents-white/authentrend-white.png',
+  'CHELPIS': 'assets/agents/chelpis-white.png',
+};
+function logoMarkup(b) {
+  const whiteSrc = brandLogosWhite[b.name];
+  if (whiteSrc) {
+    return '<img class="b-tile__logo--light" src="' + b.logo + '?' + ASSET_V + '" alt="' + b.name + ' logo" />'
+      + '<img class="b-tile__logo--dark" src="' + whiteSrc + '" alt="' + b.name + ' logo" />';
+  }
+  const isSvg = (b.logo || '').endsWith('.svg');
+  if (isSvg) return '<img class="b-tile__logo--autowhite" src="' + b.logo + '?' + ASSET_V + '" alt="' + b.name + ' logo" />';
+  return '<img src="' + (b.logo || LOGO_FALLBACK) + '?' + ASSET_V + '" alt="' + b.name + ' logo" />';
+}
+
+function render() {
+  const kw = document.getElementById('kwFilter').value.trim().toLowerCase();
+  const grid = document.getElementById('brandGrid');
+  const items = brands.filter(b => !kw || b.name.toLowerCase().includes(kw));
+
+  if (!items.length) {
+    grid.innerHTML = '<div class="b-empty"><i class="fa-regular fa-face-frown"></i>找不到符合的品牌</div>';
+    return;
+  }
+  grid.innerHTML = items.map(b => `
+    <a class="b-tile" href="${b.href || '#'}">
+      <span class="b-tile__logo-slot">${logoMarkup(b)}</span>
+      <span class="b-tile__name">${b.name}</span>
+      <span class="b-tile__cue">查看合作方案 <i class="fa-solid fa-arrow-right"></i></span>
+    </a>
+  `).join('');
+}
+document.getElementById('kwFilter').addEventListener('input', render);
+render();
+
+/* ── Nav scripts (shared) ─────────────────────────── */
+
+
+
+</script>
+<site-back-to-top></site-back-to-top>
+<script src="site-chrome.js"></script>
+</body>
+</html>

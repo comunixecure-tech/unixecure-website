@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>uniXecure 攜手 RAVEN 完成金融業 SOC 導入 · 新聞中心 · uniXecure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="image-slot.js"></script>
+<style>
+.detail-page{background:var(--b-bg-wash);min-height:100vh}
+[data-theme="dark"] .detail-page{background:oklch(12% 0.04 266)}
+.detail-deco{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.article__topline{display:flex;align-items:center;gap:12px;margin:20px 0 18px;flex-wrap:wrap}
+.article-hero{background:var(--ux-primary-100);padding:112px 0 32px;position:relative;overflow:hidden}
+.article-hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(48,56,120,.08) 1px, transparent 1px);background-size:28px 28px;pointer-events:none}
+.article-hero .wrap{position:relative;z-index:1}
+.article-hero__inner{max-width:760px;margin:0 auto}
+.article-hero__crumb{margin-bottom:18px}
+.article-hero__crumb a,.article-hero__crumb .breadcrumb__current-mid{color:rgba(48,56,120,.6)}
+.article-hero__crumb a:hover{color:var(--ux-primary-900)}
+.article-hero__crumb .breadcrumb__sep{color:rgba(48,56,120,.3)}
+.article-hero__topline{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:14px;flex-wrap:wrap}
+.article-hero__topline .article-hero__crumb{margin-bottom:0}
+.article-hero__date{font-size:14px;color:rgba(48,56,120,.65);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.article-hero__date i{color:rgba(48,56,120,.45)}
+.article-hero__title{font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.35;letter-spacing:-.015em;color:var(--ux-primary-900);margin:0}
+.article__cat{display:inline-flex;align-items:center;height:26px;padding:0 12px;border-radius:20px;background:var(--b-indigo-50);color:var(--b-indigo);font-size:12.5px;font-weight:700;letter-spacing:.02em}
+.article__meta{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--b-ink-3)}
+.article__meta span{display:inline-flex;align-items:center;gap:6px}
+.article__meta i{color:var(--b-ink-4);font-size:12px}
+.article__title{font-size:clamp(26px,3.6vw,38px);font-weight:700;line-height:1.35;letter-spacing:-.015em;color:var(--b-ink);margin:0 0 16px}
+.article__lead{font-size:18px;line-height:1.75;color:var(--b-ink-3);margin:0 0 32px;max-width:none}
+.article__banner{border-radius:12px;overflow:hidden;aspect-ratio:16/9;margin-bottom:36px;box-shadow:var(--b-shadow-sm)}
+.article__banner img{display:block}
+.article__body{font-size:16px;line-height:1.9;color:var(--b-ink-2)}
+.article__body p{margin:0 0 22px}
+.article__body a{color:var(--b-indigo);text-decoration:underline;text-decoration-color:var(--b-indigo-100);text-underline-offset:2px;font-weight:600;transition:color .15s,text-decoration-color .15s}
+.article__body a:hover{color:var(--b-indigo-2);text-decoration-color:var(--b-indigo-2)}
+.article__body h2{font-size:22px;font-weight:700;color:var(--b-ink);margin:40px 0 16px;letter-spacing:-.01em}
+.article__body ul{margin:0 0 22px;padding-left:20px}
+.article__body li{margin-bottom:8px}
+.article__body blockquote{margin:32px 0;padding:20px 24px;border-left:3px solid var(--b-indigo);background:var(--b-indigo-50);border-radius:0 10px 10px 0;font-size:16.5px;color:var(--b-ink-2);font-style:normal}
+.article__figure{margin:32px 0}
+.article__figure img,.article__figure image-slot{border-radius:10px;display:block;aspect-ratio:16/9;overflow:hidden}
+.article__figure figcaption{font-size:14px;color:var(--b-ink-4);text-align:center;margin-top:10px}
+.article__tags{display:flex;flex-wrap:wrap;gap:8px;margin:40px 0 32px}
+.breadcrumb__current-mid{color:var(--b-ink-4)}
+.article__promo{background:var(--b-bg-tint);border:1px solid var(--b-line);border-radius:10px;padding:18px 22px;margin-bottom:24px}
+.article__promo-label{font-size:14px;font-weight:700;color:var(--b-ink-3);margin-bottom:6px}
+.article__promo-link{font-size:16px;font-weight:600;color:var(--b-indigo);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.article__promo-link:hover{color:var(--b-indigo-2)}
+.article__promo-link i{font-size:12px}
+.article__promo-cta{display:flex;justify-content:center;margin-bottom:32px}
+.event-box{background:var(--b-card);border:1px solid var(--b-line);box-shadow:var(--b-shadow-sm);border-radius:10px;padding:32px;display:flex;flex-direction:column;margin:36px 0}
+.eb-section{padding:22px 0}
+.eb-section:first-child{padding-top:0}
+.eb-section+.eb-section{border-top:1px solid var(--b-line)}
+.eb-label{font-size:16px;font-weight:700;color:var(--b-ink);letter-spacing:.01em;margin-bottom:14px}
+.event-box__item{display:flex;gap:6px;font-size:16px;line-height:1.9;color:var(--b-ink-2)}
+.event-box__item b{color:var(--b-ink);font-weight:700;flex-shrink:0}
+.event-box__item a{color:var(--b-indigo);font-weight:600;text-decoration:underline;text-decoration-color:var(--b-indigo-100);text-underline-offset:2px;transition:color .15s,text-decoration-color .15s}
+.event-box__item a:hover{color:var(--b-indigo-2);text-decoration-color:var(--b-indigo-2)}
+.event-box__item a i{font-size:12px;margin-left:4px}
+.agenda-list{display:flex;flex-direction:column}
+.agenda-item{display:flex;gap:20px;padding:12px 0;border-top:1px solid var(--b-line)}
+.agenda-item:first-child{border-top:none;padding-top:0}
+.agenda-item__time{font-family:var(--ux-font-mono);font-size:14px;font-weight:600;color:var(--b-indigo);width:104px;flex-shrink:0;padding-top:2px}
+.agenda-item__body{display:flex;flex-direction:column;gap:2px}
+.agenda-item__title{font-size:16px;font-weight:700;color:var(--b-ink);line-height:1.7}
+.agenda-item__speaker{font-size:14px;color:var(--b-ink-3);line-height:1.7}
+@media(max-width:640px){.agenda-item{gap:12px}.agenda-item__time{width:76px;font-size:12px}}
+.event-box__speakers{display:flex;flex-direction:column;gap:20px}
+.speaker-card{display:flex;align-items:center;gap:14px;text-align:left}
+.speaker-card__photo{width:60px;height:60px;border-radius:50%;overflow:hidden;flex-shrink:0}
+.speaker-card__photo image-slot::part(frame){background:linear-gradient(135deg,var(--b-indigo-100),var(--b-indigo-50))!important}
+.photo-slot--blank::part(empty){display:none!important}
+.speaker-card__photo image-slot::part(ring){display:none!important}
+.speaker-card__info{display:flex;flex-direction:column;gap:4px}
+.speaker-card__name{font-size:16px;font-weight:700;color:var(--b-ink);line-height:1.5}
+.speaker-card__title{font-size:14px;color:var(--b-indigo);font-weight:600;line-height:1.5}
+.speaker-card__bio{font-size:14px;color:var(--b-ink-3);line-height:1.8;margin:0}
+.event-box__orgs{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.event-box__orgs img{height:80px;width:auto;max-width:240px}
+.event-box__register{display:flex;flex-direction:column;align-items:center;gap:16px}
+.event-box__qr{width:180px;height:180px;border-radius:10px;background:linear-gradient(-90deg,rgb(23,28,70) -64.58%,rgb(43,53,134) -32.52%,rgb(60,73,186) 60.95%,rgb(171,177,228) 187.5%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px}
+.event-box__qr img{width:120px;height:120px;border-radius:6px;background:#fff}
+.event-box__qr span{color:#fff;font-size:14px;font-weight:700}
+.btn-register{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 32px;border-radius:8px;background:var(--b-btn-primary-bg);color:#fff;font:inherit;font-size:16px;font-weight:700;text-decoration:none;transition:background .15s,transform .15s}
+.btn-register:hover{background:var(--b-btn-primary-hover);transform:translateY(-2px)}
+.event-box__notice{font-size:14px;color:var(--b-ink-3);line-height:1.9;white-space:pre-line}
+.article__foot{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 0;border-top:1px solid var(--b-line);border-bottom:1px solid var(--b-line);margin-bottom:40px;flex-wrap:wrap}
+.article__share{display:flex;align-items:center;gap:10px}
+.article__share span{font-size:14px;color:var(--b-ink-3);margin-right:4px}
+.share-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--b-line);display:inline-flex;align-items:center;justify-content:center;color:var(--b-ink-3);text-decoration:none;transition:border-color .15s,color .15s,background .15s}
+.share-btn:hover{color:var(--b-indigo);background:var(--b-indigo-50)}
+.btn-back:hover{color:var(--b-indigo)}
+.article__pagenav{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:56px}
+.pn-card{background:var(--b-card);border:1px solid var(--b-line);border-radius:10px;padding:18px 20px;text-decoration:none;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,transform .15s}
+.pn-card:hover{transform:translateY(-2px);box-shadow:0 8px 32px -4px rgba(60,73,186,.18)}
+.pn-card--next{text-align:right;align-items:flex-end}
+.pn-card__dir{font-size:12px;color:var(--b-ink-4);display:flex;align-items:center;gap:6px}
+.pn-card--next .pn-card__dir{flex-direction:row-reverse}
+.pn-card__title{font-size:14px;font-weight:600;color:var(--b-ink);line-height:1.5}
+@media(max-width:640px){.article__pagenav{grid-template-columns:1fr}.pn-card--next{align-items:flex-start;text-align:left}.pn-card--next .pn-card__dir{flex-direction:row}}
+.more-sec{padding:0 0 0;position:relative;z-index:1}
+.more-sec__title{font-size:18px;font-weight:700;color:var(--b-ink-3);margin:0 0 20px;letter-spacing:-.01em}
+</style>
+</head>
+<body class="detail-page">
+  <site-nav active="news"></site-nav>
+
+<header class="article-hero">
+  <div class="wrap">
+  <div class="article-hero__inner">
+    <div class="article-hero__topline">
+      <nav class="breadcrumb article-hero__crumb" aria-label="麵包屑">
+        <a href="index.html"><i class="fa-solid fa-house" style="font-size:12px"></i></a>
+        <span class="breadcrumb__sep">/</span>
+        <span class="breadcrumb__current-mid">最新消息</span>
+        <span class="breadcrumb__sep">/</span>
+        <a href="news.html">新聞中心</a>
+      </nav>
+      <span class="article-hero__date"><i class="fa-regular fa-calendar"></i>2026 / 07 / 18</span>
+    </div>
+    <h1 class="article-hero__title" id="articleTitle">uniXecure 攜手 RAVEN 完成金融業資安監控中心導入，強化即時威脅應變能力</h1>
+  </div>
+  </div>
+</header>
+
+<div class="read-subnav" id="readSubnav">
+  <div class="wrap">
+  <div class="read-subnav__inner">
+    <span class="read-subnav__title">uniXecure 攜手 RAVEN 完成金融業資安監控中心導入</span>
+  </div>
+  </div>
+  <div class="read-subnav__fill" id="readFill"></div>
+</div>
+
+<div class="detail-content">
+  <div class="wrap">
+    <article class="article">
+      <p class="article__lead">面對日益複雜的資安威脅環境，某大型金融機構攜手 uniXecure，導入 RAVEN 風險分析暨視覺化平台，建置具備 7×24 即時監控與自動化應變能力的資安監控中心。</p>
+
+      <div class="article__banner"><img src="assets/placeholder/ph-01.avif" alt="資安監控中心" style="width:100%;height:100%;object-fit:cover" /></div>
+
+      <div class="article__body">
+        <p>隨著金融產業數位化程度提升，跨系統、跨通路的資安風險也隨之增加。該機構過去仰賴人工彙整多套系統告警，難以在攻擊發生的第一時間掌握全貌，也讓資安團隊承受龐大的人力負擔。</p>
+        <h2>整合式監控，縮短應變時間</h2>
+        <p>透過導入 <a href="raven.html">RAVEN</a>，該機構得以將防火牆、端點防護、身分驗證等多來源資料整合於單一視覺化儀表板，資安團隊能即時掌握異常行為的關聯性，大幅縮短事件研判與應變時間。</p>
+        <blockquote>「過去光是彙整不同系統的告警就要花上數小時，現在透過 RAVEN 的關聯分析，我們能在幾分鐘內鎖定風險來源。」該機構資安主管表示。</blockquote>
+        <h2>導入成效</h2>
+        <ul>
+          <li>威脅偵測平均應變時間縮短 65%</li>
+          <li>誤報率下降，資安人力得以聚焦高風險事件</li>
+          <li>符合金融監理機關對於資安監控留存與稽核的要求</li>
+        </ul>
+        <p>uniXecure 表示，未來將持續深化 RAVEN 平台的自動化應變能力，協助更多受監理產業客戶建立符合法規要求且具備韌性的資安防護體系。</p>
+      </div>
+
+      <!-- 活動類文章可選插入下方 .event-box 區塊（僅開放報名的活動才需要，純報導型活動不加）：
+      <div class="event-box">
+        <div class="eb-section">
+          <div class="eb-label">活動資訊</div>
+          <div class="event-box__item"><b>活動日期：</b><span>2026/09/28（一） 14:00-16:30</span></div>
+          <div class="event-box__item"><b>報名日期：</b><span>即日起至 2026/09/20（日）</span></div>
+          <div class="event-box__item"><b>地點：</b><a href="#" target="_blank" rel="noopener">地點名稱 <i class="fa-solid fa-arrow-up-right-from-square"></i></a></div>
+        </div>
+        <div class="eb-section">
+          <div class="eb-label">活動議程</div>
+          <div class="agenda-list">
+            <div class="agenda-item"><span class="agenda-item__time">14:00-14:10</span><div class="agenda-item__body"><span class="agenda-item__title">開場致詞</span></div></div>
+          </div>
+        </div>
+        <div class="eb-section">
+          <div class="eb-label">講師陣容</div>
+          <div class="event-box__speakers">
+            <div class="speaker-card">
+              <div class="speaker-card__photo"><image-slot id="sp-x" placeholder="講師照片" shape="circle" style="width:60px;height:60px"></image-slot></div>
+              <div class="speaker-card__info"><span class="speaker-card__name">講師姓名</span><span class="speaker-card__title">職稱</span><p class="speaker-card__bio">簡介</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="eb-section">
+          <div class="event-box__register">
+            <div class="event-box__qr"><img src="#" alt="報名 QR Code" /><span>立即掃瞄/點擊報名</span></div>
+            <a class="btn-register" href="#">我要報名</a>
+          </div>
+        </div>
+        <div class="eb-section">
+          <div class="eb-label">注意事項</div>
+          <div class="event-box__notice">注意事項文字</div>
+        </div>
+      </div>
+      -->
+
+      <div class="article__promo">
+        <div class="article__promo-label">RAVEN 資安監控維運中心產品簡介</div>
+        <a class="article__promo-link" href="raven.html">了解 RAVEN 如何協助建置資安監控中心 <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+      </div>
+      <div class="article__promo-cta"><a class="nav__cta" href="#">與我們聯繫 <i class="fa-solid fa-arrow-right"></i></a></div>
+
+      <div class="article__tags">
+        <a class="tag tag--outline" href="news.html?tag=RAVEN">#RAVEN</a>
+        <a class="tag tag--outline" href="news.html?tag=金融資安">#金融資安</a>
+        <a class="tag tag--outline" href="news.html?tag=SOC">#SOC</a>
+        <a class="tag tag--outline" href="news.html?tag=威脅偵測">#威脅偵測</a>
+      </div>
+
+      <div class="article__foot">
+        <div class="article__share">
+          <span>分享</span>
+          <a class="share-btn" href="#" aria-label="分享至 Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a class="share-btn" href="#" aria-label="分享至 LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a class="share-btn" href="#" aria-label="複製連結"><i class="fa-solid fa-link"></i></a>
+        </div>
+        <a class="btn-back" href="news.html"><i class="fa-solid fa-chevron-left"></i> 返回新聞列表</a>
+      </div>
+
+      <div class="article__pagenav">
+        <a class="pn-card" href="news-detail.html">
+          <span class="pn-card__dir"><i class="fa-solid fa-chevron-left"></i>上一則</span>
+          <span class="pn-card__title">uniXecure 通過 ISO 27001:2022 資訊安全管理認證改版</span>
+        </a>
+        <a class="pn-card pn-card--next" href="news-detail.html">
+          <span class="pn-card__dir">下一則<i class="fa-solid fa-chevron-right"></i></span>
+          <span class="pn-card__title">HEIS 新版本上線，強化社交工程演練情境庫</span>
+        </a>
+      </div>
+    </article>
+
+    <div class="more-sec">
+      <div class="more-sec__title">更多新聞</div>
+      <div class="lc-grid lc-grid--3">
+        <a class="lc-card lc-card--col card-hover" href="news-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-06.avif" alt="ISO 27001 認證" style="width:100%;height:100%;object-fit:cover" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="lc-date">2026 / 06 / 30</span><div class="lc-tags"><span class="tag tag--indigo">合規認證</span></div></div>
+            <h3 class="lc-title">uniXecure 通過 ISO 27001:2022 資訊安全管理認證改版</h3>
+          </div>
+        </a>
+        <a class="lc-card lc-card--col card-hover" href="news-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-12.avif" alt="HEIS 社交工程演練" style="width:100%;height:100%;object-fit:cover" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="lc-date">2026 / 06 / 12</span><div class="lc-tags"><span class="tag tag--indigo">HEIS</span></div></div>
+            <h3 class="lc-title">HEIS 新版本上線，強化社交工程演練情境庫</h3>
+          </div>
+        </a>
+        <a class="lc-card lc-card--col card-hover" href="news-detail.html">
+          <div class="lc-thumb"><img src="assets/placeholder/ph-02.avif" alt="SRMAS 關鍵基礎設施監控" style="width:100%;height:100%;object-fit:cover" /></div>
+          <div class="lc-body">
+            <div class="lc-meta-row"><span class="lc-date">2026 / 05 / 22</span><div class="lc-tags"><span class="tag tag--indigo">SRMAS</span></div></div>
+            <h3 class="lc-title">SRMAS 攜手電信業者完成關鍵基礎設施監控升級</h3>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<site-cta></site-cta>
+<site-footer></site-footer>
+
+<script>
+
+(function () {
+  const heroEl = document.querySelector('.article-hero');
+  const articleEl = document.querySelector('.article');
+  const subnav = document.getElementById('readSubnav');
+  const fill = document.getElementById('readFill');
+  if (!heroEl || !articleEl || !subnav || !fill) return;
+  function onScroll() {
+    const heroBottom = heroEl.getBoundingClientRect().bottom;
+    subnav.classList.toggle('is-visible', heroBottom <= 73);
+    const rect = articleEl.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    const scrolled = -rect.top;
+    const pct = total > 0 ? Math.min(100, Math.max(0, (scrolled / total) * 100)) : 0;
+    fill.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+
+
+
+</script>
+<site-back-to-top></site-back-to-top>
+  <script src="site-chrome.js"></script>
+</body>
+</html>

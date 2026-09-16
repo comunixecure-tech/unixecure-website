@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>全域聯防終極指南 · 報告書專區 · uniXecure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="image-slot.js"></script>
+<style>
+.detail-page{background:var(--ux-primary-50);min-height:100vh}
+[data-theme="dark"] .detail-page{background:oklch(12% 0.04 266)}
+.article-hero{background:var(--ux-primary-950);padding:112px 0 40px;position:relative;overflow:hidden}
+.article-hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.10) 1px, transparent 1px);background-size:28px 28px;pointer-events:none}
+.article-hero .wrap{position:relative;z-index:1}
+.article-hero__inner{max-width:840px;margin:0 auto}
+.article-hero__crumb{margin-bottom:24px}
+.article-hero__crumb a,.article-hero__crumb .breadcrumb__current-mid{color:rgba(255,255,255,.55)}
+.article-hero__crumb a:hover{color:#fff}
+.article-hero__crumb .breadcrumb__sep{color:rgba(255,255,255,.3)}
+.rep-hero__body{display:flex;gap:32px;align-items:flex-end}
+.rep-hero__cover{width:160px;height:224px;border-radius:6px;overflow:hidden;flex-shrink:0;box-shadow:0 16px 40px rgba(0,0,0,.35)}
+.rep-hero__cover image-slot{width:100%;height:100%}
+.rep-hero__meta{font-family:var(--ux-font-mono);font-size:14px;color:var(--b-amber);margin-bottom:10px}
+.rep-hero__title{font-size:clamp(24px,3.2vw,34px);font-weight:700;line-height:1.35;letter-spacing:-.01em;color:#fff;margin:0 0 12px}
+.rep-hero__desc{font-size:16px;line-height:1.75;color:rgba(255,255,255,.72);margin:0 0 20px;max-width:480px}
+@media(max-width:640px){.rep-hero__body{flex-direction:column;align-items:flex-start}}
+.article__body{font-size:16px;line-height:1.9;color:var(--b-ink-2)}
+.article__body h2{font-size:22px;font-weight:700;color:var(--b-ink);margin:0 0 18px;letter-spacing:-.01em}
+.rep-points{display:flex;flex-direction:column;gap:14px;margin:0 0 40px}
+.rep-point{display:flex;gap:12px;align-items:flex-start}
+.rep-point i{color:var(--b-indigo);font-size:16px;margin-top:4px;flex-shrink:0}
+.rep-point span{font-size:16px;line-height:1.7;color:var(--b-ink-2)}
+.gd{margin:0 0 40px}
+.gd-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
+@media (max-width:760px){.gd-cols{grid-template-columns:1fr}}
+.gd-col{background:var(--b-card);border-radius:16px;padding:24px 22px}
+.gd-col__head{font-size:14px;font-weight:700;color:var(--b-ink);margin-bottom:14px}
+.gd-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.gd-col li{font-size:14px;color:var(--b-ink-3);line-height:1.5;padding-left:14px;position:relative}
+.gd-col li::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:var(--b-ink-4)}
+.dl-box{background:var(--b-card);border:1px solid var(--b-line);box-shadow:var(--b-shadow-sm);border-radius:12px;padding:36px;margin:0 0 40px}
+.dl-box__title{font-size:20px;font-weight:700;color:var(--b-ink);margin:0 0 6px}
+.dl-box__sub{font-size:14px;color:var(--b-ink-3);margin:0 0 26px}
+.dl-form{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px}
+.dl-field{display:flex;flex-direction:column;gap:6px}
+.dl-field--full{grid-column:1/-1}
+.dl-field label{font-size:14px;font-weight:600;color:var(--b-ink-2)}
+.dl-field label em{font-style:normal;color:var(--b-danger);margin-left:2px}
+.dl-field input{height:46px;border:1px solid var(--b-line);border-radius:8px;padding:0 14px;font:inherit;font-size:14px;color:var(--b-ink);background:var(--b-bg);outline:none;transition:border-color .15s,box-shadow .15s}
+.dl-field input:focus{border-color:var(--b-indigo);box-shadow:0 0 0 4px rgba(60,73,186,.12)}
+.dl-check{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--b-ink-3);line-height:1.6}
+.dl-check input{width:16px;height:16px;margin:2px 0 0;flex-shrink:0}
+.dl-check a{color:var(--b-indigo);text-decoration:underline;text-decoration-color:var(--b-indigo-100)}
+.dl-submit{height:52px;border-radius:8px;background:var(--b-btn-primary-bg);color:#fff;font:inherit;font-size:16px;font-weight:700;border:none;cursor:pointer;transition:background .15s,transform .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.dl-submit:hover{background:var(--b-btn-primary-hover);transform:translateY(-2px)}
+@media(max-width:640px){.dl-form{grid-template-columns:1fr}.dl-box{padding:26px 22px}}
+.thanks-box{display:none;background:var(--b-card);border:1px solid var(--b-line);box-shadow:var(--b-shadow-sm);border-radius:12px;padding:56px 40px;margin:0 0 40px;text-align:center}
+.thanks-box.is-visible{display:block}
+.thanks-box__icon{width:64px;height:64px;border-radius:50%;background:var(--b-indigo-50);color:var(--b-indigo);display:inline-flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:20px}
+.thanks-box__title{font-size:22px;font-weight:700;color:var(--b-ink);margin:0 0 12px}
+.thanks-box__desc{font-size:16px;line-height:1.8;color:var(--b-ink-3);margin:0 auto 28px;max-width:440px}
+.thanks-box__actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.thanks-box.is-visible ~ .dl-box{display:none}
+.more-sec{padding:0;position:relative;z-index:1}
+.more-sec__title{font-size:18px;font-weight:700;color:var(--b-ink-3);margin:0 0 20px;letter-spacing:-.01em}
+.rep-grid{display:grid;gap:24px;grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.rep-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.rep-grid{grid-template-columns:1fr}}
+.rep-card{background:rgba(255,255,255,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:none;border:none;border-radius:10px;text-decoration:none;color:inherit;transition:transform .28s var(--b-ease),box-shadow .28s var(--b-ease);overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:28px 24px 24px;text-align:center}
+.rep-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px -4px rgba(60,73,186,.18);background:rgba(255,255,255,.98)}
+[data-theme="dark"] .rep-card{background:rgba(24,26,44,.9)}
+.rep-cover{position:relative;width:132px;height:186px;border-radius:4px;overflow:hidden;box-shadow:0 8px 24px rgba(60,73,186,.18);flex-shrink:0}
+.rep-cover image-slot{position:absolute;inset:0;width:100%;height:100%}
+.rep-body{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:18px}
+.rep-title{font-size:16px;font-weight:700;color:var(--b-indigo);line-height:1.4;margin:0}
+.rep-card:hover .rep-title{color:oklch(62% 0.18 266)}
+.rep-year{font-family:var(--ux-font-mono);font-size:12px;color:var(--b-ink-4);margin:0}
+</style>
+</head>
+<body class="detail-page">
+<site-nav active="reports"></site-nav>
+
+<header class="article-hero" data-screen-label="報告書內頁">
+  <div class="wrap">
+  <div class="article-hero__inner">
+    <nav class="breadcrumb article-hero__crumb" aria-label="麵包屑">
+      <a href="index.html"><i class="fa-solid fa-house" style="font-size:12px"></i></a>
+      <span class="breadcrumb__sep">/</span>
+      <span class="breadcrumb__current-mid">最新消息</span>
+      <span class="breadcrumb__sep">/</span>
+      <a href="reports.html">報告書專區</a>
+    </nav>
+    <div class="rep-hero__body">
+      <div class="rep-hero__cover"><image-slot id="rep-detail-cover" placeholder="報告封面" shape="rect" src="assets/reports/rep-detail-cover.jpg"></image-slot></div>
+      <div>
+        <div class="rep-hero__meta">2026 · 白皮書</div>
+        <h1 class="rep-hero__title">全域聯防終極指南</h1>
+        <p class="rep-hero__desc">從跨機關情資共享到自動化應變，掌握建構全域聯防體系的關鍵步驟與實務案例。</p>
+        <a class="nav__cta" href="#downloadForm">立即下載 <i class="fa-solid fa-arrow-down"></i></a>
+      </div>
+    </div>
+  </div>
+  </div>
+</header>
+
+<div class="detail-content">
+  <div class="wrap">
+    <article class="article">
+      <div class="article__body">
+        <h2>本報告內容</h2>
+      </div>
+      <div class="rep-points">
+        <div class="rep-point"><i class="fa-solid fa-circle-check"></i><span>跨機關情資共享的架構設計與常見導入挑戰</span></div>
+        <div class="rep-point"><i class="fa-solid fa-circle-check"></i><span>自動化威脅應變流程的建置步驟與工具選型建議</span></div>
+        <div class="rep-point"><i class="fa-solid fa-circle-check"></i><span>3 個公部門與關鍵基礎設施產業實務導入案例</span></div>
+        <div class="rep-point"><i class="fa-solid fa-circle-check"></i><span>聯防成效評估指標與治理框架建議</span></div>
+      </div>
+
+      <div class="gd">
+        <h3 style="font-size:22px;font-weight:700;color:var(--b-ink);margin-top:0;text-align:center">全域聯防 2.0<span class="ink-indigo">，強化資安效度、維度</span></h3>
+        <p class="arch__sub" style="margin:14px auto 0;max-width:640px;text-align:center">以人員、技術與程序三位一體，從安全敏捷開發、資安檢測到數據治理，提升防禦深度</p>
+        <div class="gd-cols">
+          <div class="gd-col">
+            <div class="gd-col__head">安全敏捷開發</div>
+            <ul><li>自動化測試</li><li>持續整合／持續部署</li><li>容器化與微服務架構</li></ul>
+          </div>
+          <div class="gd-col">
+            <div class="gd-col__head">資安檢測與服務</div>
+            <ul><li>資產盤點與漏洞管理</li><li>端點防護與監控</li><li>OT 法規遵循</li></ul>
+          </div>
+          <div class="gd-col">
+            <div class="gd-col__head">數據加密與保全</div>
+            <ul><li>日誌管理與監控</li><li>可視化分析</li><li>異地備份／備援</li></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="thanks-box" id="thanksBox">
+        <div class="thanks-box__icon"><i class="fa-solid fa-check"></i></div>
+        <h3 class="thanks-box__title">感謝您的填寫！</h3>
+        <p class="thanks-box__desc">我們已收到您的資料，報告書將由專業團隊準備，並於近期寄送至您的電子信箱，敬請期待。</p>
+        <div class="thanks-box__actions">
+          <a class="btn-back" href="reports.html" style="height:52px;padding:0 28px;font-size:16px">繼續閱讀</a>
+          <a class="nav__cta" href="index.html">回首頁 <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="dl-box" id="downloadForm">
+        <h3 class="dl-box__title">填寫資料，取得完整報告</h3>
+        <p class="dl-box__sub">我們將於送出後透過電子郵件寄送報告書下載連結。</p>
+        <form class="dl-form" id="repForm">
+          <div class="dl-field"><label>姓名<em>*</em></label><input type="text" required placeholder="請輸入姓名" /></div>
+          <div class="dl-field"><label>公司名稱<em>*</em></label><input type="text" required placeholder="請輸入公司名稱" /></div>
+          <div class="dl-field"><label>電子郵件<em>*</em></label><input type="email" required placeholder="name@company.com" /></div>
+          <div class="dl-field"><label>聯絡電話</label><input type="tel" placeholder="請輸入聯絡電話" /></div>
+          <div class="dl-field dl-field--full">
+            <label class="dl-check"><input type="checkbox" required />我已閱讀並同意 uniXecure 的<a href="#">隱私權政策</a>，並同意接收相關產品與活動資訊。</label>
+          </div>
+          <div class="dl-field dl-field--full">
+            <button type="submit" class="dl-submit"><i class="fa-solid fa-download"></i>立即下載報告</button>
+          </div>
+        </form>
+      </div>
+    </article>
+
+    <!-- 更多報告書：目前僅一本報告，暫時隱藏；有第二本後改用 reports.html 的卡片格式復原 -->
+  </div>
+</div>
+
+<site-cta></site-cta>
+<site-footer></site-footer>
+
+<script>
+
+document.getElementById('repForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  document.getElementById('downloadForm').style.display = 'none';
+  document.getElementById('thanksBox').classList.add('is-visible');
+  document.getElementById('thanksBox').scrollIntoView({ block: 'start' });
+});
+
+
+
+</script>
+<site-back-to-top></site-back-to-top>
+  <script src="site-chrome.js"></script>
+</body>
+</html>

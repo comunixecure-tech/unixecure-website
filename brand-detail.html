@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rapid7 · 代理產品 · uniXecure 智慧資安科技</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/product.css?v=2" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<style>
+/* ── 品牌 Hero：置中 lockup + 標語，淺底 + 裝飾六角 ── */
+.brand-hero { position: relative; background: #fff; padding: 128px 0 56px; overflow: hidden; }
+[data-theme="dark"] .brand-hero { background: var(--b-bg); }
+.brand-hero::before { display: none; }
+.brand-hero__hex { position: absolute; pointer-events: none; z-index: 0; }
+.brand-hero__hex svg { width: 100%; height: 100%; }
+.brand-hero__hex--1 { top: -60px; left: -80px; width: 260px; height: 260px; opacity: 0.4; }
+.brand-hero__hex--2 { top: 40px; right: 60px; width: 150px; height: 150px; opacity: 0.3; }
+.brand-hero .wrap { position: relative; z-index: 1; max-width: 720px; display: flex; flex-direction: column; align-items: center; gap: 32px; text-align: center; }
+.brand-hero__logo { height: 68px; max-width: 300px; object-fit: contain; }
+[data-theme="dark"] .brand-hero__logo--light { display: none; }
+.brand-hero__logo--dark { display: none; }
+[data-theme="dark"] .brand-hero__logo--dark { display: block; }
+.brand-hero__tagline { font-size: 20px; font-weight: 600; line-height: 1.6; color: var(--b-ink); margin: 0; }
+
+/* ── 產品區：分類篩選 + 卡片 ── */
+.brand-products { display: grid; grid-template-columns: 240px 1fr; gap: 40px; align-items: start; }
+@media (max-width: 860px) { .brand-products { grid-template-columns: 1fr; } }
+.brand-filter { display: flex; flex-direction: column; gap: 8px; position: sticky; top: 96px; }
+@media (max-width: 860px) { .brand-filter { position: static; flex-direction: row; flex-wrap: wrap; } }
+.bf-btn {
+  height: 44px; padding: 0 16px; border-radius: 10px; border: none; background: transparent;
+  font-size: 16px; color: var(--b-ink-3); text-align: left; cursor: pointer;
+  display: flex; align-items: center; transition: background .15s, color .15s;
+}
+.bf-btn:hover { background: var(--b-bg-tint); color: var(--b-ink); }
+.bf-btn.is-active { background: var(--b-indigo-50); color: var(--b-indigo); font-weight: 600; }
+[data-theme="dark"] .bf-btn.is-active { background: rgba(90,117,215,.16); }
+
+.bp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 640px) { .bp-grid { grid-template-columns: 1fr; } }
+.bp-card {
+  display: flex; flex-direction: column; gap: 12px; padding: 24px;
+  background: #fff; border: 1px solid var(--b-line); border-radius: 14px;
+  text-decoration: none; color: inherit;
+}
+[data-theme="dark"] .bp-card { background: var(--b-bg-tint); }
+.bp-card__brand { font-size: 11.5px; font-weight: 700; letter-spacing: .04em; color: var(--b-ink-4); }
+.bp-card__name { font-size: 16.5px; font-weight: 700; color: var(--b-indigo); margin: 0; line-height: 1.4; }
+.bp-card__foot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+.bp-card__tag { font-size: 12px; color: var(--b-ink-4); background: var(--b-bg-tint); border-radius: 6px; padding: 4px 10px; }
+[data-theme="dark"] .bp-card__tag { background: rgba(255,255,255,.06); }
+.bp-card__arrow { color: var(--b-indigo); font-size: 12px; opacity: 0; transition: opacity .2s; }
+.bp-card:hover .bp-card__arrow { opacity: 1; }
+.bc-card__body { padding: 24px 28px; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+.bc-card__industry { font-size: 12.5px; color: var(--b-indigo); font-weight: 600; }
+.bc-card__title { font-size: 16px; font-weight: 700; color: var(--b-ink); margin: 0; line-height: 1.6; }
+.bc-card__pic { width: 100%; height: 100%; min-height: 140px; }
+</style>
+</head>
+<body>
+
+<!-- ════════════ NAV ════════════ -->
+<site-nav active="partners"></site-nav>
+
+<!-- ════════════ HERO ════════════ -->
+<header class="brand-hero" id="top">
+  <div class="brand-hero__hex brand-hero__hex--1" aria-hidden="true">
+    <svg viewBox="0 0 100 100"><polygon points="50,4 91,27 91,73 50,96 9,73 9,27" fill="none" stroke="var(--b-indigo-100)" stroke-width="2.5" /></svg>
+  </div>
+  <div class="brand-hero__hex brand-hero__hex--2" aria-hidden="true">
+    <svg viewBox="0 0 100 100"><polygon points="50,4 91,27 91,73 50,96 9,73 9,27" fill="none" stroke="var(--b-indigo-100)" stroke-width="2.5" /></svg>
+  </div>
+  <div class="wrap">
+    <nav class="breadcrumb" aria-label="麵包屑">
+      <a href="index.html">首頁</a><span class="breadcrumb__sep">/</span>
+      <a href="partners.html">代理產品</a><span class="breadcrumb__sep">/</span>
+      <span class="breadcrumb__current">Rapid7</span>
+    </nav>
+    <img class="brand-hero__logo brand-hero__logo--light" src="assets/agents/rapid7.png" alt="Rapid7" />
+    <img class="brand-hero__logo brand-hero__logo--dark" src="assets/agents-white/rapid7-white.png" alt="Rapid7" />
+    <p class="brand-hero__tagline">The world's only practitioner-first security solutions are here</p>
+  </div>
+</header>
+
+<!-- ════════════ 產品：分類篩選 + 卡片 ════════════ -->
+<section class="page-section page-section--white">
+  <div class="wrap">
+    <div class="brand-products">
+      <div class="brand-filter" id="brandFilter">
+        <button class="bf-btn is-active" data-filter="all">全部（6）</button>
+        <button class="bf-btn" data-filter="cyber">Cybersecurity 資安（3）</button>
+        <button class="bf-btn" data-filter="cloud">雲端安全（1）</button>
+        <button class="bf-btn" data-filter="vuln">弱點與滲透測試（2）</button>
+      </div>
+      <div class="bp-grid" id="brandProducts">
+        <a class="bp-card card-hover" href="#" data-cat="cyber">
+          <span class="bp-card__brand">RAPID7</span>
+          <h3 class="bp-card__name">InsightAppSec<br />網站應用程式安全防護</h3>
+          <div class="bp-card__foot"><span class="bp-card__tag">Cybersecurity 資安</span><i class="fa-solid fa-arrow-right bp-card__arrow"></i></div>
+        </a>
+        <a class="bp-card card-hover" href="#" data-cat="cloud">
+          <span class="bp-card__brand">RAPID7</span>
+          <h3 class="bp-card__name">InsightCloudSec<br />雲端資安解決方案</h3>
+          <div class="bp-card__foot"><span class="bp-card__tag">雲端安全</span><i class="fa-solid fa-arrow-right bp-card__arrow"></i></div>
+        </a>
+        <a class="bp-card card-hover" href="brand-product-detail.html" data-cat="cyber">
+          <span class="bp-card__brand">RAPID7</span>
+          <h3 class="bp-card__name">InsightIDR<br />XDR + SIEM 解決方案</h3>
+          <div class="bp-card__foot"><span class="bp-card__tag">Cybersecurity 資安</span><i class="fa-solid fa-arrow-right bp-card__arrow"></i></div>
+        </a>
+        <a class="bp-card card-hover" href="#" data-cat="cyber">
+          <span class="bp-card__brand">RAPID7</span>
+          <h3 class="bp-card__name">Threat Command<br />外部威脅情資解決方案</h3>
+          <div class="bp-card__foot"><span class="bp-card__tag">Cybersecurity 資安</span><i class="fa-solid fa-arrow-right bp-card__arrow"></i></div>
+        </a>
+        <a class="bp-card card-hover" href="#" data-cat="vuln">
+          <span class="bp-card__brand">RAPID7</span>
+          <h3 class="bp-card__name">Metasploit Pro<br />滲透測試工具</h3>
+          <div class="bp-card__foot"><span class="bp-card__tag">滲透測試</span><i class="fa-solid fa-arrow-right bp-card__arrow"></i></div>
+        </a>
+        <a class="bp-card card-hover" href="#" data-cat="vuln">
+          <span class="bp-card__brand">RAPID7</span>
+          <h3 class="bp-card__name">Nexpose<br />弱點掃描管理系統</h3>
+          <div class="bp-card__foot"><span class="bp-card__tag">弱點管理</span><i class="fa-solid fa-arrow-right bp-card__arrow"></i></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 相關資訊 ════════════ -->
+<section class="page-section page-section--tint" style="position:relative;overflow:hidden">
+  <div class="prod-related__dots" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="prod-related__head">
+      <h2 class="prod-h2">相關資訊</h2>
+      
+    </div>
+    <div class="prod-related__grid" id="relatedGrid">
+      <a class="prod-related__card card-hover reveal" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder-case-pic-1.png" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--case">成功案例</span>
+          <h3 class="prod-related__title">某金融業者導入 Rapid7 InsightIDR，強化跨環境威脅偵測與應變效率</h3>
+          <span class="prod-related__date"></span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder-video-thumb-2.png" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--video">影片</span>
+          <h3 class="prod-related__title">Rapid7 InsightAppSec 產品介紹</h3>
+          <span class="prod-related__date"></span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-07.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--event">活動</span>
+          <h3 class="prod-related__title">滲透測試實務工作坊</h3>
+          <span class="prod-related__date">2026 / 10 / 02</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-13.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--event">活動</span>
+          <h3 class="prod-related__title">Rapid7 資安趨勢論壇：從偵測到應變</h3>
+          <span class="prod-related__date">2026 / 09 / 10</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-06.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--news">新聞</span>
+          <h3 class="prod-related__title">Rapid7 發布年度威脅情資報告，揭露常見攻擊路徑</h3>
+          <span class="prod-related__date">2026 / 06 / 12</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder-case-pic-2.png" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--case">成功案例</span>
+          <h3 class="prod-related__title">某製造業者以 Nexpose 建立全廠區資產弱點盤點與修補流程</h3>
+          <span class="prod-related__date"></span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder-video-thumb.png" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--video">影片</span>
+          <h3 class="prod-related__title">雲端資安治理實務分享</h3>
+          <span class="prod-related__date"></span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder-video-thumb-3.png" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--video">影片</span>
+          <h3 class="prod-related__title">滲透測試導入案例解析</h3>
+          <span class="prod-related__date"></span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-01.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--news">新聞</span>
+          <h3 class="prod-related__title">uniXecure 攜手 Rapid7 舉辦雲端安全實戰工作坊</h3>
+          <span class="prod-related__date">2026 / 05 / 03</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-04.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--news">新聞</span>
+          <h3 class="prod-related__title">InsightCloudSec 新增多雲態勢管理功能</h3>
+          <span class="prod-related__date">2026 / 03 / 21</span>
+        </div>
+      </a>
+    </div>
+    <div class="prod-related__foot"><button class="btn btn--ghost prod-related__more" type="button" id="relatedMore">查看更多 <i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+</section>
+
+<!-- ════════════ CTA ════════════ -->
+<site-cta title-pre="想了解 Rapid7 的" title-amber="完整解決方案？" btn-label="產品諮詢"></site-cta>
+
+<!-- ════════════ FOOTER ════════════ -->
+<site-footer></site-footer>
+
+<script src="image-slot.js"></script>
+<script src="site-chrome.js"></script>
+<script>
+(function () {
+  const filter = document.getElementById('brandFilter');
+  const cards = document.querySelectorAll('#brandProducts .bp-card');
+  filter.addEventListener('click', e => {
+    const btn = e.target.closest('.bf-btn'); if (!btn) return;
+    filter.querySelectorAll('.bf-btn').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    const cat = btn.dataset.filter;
+    cards.forEach(c => c.style.display = (cat === 'all' || c.dataset.cat === cat) ? '' : 'none');
+  });
+})();
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'translateY(0)'; observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+// 相關資訊「查看更多」：同區塊展開／收起
+(() => {
+  const btn = document.getElementById('relatedMore');
+  const grid = document.getElementById('relatedGrid');
+  if (!btn || !grid) return;
+  const hiddenCards = [...grid.querySelectorAll('.prod-related__card.is-hidden')];
+  if (!hiddenCards.length) { btn.style.display = 'none'; return; }
+  let expanded = false;
+  btn.addEventListener('click', () => {
+    expanded = !expanded;
+    hiddenCards.forEach(c => { c.classList.toggle('is-hidden', !expanded); if (expanded) { c.style.opacity = 1; c.style.transform = 'translateY(0)'; } });
+    btn.innerHTML = expanded ? '收起 <i class="fa-solid fa-chevron-up"></i>' : '查看更多 <i class="fa-solid fa-chevron-down"></i>';
+  });
+})();
+</script>
+<site-back-to-top></site-back-to-top>
+</body>
+</html>

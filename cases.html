@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>成功案例 · uniXecure 智慧資安科技</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="bright/custom-select.js" defer></script>
+<script src="image-slot.js"></script>
+<style>
+.cases-hero{background:var(--b-bg)}
+[data-theme="dark"] .cases-hero{background:var(--ux-primary-950)}
+.cases-hero::before{background-image:radial-gradient(rgba(60,73,186,.09) 1px, transparent 1px)}
+[data-theme="dark"] .cases-hero::before{background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px)}
+.cases-hero .page-hero__title{color:var(--b-indigo-2)}
+.cases-hero .page-hero__title em{color:var(--b-indigo)}
+.cases-hero .page-hero__sub{color:var(--b-ink-3)}
+.cases-hero .page-hero__count{color:var(--b-ink-4)}
+.list-main{background:var(--ux-gray-50)}
+[data-theme="dark"] .list-main{background:var(--b-bg-tint)}
+.lc-thumb{width:260px;flex-shrink:0}
+.lc-body{flex:1;padding:18px 22px;display:flex;flex-direction:column;gap:6px;justify-content:center;min-width:0}
+.lc-title{font-size:16px;font-weight:700;color:var(--b-indigo);line-height:1.5;margin:0}
+.lc-card:hover .lc-title{color:oklch(62% 0.18 266)}
+.lc-desc{font-size:14px;color:var(--b-ink-3);line-height:1.6;margin:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc-tag-logo{height:28px;width:auto;display:block;color:var(--b-ink)}
+@media(max-width:640px){.lc-thumb{width:100%;height:160px}}
+</style>
+</head>
+<body>
+  <site-nav active="cases"></site-nav>
+
+<header class="page-hero page-hero--list cases-hero">
+  <div class="page-hero__deco" aria-hidden="true">
+    <svg width="420" height="420" viewBox="0 0 468 468" fill="none" style="position:absolute;right:-60px;top:-80px;opacity:.13;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#cga)" />
+      <defs><linearGradient id="cga" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#DB4889" /><stop offset="1" stop-color="#FFB415" /></linearGradient></defs>
+    </svg>
+    <svg width="260" height="260" viewBox="0 0 468 468" fill="none" style="position:absolute;left:-40px;bottom:-30px;opacity:.07;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#cgb)" />
+      <defs><linearGradient id="cgb" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#DB4889" /><stop offset="1" stop-color="#FFB415" /></linearGradient></defs>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="page-hero__titlerow">
+      <h1 class="page-hero__title">成功<em>案例</em></h1>
+      <span class="page-hero__count" id="resultCount"></span>
+    </div>
+    <p class="page-hero__sub">看見 uniXecure 如何協助各產業客戶落實資安治理。</p>
+    <div class="filter-bar">
+      <div class="filter-bar__row">
+        <div class="filter-bar__select-wrap">
+          <select class="filter-bar__select" id="prodFilter">
+            <option value="">所有產品線</option>
+            <option value="RAVEN">RAVEN</option>
+            <option value="HEIS">HEIS</option>
+            <option value="SRMAS">SRMAS</option>
+            <option value="LUCAS">LUCAS</option>
+            <option value="代理產品">代理產品</option>
+          </select>
+          <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+        </div>
+        <div class="filter-bar__select-wrap">
+          <select class="filter-bar__select" id="indFilter">
+            <option value="">所有產業</option>
+            <option value="一般製造">一般製造</option>
+            <option value="科技製造">科技製造</option>
+            <option value="零售/流通">零售/流通</option>
+            <option value="一般服務">一般服務</option>
+            <option value="政府/教育">政府/教育</option>
+            <option value="醫療">醫療</option>
+            <option value="金融">金融</option>
+            <option value="資訊服務">資訊服務</option>
+            <option value="其他">其他</option>
+          </select>
+          <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+        </div>
+        <div class="ux-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="kwFilter" placeholder="關鍵字搜尋" />
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="list-main">
+  <div class="wrap">
+    <div class="lc-grid lc-grid--1" id="listGrid"></div>
+    <div class="c-pagination" id="pagination"></div>
+  </div>
+</section>
+
+<site-cta></site-cta>
+<site-footer></site-footer>
+
+<script>
+const items = [
+  { prod:'RAVEN', ind:'政府/教育', title:'某政府機關導入 RAVEN 強化跨部會聯防監控', desc:'透過 24 小時資安監控維運，整合跨部會威脅情資，事件平均應變時間縮短逾 60%。' },
+  { prod:'HEIS', ind:'金融', title:'某金融業者以 HEIS 提升員工資安意識', desc:'導入行為分析與模擬釣魚演練，員工資安意識識別準確率大幅提升，降低社交工程風險。' },
+  { prod:'SRMAS', ind:'一般製造', title:'某製造業大廠以 SRMAS 監控雲端與地端資源', desc:'整合多雲與地端維運視角，即時告警機制降低系統異常導致的產線中斷風險。' },
+  { prod:'LUCAS', ind:'金融', title:'某金融機構以 LUCAS 完善跡證保存鏈', desc:'建立符合法遵要求的日誌保存架構，協助內部稽核與法律訴訟佐證需求。' },
+  { prod:'RAVEN', ind:'醫療', title:'某醫療機構委託 RAVEN 進行全院資安監控', desc:'因應病歷資料保護法規要求，建置全天候資安監控機制並定期產出合規報告。' },
+  { prod:'HEIS', ind:'政府/教育', title:'某政府機關以 HEIS 執行全員資安教育訓練', desc:'涵蓋逾千名公務人員的模擬演練與教育訓練，有效提升整體資安意識水準。' },
+];
+const stockPhotos = [
+  'assets/placeholder/ph-09.avif',
+  'assets/placeholder/ph-05.avif',
+  'assets/placeholder/ph-11.avif',
+  'assets/placeholder/ph-04.avif'
+];
+const PER_PAGE = 6; let filtered=[...items]; let page=1;
+function applyFilter(){
+  // TODO(CMS 上線後): 關鍵字目前只比對 title/desc 純文字，之後接上後台資料應同時比對內文全文與標籤(tags)欄位，
+  // 讓從標籤連結進來的篩選（如 ?tag=RAVEN）與手動關鍵字搜尋都能命中。
+  const p=document.getElementById('prodFilter').value, ind=document.getElementById('indFilter').value, kw=document.getElementById('kwFilter').value.trim().toLowerCase();
+  const active = !!(p||ind||kw);
+  filtered = items.filter(it => (!p||it.prod===p) && (!ind||it.ind===ind) && (!kw||it.title.toLowerCase().includes(kw)||it.desc.toLowerCase().includes(kw)));
+  page=1; render(active);
+}
+function goPage(n){ page=n; render(); const top=document.querySelector('.list-main').offsetTop-88; window.scrollTo({top,behavior:'smooth'}); }
+function render(isFiltered){
+  const grid=document.getElementById('listGrid'), pg=document.getElementById('pagination');
+  document.getElementById('resultCount').textContent=(isFiltered?'符合 ':'共 ')+filtered.length+' 則';
+  const slice=filtered.slice((page-1)*PER_PAGE,page*PER_PAGE);
+  if(!slice.length){ grid.innerHTML='<div class="c-empty"><i class="fa-regular fa-folder-open"></i>找不到符合的案例</div>'; pg.innerHTML=''; return; }
+  grid.innerHTML=slice.map((it,i)=>`
+    <a class="lc-card lc-card--row" href="cases-detail.html">
+      <div class="lc-thumb"><image-slot id="case-${it.prod}-${i}" placeholder="案例照片" shape="rect" src="${stockPhotos[i%stockPhotos.length]}"></image-slot></div>
+      <div class="lc-body">
+        <div class="lc-meta-row">
+          <span class="tag tag--indigo">${it.ind}</span>
+          <div class="lc-tags">${(Array.isArray(it.prod)?it.prod:[it.prod]).map(p=>`<svg class="lc-tag-logo" viewBox="0 0 1770 500" role="img" aria-label="${p}"><use href="#lg-${p.toLowerCase()}"></use></svg>`).join('')}</div>
+        </div>
+        <h3 class="lc-title">${it.title}</h3>
+        <p class="lc-desc">${it.desc}</p>
+      </div>
+    </a>`).join('');
+  const total=Math.ceil(filtered.length/PER_PAGE);
+  if(total<=1){ pg.innerHTML=''; return; }
+  let h=`<button class="c-pg" ${page===1?'disabled':''} onclick="goPage(${page-1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+  for(let i=1;i<=total;i++) h+=`<button class="c-pg ${i===page?'is-active':''}" onclick="goPage(${i})">${i}</button>`;
+  h+=`<button class="c-pg" ${page===total?'disabled':''} onclick="goPage(${page+1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+  pg.innerHTML=h;
+}
+document.getElementById('kwFilter').addEventListener('input',applyFilter);
+document.getElementById('prodFilter').addEventListener('change',applyFilter);
+document.getElementById('indFilter').addEventListener('change',applyFilter);
+const urlTag=new URLSearchParams(location.search).get('tag');
+const urlInd=new URLSearchParams(location.search).get('ind');
+if(urlTag){ document.getElementById('kwFilter').value=urlTag; }
+if(urlInd){ document.getElementById('indFilter').value=urlInd; }
+render();
+if(urlTag||urlInd){ applyFilter(); }
+</script>
+<site-back-to-top></site-back-to-top>
+<script src="site-chrome.js"></script>
+</body>
+</html>

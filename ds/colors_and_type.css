@@ -1,0 +1,352 @@
+/* ────────────────────────────────────────────────────────────────
+   Unixecure Design System — Colors & Type
+   Source: Unixecure Design.fig (智慧資安科技 / Smart Cybersecurity)
+   ─────────────────────────────────────────────────────────────── */
+
+/* ── Brand webfont: Taipei Sans TC ────────────────────────────── */
+@font-face {
+  font-family: "Taipei Sans TC";
+  src: url("fonts/TaipeiSansTCBeta-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Taipei Sans TC";
+  src: url("fonts/Taipei_Sans_TC_Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Alias so 500/600 also resolve to bold (no medium/semibold cut) */
+@font-face {
+  font-family: "Taipei Sans TC";
+  src: url("fonts/Taipei_Sans_TC_Bold.ttf") format("truetype");
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ── Primary (Indigo) ─────────────────────────────────────── */
+  --ux-primary-50:  #f2f4fc;
+  --ux-primary-100: #e1e7f8;
+  --ux-primary-200: #c9d5f4;
+  --ux-primary-300: #a4bbec;
+  --ux-primary-400: #7997e1;
+  --ux-primary-500: #5a75d7;   /* hover fill */
+  --ux-primary-600: #465aca;
+  --ux-primary-700: #3c49ba;   /* BRAND primary (used 300× in file) */
+  --ux-primary-800: #363e97;
+  --ux-primary-900: #303878;
+  --ux-primary-950: #21234a;
+
+  /* ── Secondary (Amber/Gold) ───────────────────────────────── */
+  --ux-secondary-50:  #fffaeb;
+  --ux-secondary-100: #fff2c6;
+  --ux-secondary-200: #ffe288;
+  --ux-secondary-300: #ffcd4a;
+  --ux-secondary-400: #ffb415;   /* BRAND secondary accent */
+  --ux-secondary-500: #f99507;
+  --ux-secondary-600: #dd6e02;
+  --ux-secondary-700: #b74c06;
+  --ux-secondary-800: #94390c;
+  --ux-secondary-900: #7a2f0d;
+  --ux-secondary-950: #461702;
+
+  /* ── Brand diamond red (logo accent) ───────────────────────── */
+  --ux-brand-red: #E1251B;
+
+  /* ── Grayscale (Light Mode) ───────────────────────────────── */
+  --ux-gray-50:  #F8F8F8;
+  --ux-gray-100: #F0F0F0;
+  --ux-gray-200: #DDDDDD;
+  --ux-gray-300: #CCCCCC;
+  --ux-gray-400: #AAAAAA;
+  --ux-gray-500: #999999;
+  --ux-gray-600: #888888;
+  --ux-gray-700: #555555;
+  --ux-gray-800: #333333;   /* body text */
+  --ux-gray-900: #0D0D0D;
+  --ux-white: #FFFFFF;
+  --ux-black: #000000;
+
+  /* ── Dark Mode surfaces / text ────────────────────────────── */
+  --ux-dark-50:  #E1E2E9;
+  --ux-dark-100: #C3C5D4;
+  --ux-dark-200: #A5A8BF;
+  --ux-dark-300: #878BAA;
+  --ux-dark-400: #696E95;
+  --ux-dark-500: #545877;
+  --ux-dark-600: #3F4259;
+  --ux-dark-700: #313345;
+  --ux-dark-800: #232431;   /* main dark surface */
+  --ux-dark-900: #15161D;   /* deepest dark bg */
+
+  /* ── Status / Semantic (5-step scale each) ────────────────── */
+  --ux-success-100: #E7FAD2;
+  --ux-success-300: #A0E375;
+  --ux-success-500: #41A320;   /* 500 = base */
+  --ux-success-700: #1B7510;
+  --ux-success-900: #064E08;
+
+  --ux-info-100: #D3F2FE;
+  --ux-info-300: #7DCDFD;
+  --ux-info-500: #2795FB;
+  --ux-info-700: #1356B4;
+  --ux-info-900: #072A78;
+
+  --ux-warning-100: #FEF3CC;
+  --ux-warning-300: #FECF66;
+  --ux-warning-500: #FC9C02;
+  --ux-warning-700: #B56201;
+  --ux-warning-900: #783700;
+
+  --ux-danger-100: #FDE2D0;
+  --ux-danger-300: #F69074;
+  --ux-danger-500: #E1251B;   /* unifies with brand diamond red */
+  --ux-danger-700: #A20D1E;
+  --ux-danger-900: #6C0522;
+
+  --ux-critical-100: #F5EBFA;
+  --ux-critical-300: #BD95E3;
+  --ux-critical-500: #8449AE;
+  --ux-critical-700: #602C82;
+  --ux-critical-900: #3D1657;
+
+  /* ── Chart palette (for multi-series) ─────────────────────── */
+  --ux-chart-1: #8449AE;
+  --ux-chart-2: #B6449F;
+  --ux-chart-3: #DB4889;
+  --ux-chart-4: #EC5970;
+  --ux-chart-5: #ED7359;
+  --ux-chart-6: #F19549;
+  --ux-chart-7: #FFB415;  /* secondary/400 */
+  --ux-chart-8: #FCE567;
+  --ux-chart-9: #E3ED65;
+  --ux-chart-10: #BDEC74;
+  --ux-chart-11: #51DEA4;
+  --ux-chart-12: #54E5E9;
+  --ux-chart-13: #A7E5FF;
+  --ux-chart-14: #E1E7F8;  /* primary/100 */
+
+  /* Binary (correct/wrong, on/off) */
+  --ux-chart-on:  #3C49BA;   /* primary/700 */
+  --ux-chart-off: #DB4889;
+  /* Binary (neutral past/future) */
+  --ux-chart-future: #FFB415; /* secondary/400 */
+
+  /* ── Semantic tokens (surface / text / border) ─────────────── */
+  --ux-bg:           var(--ux-white);
+  --ux-bg-subtle:    var(--ux-gray-50);
+  --ux-bg-muted:     var(--ux-gray-100);
+
+  --ux-fg:           var(--ux-gray-800);   /* #333 — primary body */
+  --ux-fg-strong:    var(--ux-gray-900);
+  --ux-fg-muted:     var(--ux-gray-400);   /* placeholder, meta */
+  --ux-fg-subtle:    var(--ux-gray-500);
+  --ux-fg-on-brand:  var(--ux-white);
+
+  --ux-border:       var(--ux-gray-200);   /* #DDD — the workhorse border */
+  --ux-border-strong: var(--ux-gray-300);
+  --ux-border-focus: var(--ux-primary-700);
+
+  --ux-link:         var(--ux-primary-700);
+  --ux-link-hover:   var(--ux-primary-500);
+
+  /* ── Shadows ──────────────────────────────────────────────── */
+  --ux-shadow-light: 0 4px 4px 0 rgba(0,0,0,0.25);
+  --ux-shadow-dark:  0 0 10px 0 rgb(9,10,13);
+  --ux-shadow-focus: 0 0 0 3px rgba(90,117,215,0.20); /* brand focus ring */
+  --ux-shadow-card:  0 2px 8px 0 rgba(51,51,51,0.10);
+
+  /* ── Radius ───────────────────────────────────────────────── */
+  --ux-radius-xs: 2px;   /* default (buttons, inputs) */
+  --ux-radius-sm: 4px;
+  --ux-radius-md: 8px;
+  --ux-radius-lg: 12px;
+  --ux-radius-xl: 16px;   /* hard cap — no block element may exceed this */
+  --ux-radius-full: 9999px;
+
+  /* ── Spacing (4-px grid) ──────────────────────────────────── */
+  --ux-space-1:  4px;
+  --ux-space-2:  8px;
+  --ux-space-3:  12px;
+  --ux-space-4:  16px;
+  --ux-space-5:  20px;
+  --ux-space-6:  24px;
+  --ux-space-8:  32px;
+  --ux-space-10: 40px;
+  --ux-space-12: 48px;
+  --ux-space-16: 64px;
+
+  /* ── Motion ───────────────────────────────────────────────── */
+  --ux-duration-fast: 120ms;
+  --ux-duration-base: 200ms;
+  --ux-ease: cubic-bezier(.2,.0,.2,1);
+
+  /* ────────────────────────────────────────────────────────────
+     TYPOGRAPHY
+     Brand TC:     Taipei Sans TC (webfont, Regular 400 + Bold 700)
+     Chinese fallback: PingFang TC → Microsoft JhengHei → Noto Sans TC
+     Latin:        Helvetica Neue / Helvetica / Arial system stack
+     Icons:        Font Awesome 7 Pro (kit fb083deec1)
+     ──────────────────────────────────────────────────────────── */
+  --ux-font-sans:
+    "Taipei Sans TC", "PingFang TC", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Microsoft JhengHei", "Noto Sans TC", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --ux-font-latin:
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ux-font-icon: "Font Awesome 6 Free", "Font Awesome 6 Pro";
+  --ux-font-mono: var(--ux-font-sans);
+
+  --ux-weight-regular: 400;
+  --ux-weight-medium:  500;
+  --ux-weight-semibold: 600;
+  --ux-weight-bold:    700;
+
+  /* Semantic type steps — lifted directly from the Figma scale
+     (70 / 48 / 40 / 36 / 32 / 28 / 24 / 20 / 18 / 16 / 14 / 12) */
+  --ux-text-hero:  70px;
+  --ux-text-h1:    48px;
+  --ux-text-h2:    40px;
+  --ux-text-h3:    36px;
+  --ux-text-h4:    32px;
+  --ux-text-h5:    28px;
+  --ux-text-subheading: 24px;
+  --ux-text-body-lg: 20px;
+  --ux-text-body:    16px;   /* default body */
+  --ux-text-body-sm: 14px;
+  --ux-text-caption: 12px;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Semantic element styles — use directly OR copy patterns into
+   your own components.
+   ────────────────────────────────────────────────────────────── */
+.ux-body, body.ux-body {
+  font-family: var(--ux-font-sans);
+  font-size:   var(--ux-text-body);
+  line-height: 1.6;
+  color: var(--ux-fg);
+  background: var(--ux-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+.ux-h1, h1.ux {
+  font-family: var(--ux-font-sans);
+  font-weight: var(--ux-weight-bold);
+  font-size: var(--ux-text-h1);
+  line-height: 1.2;
+  color: var(--ux-fg-strong);
+  letter-spacing: -0.01em;
+}
+.ux-h2, h2.ux {
+  font-family: var(--ux-font-sans);
+  font-weight: var(--ux-weight-bold);
+  font-size: var(--ux-text-h2);
+  line-height: 1.25;
+  color: var(--ux-fg-strong);
+}
+.ux-h3, h3.ux {
+  font-family: var(--ux-font-sans);
+  font-weight: var(--ux-weight-bold);
+  font-size: var(--ux-text-h3);
+  line-height: 1.3;
+  color: var(--ux-fg);
+}
+.ux-h4, h4.ux {
+  font-family: var(--ux-font-sans);
+  font-weight: var(--ux-weight-bold);
+  font-size: var(--ux-text-h4);
+  line-height: 1.35;
+  color: var(--ux-fg);
+}
+.ux-subheading {
+  font-family: var(--ux-font-sans);
+  font-weight: var(--ux-weight-bold);
+  font-size: var(--ux-text-subheading);
+  line-height: 1.5;
+  color: var(--ux-fg);
+}
+.ux-body-lg {
+  font-size: var(--ux-text-body-lg);
+  line-height: 1.6;
+  color: var(--ux-fg);
+}
+.ux-body-semi {
+  font-weight: var(--ux-weight-semibold);
+  color: var(--ux-fg);
+}
+.ux-caption {
+  font-size: var(--ux-text-caption);
+  line-height: 1.5;
+  color: var(--ux-fg-subtle);
+}
+.ux-mono {
+  font-family: var(--ux-font-mono);
+  font-size: 14px;
+}
+.ux-link {
+  color: var(--ux-link);
+  text-decoration: none;
+  transition: color var(--ux-duration-fast) var(--ux-ease);
+}
+.ux-link:hover { color: var(--ux-link-hover); }
+
+/* ──────────────────────────────────────────────────────────────
+   Dark-mode surface override — apply class on a wrapper
+   ────────────────────────────────────────────────────────────── */
+.ux-dark {
+  /* Primary — Figma "Primary / Dark" scale (brighter blue, not a
+     reuse of the light-mode indigo ramp) */
+  --ux-primary-100: #DCE6FD;
+  --ux-primary-200: #BED0FA;
+  --ux-primary-300: #93B4F8;
+  --ux-primary-400: #6E97F6;
+  --ux-primary-500: #527DF0;
+  --ux-primary-600: #3B62D6;
+  --ux-primary-700: #2A47A8;
+  --ux-primary-800: #1D3178;
+  --ux-primary-900: #131F4D;
+  --ux-primary-950: #0C132E;
+
+  /* Status — Figma "Status / Dark" (Info, Warning, Danger, Critical) */
+  --ux-info-100: #E0F2FE;
+  --ux-info-300: #7DD3FC;
+  --ux-info-500: #38BDF8;
+  --ux-info-700: #1D5987;
+  --ux-info-900: #0C2D48;
+
+  --ux-warning-100: #FEF3C7;
+  --ux-warning-300: #FDE68A;
+  --ux-warning-500: #FBBF24;
+  --ux-warning-700: #8A560B;
+  --ux-warning-900: #3D2605;
+
+  --ux-danger-100: #FEE2E2;
+  --ux-danger-300: #FCA5A5;
+  --ux-danger-500: #EF4444;
+  --ux-danger-700: #7F2318;
+  --ux-danger-900: #42120C;
+
+  --ux-critical-100: #F3E8FF;
+  --ux-critical-300: #D8B4FE;
+  --ux-critical-500: #A855F7;
+  --ux-critical-700: #582075;
+  --ux-critical-900: #2E103E;
+
+  --ux-bg:        var(--ux-dark-900);
+  --ux-bg-subtle: var(--ux-dark-800);
+  --ux-bg-muted:  var(--ux-dark-700);
+  --ux-fg:        var(--ux-dark-100);
+  --ux-fg-strong: #FFFFFF;
+  --ux-fg-muted:  var(--ux-dark-300);
+  --ux-fg-subtle: var(--ux-dark-400);
+  --ux-border:    var(--ux-dark-600);
+  --ux-border-strong: var(--ux-dark-500);
+  --ux-shadow-card: 0 0 10px 0 rgb(9,10,13);
+  background: var(--ux-bg);
+  color: var(--ux-fg);
+}

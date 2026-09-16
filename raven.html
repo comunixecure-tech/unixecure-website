@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="每天都有新的漏洞？RAVEN 提供端點威脅整合、全景可視化管理與風險量化排序。結合 CTEM 與多項指標，協助組織把修補資源用在最關鍵的威脅上。立即了解全方位一站式資安治理平台。" />
+<title>RAVEN 一站式資安治理平台｜全方位資安可視化與風險分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/content-cards.css" />
+<link rel="stylesheet" href="bright/raven.css" />
+<link rel="stylesheet" href="bright/product.css?v=2" />
+<script src="image-slot.js"></script>
+</head>
+<body>
+<site-nav></site-nav>
+
+<!-- ════════════ HERO ════════════ -->
+<header class="raven-hero" id="top">
+  <div class="raven-hero__bg" aria-hidden="true">
+    <div class="raven-hero__grid"></div>
+    <div class="raven-hero__glow"></div>
+    <div class="raven-hero__glow2"></div>
+    <!-- Pentagon deco — gradient fill, matches site visual language -->
+    <svg class="raven-hero__pentagons" viewBox="0 0 1440 760" fill="none" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="rh-pg1" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0%" stop-color="#3C49BA" />
+          <stop offset="100%" stop-color="#DB4889" />
+        </linearGradient>
+        <linearGradient id="rh-pg2" x1="1" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0%" stop-color="#3C49BA" />
+          <stop offset="100%" stop-color="#7B4FDB" />
+        </linearGradient>
+      </defs>
+      <!-- 大型：右上角，半出框 -->
+      <polygon points="1200,-450 1580,-174 1435,274 965,274 820,-174" fill="url(#rh-pg1)" opacity="0.10" />
+      <!-- 中型：右側中段 -->
+      <polygon points="1390,310 1555,440 1490,650 1290,650 1225,440" fill="url(#rh-pg1)" opacity="0.06" />
+      <!-- 小型：左下角，半出框 -->
+      <polygon points="-60,450 170,625 80,910 -220,910 -310,625" fill="url(#rh-pg2)" opacity="0.07" />
+    </svg>
+  </div>
+  <div class="raven-hero__row">
+  <div class="raven-hero__inner">
+    <!-- Left: copy -->
+    <div class="raven-hero__left">
+      <nav class="breadcrumb raven-hero__crumb" aria-label="麵包屑"><a href="index.html">首頁</a><span class="breadcrumb__sep">/</span><a href="#">服務項目</a><span class="breadcrumb__sep">/</span><span class="breadcrumb__current">RAVEN 資安監控維運中心</span></nav>
+      <svg class="raven-hero__logo" viewBox="160 62 1450 390" role="img" aria-label="RAVEN"><use href="#lg-raven"></use></svg>
+      <p class="raven-hero__tag">Monitoring and Operation Center</p>
+      <h1 class="raven-hero__title">資安監控<em>維運中心</em></h1>
+      <p class="raven-hero__lede">曝險可視、精準排序、加速修補。以全方位資安可視化與風險分析，協助組織把修補資源用在最關鍵的威脅上</p>
+      <div class="raven-hero__actions">
+        <a class="raven-hero__cta" href="#contact">預約諮詢 <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="raven-hero__shot" aria-hidden="true">
+    <div class="raven-hero__device">
+      <div class="raven-hero__win">
+        <div class="raven-hero__winbar"><span class="raven-hero__dot raven-hero__dot--r"></span><span class="raven-hero__dot raven-hero__dot--y"></span><span class="raven-hero__dot raven-hero__dot--g"></span><span class="raven-hero__wintitle">RAVEN 資安監控維運中心</span></div>
+        <div class="raven-hero__winscreen"><img src="assets/products/raven-dashboard.png" alt="RAVEN 資安監控維運中心系統畫面" /></div>
+      </div>
+      <div class="raven-hero__phone">
+        <div class="raven-hero__phone-notch"></div>
+        <div class="raven-hero__phone-screen"><img src="assets/products/raven-dashboard.png" alt="RAVEN 行動版畫面" /></div>
+      </div>
+    </div>
+  </div>
+  </div>
+</header>
+<nav class="page-tabs page-tabs--light" aria-label="頁面章節">
+  <div class="wrap">
+    <div class="page-tabs__links">
+    <a class="page-tab is-active" href="#top">產品簡介</a>
+    <a class="page-tab" href="#features">核心功能</a>
+    <a class="page-tab" href="#diff">差異化優勢</a>
+    <a class="page-tab" href="#related">相關資訊</a>
+    </div>
+    <div class="page-tabs__brand"><svg class="page-tabs__brand-logo" viewBox="160 62 1450 390" role="img" aria-label="RAVEN"><use href="#lg-raven"></use></svg><span class="page-tabs__brand-name">RAVEN 資安監控維運中心</span></div>
+  </div>
+</nav>
+
+<!-- ════════════ 痛點 ════════════ -->
+<section class="page-section page-section--white prod-pains" id="pains">
+  <div class="wrap">
+    <h2 class="prod-h2">您正面臨的資安情境</h2>
+    <div class="prod-pains__grid">
+      <div class="prod-pain reveal"><div class="prod-pain__icon"><i class="fa-solid fa-bug"></i></div><h3 class="prod-pain__title">漏洞資訊過載</h3><p class="prod-pain__desc">每天都有新的漏洞與更新資訊，難以快速確認哪些軟體與弱點需要關注</p></div>
+      <div class="prod-pain reveal"><div class="prod-pain__icon"><i class="fa-solid fa-diagram-project"></i></div><h3 class="prod-pain__title">影響範圍不明</h3><p class="prod-pain__desc">難以即時釐清哪些裝置受影響，以及這些裝置屬於哪個單位</p></div>
+      <div class="prod-pain reveal"><div class="prod-pain__icon"><i class="fa-solid fa-list-ol"></i></div><h3 class="prod-pain__title">修補資源有限</h3><p class="prod-pain__desc">修補資源有限，難以判斷哪些弱點應該優先修補與如何落地執行</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 關鍵數據 ════════════ -->
+<section class="page-section page-section--tint prod-stats">
+  <div class="wrap">
+    <h2 class="prod-h2">結合多項指標，聚焦真正該修補的威脅</h2>
+    <div class="prod-stats__grid">
+      <div class="prod-stat reveal"><div class="prod-stat__num" style="font-size:32px">CVSS / EPSS / KEV</div><p class="prod-stat__label">結合多項指標建立弱點修補優先順序</p></div>
+      <div class="prod-stat reveal"><div class="prod-stat__num" style="font-size:32px">VANS</div><p class="prod-stat__label">AI 智慧對應引擎，自動化完成 CPE 對應與合規資料輸出</p></div>
+    </div>
+    <p class="prod-stats__src">資料來源：產品功能</p>
+  </div>
+</section>
+
+<!-- ════════════ 核心功能 ════════════ -->
+<section class="prod-features" id="features">
+  <div class="prod-features__deco" aria-hidden="true"></div>
+  <div class="prod-features__pin-track">
+  <div class="prod-features__pin-inner">
+  <div class="wrap">
+    <h2 class="prod-h2">RAVEN 核心功能</h2>
+    <div class="prod-features__split">
+    <div class="prod-acc__card">
+    <div class="prod-acc">
+      <div class="prod-acc__item is-active" data-shot="assets/products/raven-dashboard.png">
+        <button class="prod-acc__row" aria-expanded="true"><i class="fa-solid fa-star prod-acc__icon"></i><span class="prod-acc__title">端點威脅整合</span><i class="fa-solid fa-chevron-down prod-acc__chev"></i></button>
+        <div class="prod-acc__panel"><p class="prod-acc__desc">整合 Palo Alto XDR 告警與資產資訊</p></div>
+      </div>
+      <div class="prod-acc__item" data-shot="uploads/fake_images-1787645679024-cwvm.avif">
+        <button class="prod-acc__row" aria-expanded="false"><i class="fa-solid fa-star prod-acc__icon"></i><span class="prod-acc__title">全景可視化管理</span><i class="fa-solid fa-chevron-down prod-acc__chev"></i></button>
+        <div class="prod-acc__panel"><p class="prod-acc__desc">提供警示、裝置、弱點、風險、VANS 等儀表板</p></div>
+      </div>
+      <div class="prod-acc__item" data-shot="assets/products/raven-dashboard.png">
+        <button class="prod-acc__row" aria-expanded="false"><i class="fa-solid fa-star prod-acc__icon"></i><span class="prod-acc__title">風險量化與優先排序</span><i class="fa-solid fa-chevron-down prod-acc__chev"></i></button>
+        <div class="prod-acc__panel"><p class="prod-acc__desc">結合 CTEM 與多項指標，快速聚焦高風險目標</p></div>
+      </div>
+      <div class="prod-acc__item" data-shot="uploads/fake_images-1787645679037-yldr.avif">
+        <button class="prod-acc__row" aria-expanded="false"><i class="fa-solid fa-star prod-acc__icon"></i><span class="prod-acc__title">資產與軟體治理</span><i class="fa-solid fa-chevron-down prod-acc__chev"></i></button>
+        <div class="prod-acc__panel"><p class="prod-acc__desc">掌握全組織與單位層級的裝置、軟體、弱點關聯</p></div>
+      </div>
+      <div class="prod-acc__item" data-shot="uploads/fake_images-1787645679046-h7jc.avif">
+        <button class="prod-acc__row" aria-expanded="false"><i class="fa-solid fa-star prod-acc__icon"></i><span class="prod-acc__title">事件通報與合規報告</span><i class="fa-solid fa-chevron-down prod-acc__chev"></i></button>
+        <div class="prod-acc__panel"><p class="prod-acc__desc">支援通報單管理，可產製月報與資產更新清冊</p></div>
+      </div>
+    </div>
+    </div>
+    <div class="prod-features__shotcol">
+      <figure class="prod-feat-shot" style="margin:0">
+        <img src="assets/products/raven-dashboard.png" alt="RAVEN 功能畫面" />
+      </figure>
+      <p class="prod-feat-shot__cap">端點威脅整合</p>
+    </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+
+<!-- ════════════ 差異化優勢 ════════════ -->
+<section class="page-section page-section--dark prod-diff" id="diff">
+  <div class="wrap">
+    <h2 class="prod-h2">為什麼選擇 RAVEN</h2>
+    <div class="prod-diff__list">
+      <div class="prod-diff__row reveal"><div class="prod-diff__num">01</div><div><h3 class="prod-diff__title">全方位資安治理平台</h3><p class="prod-diff__desc">超越單純弱點掃描，串聯資產盤點、風險分析、通報管理及修補排序的全方位治理平台</p></div></div>
+      <div class="prod-diff__row reveal"><div class="prod-diff__num">02</div><div><h3 class="prod-diff__title">AI 自動化降低人工成本</h3><p class="prod-diff__desc">針對資產盤點與弱點管理提供自動化流程，透過 AI 引擎完成 CPE 對應，降低人工彙整成本</p></div></div>
+    </div>
+    <div class="prod-diff__proof-label">法規合規對應</div>
+    <div class="prod-table-wrap reveal">
+      <table class="prod-table">
+        <thead><tr><th>法規名稱</th><th>對應要求</th><th>RAVEN 如何滿足</th></tr></thead>
+        <tbody>
+          <tr><td>VANS 合規治理</td><td>資產盤點與弱點管理自動化</td><td>針對資產盤點與弱點管理提供自動化流程，協助完成 CPE 對應與合規資料輸出，提升通報效率與資料準確度</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ 相關資訊（新聞/活動/影片，CMS 依產品標籤混合抓取，無資料則整段不顯示）════════════ -->
+<section class="page-section page-section--tint prod-related" id="related" style="position:relative;overflow:hidden">
+  <div class="prod-related__dots" aria-hidden="true"></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="prod-related__head">
+      <h2 class="prod-h2">相關資訊</h2>
+      
+    </div>
+    <div class="prod-related__grid" id="relatedGrid">
+      <a class="prod-related__card card-hover reveal" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-06.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--news">新聞</span>
+          <h3 class="prod-related__title">政府機關資安治理新規範上路，弱點修補時效成關鍵指標</h3>
+          <span class="prod-related__date">2026 / 06 / 12</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-07.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--event">活動</span>
+          <h3 class="prod-related__title">資安風險量化實戰工作坊：從弱點盤點到修補優先排序</h3>
+          <span class="prod-related__date">2026 / 07 / 03</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-11.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--video">影片</span>
+          <h3 class="prod-related__title">3 分鐘看懂 RAVEN 如何整合 CVSS / EPSS / KEV</h3>
+          <span class="prod-related__date">2026 / 05 / 20</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal" href="https://example-group.com/case/xxx" target="_blank" rel="noopener">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-12.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--link">相關連結</span>
+          <h3 class="prod-related__title">集團導入 RAVEN 資安監控維運中心紀實</h3>
+          <span class="prod-related__date"></span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-10.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--case">成功案例</span>
+          <h3 class="prod-related__title">某中央機關導入 RAVEN，弱點修補效率提升近半</h3>
+          <span class="prod-related__date">2026 / 04 / 28</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-13.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--event">活動</span>
+          <h3 class="prod-related__title">政府機關資安法規遵循座談會</h3>
+          <span class="prod-related__date">2026 / 03 / 08</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-03.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--video">影片</span>
+          <h3 class="prod-related__title">RAVEN 弱點風險評分機制解析</h3>
+          <span class="prod-related__date">2026 / 02 / 14</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-01.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--news">新聞</span>
+          <h3 class="prod-related__title">資安治理與 KEV 弱點應變新趨勢</h3>
+          <span class="prod-related__date">2026 / 01 / 30</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-04.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--news">新聞</span>
+          <h3 class="prod-related__title">弱點修補優先排序：從 CVSS 到 EPSS 的轉型</h3>
+          <span class="prod-related__date">2025 / 12 / 18</span>
+        </div>
+      </a>
+      <a class="prod-related__card card-hover reveal is-hidden" href="#">
+        <div class="prod-related__thumb"><img src="assets/placeholder/ph-08.avif" alt="" /></div>
+        <div class="prod-related__body">
+          <span class="prod-related__tag prod-related__tag--event">活動</span>
+          <h3 class="prod-related__title">資安長交流論壇：監控維運委外實務</h3>
+          <span class="prod-related__date">2025 / 11 / 25</span>
+        </div>
+      </a>
+    </div>
+    <div class="prod-related__foot"><button class="btn btn--ghost prod-related__more" type="button" id="relatedMore">查看更多 <i class="fa-solid fa-chevron-down"></i></button></div>
+  </div>
+</section>
+
+<!-- ════════════ CONTACT CTA ════════════ -->
+<site-cta title-pre="想了解 RAVEN 如何協助您？" title-amber="預約專人諮詢" sub="留下您的需求，資安顧問將於一個工作天內與您聯繫，協助評估最適合的監控維運方案" btn-label="預約諮詢"></site-cta>
+
+<!-- ════════════ FOOTER ════════════ -->
+<site-footer></site-footer>
+
+<script>
+
+
+
+
+// 相關資訊「查看更多」：同區塊展開／收起，數量由 CMS 決定，不限 8 則
+(() => {
+  const btn = document.getElementById('relatedMore');
+  const grid = document.getElementById('relatedGrid');
+  if (!btn || !grid) return;
+  const hiddenCards = [...grid.querySelectorAll('.prod-related__card.is-hidden')];
+  if (!hiddenCards.length) { btn.style.display = 'none'; return; }
+  let expanded = false;
+  btn.addEventListener('click', () => {
+    expanded = !expanded;
+    hiddenCards.forEach(c => { c.classList.toggle('is-hidden', !expanded); if (expanded) { c.style.opacity = 1; c.style.transform = 'translateY(0)'; } });
+    btn.innerHTML = expanded ? '收起 <i class="fa-solid fa-chevron-up"></i>' : '查看更多 <i class="fa-solid fa-chevron-down"></i>';
+  });
+})();
+
+
+(() => {
+  document.querySelectorAll('.prod-acc').forEach(acc => {
+  const items = Array.from(acc.querySelectorAll('.prod-acc__item'));
+  const wrap = acc.closest('.prod-features__split');
+  const shot = wrap && wrap.querySelector('.prod-feat-shot');
+  const img = shot && shot.querySelector('img');
+  const cap = wrap && wrap.querySelector('.prod-feat-shot__cap');
+  function activate(item) {
+    const row = item.querySelector('.prod-acc__row');
+    items.forEach(i => { i.classList.remove('is-active'); i.querySelector('.prod-acc__row').setAttribute('aria-expanded', 'false'); });
+    item.classList.add('is-active'); row.setAttribute('aria-expanded', 'true');
+    if (cap) cap.textContent = row.querySelector('.prod-acc__title').textContent;
+    const src = item.dataset.shot;
+    if (src && img && img.getAttribute('src') !== src) {
+      shot.classList.add('is-fading');
+      setTimeout(() => {
+        img.src = src;
+        img.onload = () => shot.classList.remove('is-fading');
+        if (img.complete) shot.classList.remove('is-fading');
+      }, 200);
+    }
+  }
+  items.forEach(item => {
+    const row = item.querySelector('.prod-acc__row');
+    row.addEventListener('click', () => {
+      if (!item.classList.contains('is-active')) activate(item);
+    });
+  });
+
+  const track = document.querySelector('.prod-features__pin-track');
+  if (!track) return;
+  let ticking = false;
+  function updateByScroll() {
+    ticking = false;
+    if (window.innerWidth <= 860) return;
+    const rect = track.getBoundingClientRect();
+    const total = rect.height - window.innerHeight;
+    if (total <= 0) return;
+    const scrolled = Math.min(Math.max(-rect.top, 0), total);
+    const progress = scrolled / total;
+    const idx = Math.min(items.length - 1, Math.floor(progress * items.length));
+    if (!items[idx].classList.contains('is-active')) activate(items[idx]);
+  }
+  window.addEventListener('scroll', () => { if (!ticking) { requestAnimationFrame(updateByScroll); ticking = true; } }, { passive: true });
+  window.addEventListener('resize', updateByScroll);
+  updateByScroll();
+  });
+})();
+
+
+(() => {
+  const nums = document.querySelectorAll('.prod-stat__num');
+  if (!nums.length) return;
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function mainTextNode(el) { return Array.from(el.childNodes).find(n => n.nodeType === 3 && n.textContent.trim().length); }
+  function animate(el) {
+    const node = mainTextNode(el);
+    if (!node) return;
+    const raw = node.textContent.trim();
+    if (reduced) { node.textContent = raw; return; }
+    const isNumeric = /^[\d,]+(\.\d+)?$/.test(raw);
+    const start = performance.now();
+    if (isNumeric) {
+      const num = parseFloat(raw.replace(/,/g, ''));
+      const decimals = (raw.split('.')[1] || '').length;
+      const hasComma = raw.includes(',');
+      const duration = 1200;
+      (function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = num * eased;
+        let text = decimals ? val.toFixed(decimals) : Math.round(val).toString();
+        if (hasComma) text = Number(text).toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        node.textContent = text;
+        if (p < 1) requestAnimationFrame(tick); else node.textContent = raw;
+      })(start);
+    } else {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const duration = 700;
+      (function tick(now) {
+        const p = Math.min((now - start) / duration, 1);
+        let out = '';
+        for (let i = 0; i < raw.length; i++) {
+          const ch = raw[i];
+          if (ch === ' ' || ch === '/' || ch === '.') { out += ch; continue; }
+          out += (p > 0.7 && Math.random() < (p - 0.7) / 0.3) ? ch : chars[Math.floor(Math.random() * chars.length)];
+        }
+        node.textContent = out;
+        if (p < 1) requestAnimationFrame(tick); else node.textContent = raw;
+      })(start);
+    }
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { io.unobserve(entry.target); animate(entry.target); }
+    });
+  }, { threshold: 0.4 });
+  nums.forEach(el => io.observe(el));
+})();
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.raven-stat, .raven-feat-card, .raven-arch__layer, .raven-rel-card, .ux-video-card, .ux-case-card, .ux-news-card, .ux-event-card, .reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = 1; e.target.style.transform = 'translateY(0)'; } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => {
+  el.style.opacity = 0;
+  el.style.transform = 'translateY(18px)';
+  el.style.transition = 'opacity .5s var(--b-ease), transform .5s var(--b-ease)';
+  observer.observe(el);
+});
+</script>
+<site-back-to-top></site-back-to-top>
+  <script src="site-chrome.js"></script>
+<script>(function(){var nav=document.querySelector('.page-tabs');if(!nav)return;function onScroll(){nav.classList.toggle('is-stuck',nav.getBoundingClientRect().top<=72);}onScroll();window.addEventListener('scroll',onScroll,{passive:true});var tabs=document.querySelectorAll('.page-tab');tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){x.classList.remove('is-active');});t.classList.add('is-active');});});var sections=Array.from(tabs).map(function(t){return document.querySelector(t.getAttribute('href'));}).filter(Boolean);var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){tabs.forEach(function(t){t.classList.remove('is-active');});var a=document.querySelector('.page-tab[href="#'+e.target.id+'"]');if(a)a.classList.add('is-active');}});},{rootMargin:'-140px 0px -50% 0px',threshold:0});sections.forEach(function(s){io.observe(s);});})();</script>
+</body>
+</html>

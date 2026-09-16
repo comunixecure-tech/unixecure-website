@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Claroty 112年第一次電腦軟體共同供應契約採購 · uniXecure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<style>
+/* ── Page background ────────────────────────── */
+.detail-page { background: var(--b-bg-wash); min-height: 100vh; }
+[data-theme="dark"] .detail-page { background: oklch(12% 0.04 266); }
+
+/* ── Hex deco (absolute, behind content) ─────── */
+.detail-deco {
+  position: fixed; inset: 0; pointer-events: none;
+  overflow: hidden; z-index: 0;
+}
+
+/* ── Page title ──────────────────────────────────────────────────────── */
+/* ── Page title ─────────────────────────────── */
+.detail-title {
+  font-size: clamp(20px, 3vw, 28px); font-weight: 700;
+  color: var(--b-ink); line-height: 1.35; letter-spacing: -0.015em;
+  margin: 16px 0 32px; position: relative; z-index: 1;
+}
+
+/* ── Info box ───────────────────────────────── */
+.info-box {
+  background: rgba(255,255,255,0.7);
+  border: none;
+  border-radius: 10px;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  padding: 0;
+  overflow: hidden;
+  box-shadow: var(--b-shadow-sm);
+  margin-bottom: 20px;
+  position: relative; z-index: 1;
+}
+.info-row {
+  display: flex; align-items: center;
+  padding: 14px 20px; gap: 16px;
+  font-size: 14px;
+}
+.info-row + .info-row { border-top: 1px solid var(--b-line); }
+.info-row__label {
+  font-weight: 700; color: var(--b-indigo);
+  min-width: 100px; flex-shrink: 0; font-size: 14px;
+}
+.info-row__value { color: var(--b-ink); font-weight: 600; }
+.info-row__value--meta { color: var(--b-ink-3); font-weight: 400; }
+
+/* ── Data table ─────────────────────────────── */
+.data-table-wrap {
+  background: rgba(255,255,255,0.7);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--b-shadow-sm);
+  overflow: hidden;
+  margin-bottom: 28px;
+  position: relative; z-index: 1;
+}
+.data-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+}
+.data-table thead tr {
+  background: #f8f8f8; border-bottom: 1px solid var(--b-line);
+}
+[data-theme="dark"] .data-table thead tr { background: #1a1d2e; }
+.data-table th {
+  text-align: left; font-size: 14px; font-weight: 700;
+  color: var(--b-ink-3); padding: 12px 16px; white-space: nowrap;
+}
+.data-table th.right { text-align: right; }
+.data-table td { padding: 10px 16px; color: var(--b-ink-2); border-bottom: 1px solid #eee; }
+[data-theme="dark"] .data-table td { border-color: #2a2d42; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover td { background: var(--b-indigo-50); }
+[data-theme="dark"] .data-table tbody tr:hover td { background: rgba(60,73,186,.08); }
+.data-table td.num { font-family: var(--ux-font-mono); color: var(--b-ink-3); text-align: center; }
+.data-table td.brand { font-weight: 600; color: var(--b-indigo); }
+.data-table td.price { font-family: var(--ux-font-mono); font-weight: 700; color: var(--b-ink); text-align: right; }
+.data-table td.range { font-family: var(--ux-font-mono); font-size: 12px; color: var(--b-ink-3); white-space: nowrap; }
+@media (max-width: 760px) {
+  .data-table th.hide-m, .data-table td.hide-m { display: none; }
+}
+
+/* ── Actions bar ────────────────────────────── */
+.actions-bar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; margin-bottom: 56px;
+  position: relative; z-index: 1;
+}
+.btn-dl {
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 48px; padding: 0 28px; border-radius: 8px;
+  background: var(--b-btn-primary-bg); color: #fff;
+  font: inherit; font-size: 16px; font-weight: 700; border: none; cursor: pointer;
+  text-decoration: none;
+  transition: background .15s, transform .15s;
+}
+.btn-dl:hover { background: var(--b-btn-primary-hover); transform: translateY(-2px); }
+.btn-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 48px; padding: 0 22px; border-radius: 8px;
+  border: 1px solid var(--b-line); color: var(--b-ink-2);
+  font: inherit; font-size: 16px; font-weight: 600;
+  text-decoration: none; transition: border-color .15s, color .15s;
+}
+.btn-back:hover { color: var(--b-indigo); }
+
+/* ── More contracts ─────────────────────────── */
+.more-sec { padding: 48px 0 0; position: relative; z-index: 1; }
+.more-sec__title {
+  font-size: 18px; font-weight: 700; color: var(--b-ink-3);
+  text-align: center; margin-bottom: 24px; letter-spacing: -.01em;
+}
+.more-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+@media (max-width: 720px) { .more-grid { grid-template-columns: 1fr; } }
+.more-card {
+  background: rgba(255,255,255,0.75); border: none;
+  border-radius: 10px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: none; padding: 20px;
+  display: flex; flex-direction: column; gap: 6px;
+  text-decoration: none; color: inherit;
+  transition: transform .25s var(--b-ease), box-shadow .25s var(--b-ease);
+  position: relative; overflow: hidden;
+}
+.more-card::before {
+  content: none !important; display: none !important;
+  transition: transform .3s var(--b-ease-out);
+}
+.more-card:hover { transform: translateY(-3px); box-shadow: var(--b-shadow); }
+.more-card__brand { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--b-indigo); }
+.more-card__title { font-size: 14px; font-weight: 700; color: var(--b-indigo); line-height: 1.5; }
+.more-card__no { font-size: 12px; color: var(--b-ink-4); font-family: var(--ux-font-mono); }
+
+/* dark overrides */
+[data-theme="dark"] .info-box,
+[data-theme="dark"] .data-table-wrap,
+[data-theme="dark"] .more-card { background: rgba(24,26,44,0.88); border-color: transparent; }
+
+/* ── Detail content wrapper ─────────────────── */
+.detail-content { padding: 0 0 80px; position: relative; z-index: 1; }
+</style>
+</head>
+<body class="detail-page">
+  <site-nav active="contract"></site-nav>
+
+<!-- ════════════ CONTENT ════════════ -->
+<div class="detail-content">
+  <div class="wrap">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="麵包屑">
+      <a href="index.html"><i class="fa-solid fa-house" style="font-size:12px"></i></a>
+      <span class="breadcrumb__sep">/</span>
+      <a href="contract.html">共同供應契約</a>
+      <span class="breadcrumb__sep">/</span>
+      <span class="breadcrumb__current">Claroty 112年第一次電腦軟體共同供應契約採購（1120201）</span>
+    </nav>
+
+    <!-- Title -->
+    <h1 class="detail-title">Claroty 112年第一次電腦軟體共同供應契約採購（1120201）</h1>
+
+    <!-- Info box -->
+    <div class="info-box">
+      <div class="info-row">
+        <span class="info-row__label">契約編號</span>
+        <span class="info-row__value">1120201</span>
+      </div>
+      <div class="info-row">
+        <span class="info-row__label">契約起始日期</span>
+        <span class="info-row__value">112 / 04 / 30</span>
+      </div>
+      <div class="info-row">
+        <span class="info-row__label">契約終止日期</span>
+        <span class="info-row__value">113 / 04 / 29</span>
+      </div>
+    </div>
+
+    <!-- Data table -->
+    <div class="data-table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width:52px;text-align:center">項次</th>
+            <th style="width:88px">廠牌</th>
+            <th>品項</th>
+            <th style="width:80px">級距</th>
+            <th style="width:130px" class="right">決標價（NT$）</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="num">86</td><td class="brand">Claroty</td><td>Claroty CTD Sensor 持續威脅偵測感應器 一年期授權</td><td class="range">1–70</td><td class="price">161,323</td></tr>
+          <tr><td class="num">87</td><td class="brand">Claroty</td><td>Claroty CTD 持續威脅偵測軟體 — VersionDog Connector 模組 一年期授權</td><td class="range">1–50</td><td class="price">578,429</td></tr>
+          <tr><td class="num">88</td><td class="brand">Claroty</td><td>Claroty CTD 持續威脅偵測軟體（50 asset）</td><td class="range">1–15</td><td class="price">1,851,165</td></tr>
+          <tr><td class="num">89</td><td class="brand">Claroty</td><td>Claroty CTD 持續威脅偵測軟體（50 asset）一年期授權</td><td class="range">2–50</td><td class="price">551,163</td></tr>
+          <tr><td class="num">90</td><td class="brand">Claroty</td><td>Claroty CTD 持續威脅偵測軟體 Add On Active One Size 模組 一年期授權</td><td class="range">1–50</td><td class="price">578,429</td></tr>
+          <tr><td class="num">91</td><td class="brand">Claroty</td><td>Claroty CTD 持續威脅偵測軟體 Add On AppDB One Size 模組 一年期授權</td><td class="range">1–50</td><td class="price">578,429</td></tr>
+          <tr><td class="num">92</td><td class="brand">Claroty</td><td>Claroty CTD 持續威脅偵測軟體 FactoryTalk AssetCentre 模組 一年期授權</td><td class="range">1–50</td><td class="price">863,367</td></tr>
+          <tr><td class="num">93</td><td class="brand">Claroty</td><td>Claroty CTD.Live Starter 持續威脅偵測雲端平台 一年期授權</td><td class="range">1–10</td><td class="price">2,778,283</td></tr>
+          <tr><td class="num">94</td><td class="brand">Claroty</td><td>Claroty EDGE 邊緣資料收集器（50 asset）</td><td class="range">1–15</td><td class="price">1,851,165</td></tr>
+          <tr><td class="num">95</td><td class="brand">Claroty</td><td>Claroty EDGE 邊緣資料收集器（50 asset）一年期授權</td><td class="range">2–50</td><td class="price">551,163</td></tr>
+          <tr><td class="num">96</td><td class="brand">Claroty</td><td>Claroty EMC 企業管理主控台 一年期授權</td><td class="range">1–10</td><td class="price">2,778,283</td></tr>
+          <tr><td class="num">97</td><td class="brand">Claroty</td><td>Claroty Healthcare 醫療設備安全管理平台（50 asset）</td><td class="range">1–20</td><td class="price">2,183,013</td></tr>
+          <tr><td class="num">98</td><td class="brand">Claroty</td><td>Claroty Healthcare 醫療設備安全管理平台（50 asset）一年期授權</td><td class="range">2–50</td><td class="price">436,603</td></tr>
+          <tr><td class="num">99</td><td class="brand">Claroty</td><td>Claroty SRA 安全遠端存取伺服器模組 一年期授權</td><td class="range">1–50</td><td class="price">920,425</td></tr>
+          <tr><td class="num">100</td><td class="brand">Claroty</td><td>Claroty SRA 安全遠端存取站點模組 一年期授權</td><td class="range">1–50</td><td class="price">551,112</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-bar">
+      <a class="btn-dl" href="#"><i class="fa-solid fa-file-arrow-down"></i> 檔案下載</a>
+      <a class="btn-back" href="contract.html"><i class="fa-solid fa-chevron-left"></i> 返回列表</a>
+    </div>
+
+    <!-- More contracts -->
+    <div class="more-sec">
+      <div class="more-sec__title">更多契約</div>
+      <div class="more-grid">
+        <a class="more-card" href="contract-detail.html">
+          <span class="more-card__brand">OPSWAT</span>
+          <div class="more-card__title">OPSWAT 112年第四次電腦軟體共同供應契約採購</div>
+          <div class="more-card__no">1120401 · 113/06/01 – 114/05/31</div>
+        </a>
+        <a class="more-card" href="contract-detail.html">
+          <span class="more-card__brand">Claroty</span>
+          <div class="more-card__title">Claroty 112年第二次電腦軟體共同供應契約採購</div>
+          <div class="more-card__no">1120202 · 112/09/01 – 113/08/31</div>
+        </a>
+        <a class="more-card" href="contract-detail.html">
+          <span class="more-card__brand">OPSWAT</span>
+          <div class="more-card__title">OPSWAT 113年第一次電腦軟體共同供應契約採購</div>
+          <div class="more-card__no">1130102 · 113/08/01 – 114/07/31</div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════ CTA ════════════ -->
+<site-cta></site-cta>
+
+<!-- ════════════ FOOTER ════════════ -->
+<site-footer></site-footer>
+
+<script>
+
+
+
+</script>
+<site-back-to-top></site-back-to-top>
+  <script src="site-chrome.js"></script>
+</body>
+</html>

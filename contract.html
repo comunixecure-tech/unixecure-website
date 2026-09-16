@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>共同供應契約 · uniXecure 智慧資安科技</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+<script>
+  (function () {
+    try {
+      var k = 'ux-theme';
+      var saved = localStorage.getItem(k);
+      var dark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved || (dark ? 'dark' : 'light'));
+    } catch (e) {}
+  })();
+</script>
+<link rel="stylesheet" href="ds/colors_and_type.css" />
+<link rel="stylesheet" href="bright/bright.css" />
+<link rel="stylesheet" href="bright/sections.css" />
+<link rel="stylesheet" href="bright/back-to-top.css" />
+<link rel="stylesheet" href="bright/list-page.css" />
+<script src="bright/custom-select.js" defer></script>
+<style>
+/* ── Hero ───────────────────────────────────────── */
+.contract-hero__deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+/* ── Card ───────────────────────────────────────── */
+.c-card {
+  background: rgba(255,255,255,0.88);
+  border: none;
+  border-radius: 10px;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  box-shadow: none;
+  padding: 22px 22px 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  position: relative; overflow: hidden;
+  transition: transform .28s var(--b-ease), box-shadow .28s var(--b-ease);
+  text-decoration: none; color: inherit;
+}
+.c-card::before { content: none !important; display: none !important; }
+.c-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px -4px rgba(60,73,186,.18); background: rgba(255,255,255,.98); }
+.c-card__title {
+  font-size: 16px; font-weight: 700; color: var(--b-ink);
+  line-height: 1.55; flex: 1; margin-top: 2px;
+}
+.c-card__meta { display: flex; flex-direction: column; gap: 4px; margin-top: 4px; }
+.c-card__row { display: flex; align-items: baseline; gap: 6px; font-size: 14px; color: var(--b-ink-3); }
+.c-card__row strong { color: var(--b-ink-4); font-weight: 500; min-width: 64px; flex-shrink: 0; }
+.c-card__dl {
+  font-size: 14px; font-weight: 600; color: var(--b-indigo);
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 10px; padding: 8px 14px; width: fit-content;
+  border: 1px solid var(--b-indigo-100); border-radius: 8px;
+  text-decoration: none; transition: background .2s, gap .2s;
+}
+.c-card__dl:hover { background: var(--b-indigo-50); gap: 10px; }
+[data-theme="dark"] .c-card__dl { border-color: rgba(255,255,255,.16); }
+[data-theme="dark"] .c-card__dl:hover { background: rgba(255,255,255,.06); }
+
+/* ── Dark overrides ─────────────────────────────── */
+[data-theme="dark"] .c-card { background:rgba(24,26,44,0.9); border:none; }
+</style>
+</head>
+<body>
+<site-nav active="contract"></site-nav>
+
+<!-- ════════════ HERO ════════════ -->
+<header class="contract-hero page-hero page-hero--list">
+  <div class="contract-hero__deco" aria-hidden="true">
+    <svg width="420" height="420" viewBox="0 0 468 468" fill="none" style="position:absolute;right:-60px;top:-80px;opacity:.13;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#hga)" />
+      <defs><linearGradient id="hga" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#3C49BA" /><stop offset="1" stop-color="#DB4889" /></linearGradient></defs>
+    </svg>
+    <svg width="260" height="260" viewBox="0 0 468 468" fill="none" style="position:absolute;left:-40px;bottom:-30px;opacity:.07;">
+      <path d="M234 0L436.65 117V351L234 468L31.35 351V117L234 0Z" fill="url(#hgb)" />
+      <defs><linearGradient id="hgb" x1="0" y1="0" x2="468" y2="468" gradientUnits="userSpaceOnUse"><stop stop-color="#3C49BA" /><stop offset="1" stop-color="#DB4889" /></linearGradient></defs>
+    </svg>
+  </div>
+  <div class="wrap">
+    <div class="page-hero__titlerow">
+      <h1 class="page-hero__title">共同<em>供應契約</em></h1>
+      <span class="page-hero__count" id="resultCount"></span>
+    </div>
+    <p class="page-hero__sub">uniXecure 通過政府採購電子交易系統認證，提供公部門便捷、合規的採購管道，所有項目均依政府採購法辦理。</p>
+    <div class="filter-bar">
+      <div class="filter-bar__row">
+      <div class="filter-bar__select-wrap">
+        <select class="filter-bar__select" id="yearFilter">
+          <option value="">所有年度</option>
+          <option value="112">112 年</option>
+          <option value="113">113 年</option>
+          <option value="114">114 年</option>
+        </select>
+        <i class="fa-solid fa-chevron-down filter-bar__select-icon"></i>
+      </div>
+      <div class="ux-search">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="kwFilter" placeholder="關鍵字搜尋" />
+      </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════ MAIN ════════════ -->
+<section class="list-main">
+  <div class="wrap">
+    <div class="lc-grid lc-grid--3" id="contractGrid"></div>
+    <div class="c-pagination" id="pagination"></div>
+  </div>
+</section>
+
+<!-- ════════════ CTA ════════════ -->
+<site-cta></site-cta>
+
+<!-- ════════════ FOOTER ════════════ -->
+<site-footer></site-footer>
+
+<script>
+/* ── Contract data ─────────────────────────────── */
+const contracts = [
+  { brand:'Claroty', title:'Claroty 112年第一次電腦軟體共同供應契約採購', no:'1120201', start:'112/04/30', end:'113/04/29' },
+  { brand:'Claroty', title:'Claroty 112年第二次電腦軟體共同供應契約採購', no:'1120202', start:'112/09/01', end:'113/08/31' },
+  { brand:'Claroty', title:'Claroty 112年第三次電腦軟體共同供應契約採購', no:'1120203', start:'113/01/15', end:'114/01/14' },
+  { brand:'Claroty', title:'Claroty 113年第一次電腦軟體共同供應契約採購', no:'1130101', start:'113/04/30', end:'114/04/29' },
+  { brand:'Claroty', title:'Claroty 113年第二次電腦軟體共同供應契約採購', no:'1130201', start:'113/09/01', end:'114/08/31' },
+  { brand:'Claroty', title:'Claroty 113年第三次電腦軟體共同供應契約採購', no:'1130301', start:'114/01/01', end:'114/12/31' },
+  { brand:'OPSWAT', title:'OPSWAT 112年第四次電腦軟體共同供應契約採購', no:'1120401', start:'113/06/01', end:'114/05/31' },
+  { brand:'OPSWAT', title:'OPSWAT 113年第一次電腦軟體共同供應契約採購', no:'1130102', start:'113/08/01', end:'114/07/31' },
+  { brand:'OPSWAT', title:'OPSWAT 113年第二次電腦軟體共同供應契約採購', no:'1130202', start:'113/10/15', end:'114/10/14' },
+  { brand:'OPSWAT', title:'OPSWAT 113年第三次電腦軟體共同供應契約採購', no:'1130302', start:'114/01/15', end:'114/12/31' },
+  { brand:'Claroty', title:'Claroty 114年第一次電腦軟體共同供應契約採購', no:'1140101', start:'114/04/01', end:'115/03/31' },
+  { brand:'OPSWAT', title:'OPSWAT 114年第一次電腦軟體共同供應契約採購', no:'1140102', start:'114/05/01', end:'115/04/30' },
+  { brand:'RAVEN', title:'RAVEN 資安監控維運中心共同供應契約採購', no:'1140201', start:'114/06/01', end:'115/05/31' },
+  { brand:'HEIS', title:'HEIS 資安意識人因分析系統共同供應契約採購', no:'1140202', start:'114/06/15', end:'115/06/14' },
+  { brand:'SRMAS', title:'SRMAS 系統資源監控暨告警系統共同供應契約採購', no:'1140203', start:'114/07/01', end:'115/06/30' },
+  { brand:'LUCAS', title:'LUCAS 跡證保存系統共同供應契約採購', no:'1140204', start:'114/07/15', end:'115/07/14' },
+];
+
+const PER_PAGE = 9;
+let filtered = [...contracts];
+let page = 1;
+
+function applyFilter() {
+  const year = document.getElementById('yearFilter').value;
+  const kw = document.getElementById('kwFilter').value.trim().toLowerCase();
+  const active = !!(year||kw);
+  filtered = contracts.filter(c => {
+    const okYear = !year || c.no.slice(0,3) === year;
+    const okKw = !kw || c.title.toLowerCase().includes(kw) || c.no.includes(kw) || c.brand.toLowerCase().includes(kw);
+    return okYear && okKw;
+  });
+  page = 1;
+  render(active);
+}
+
+let lastActive = false;
+function goPage(n) {
+  page = n;
+  render(lastActive);
+  const top = document.querySelector('.list-main').offsetTop - 88;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+function render(isFiltered) {
+  lastActive = !!isFiltered;
+  const grid = document.getElementById('contractGrid');
+  const pgEl = document.getElementById('pagination');
+  document.getElementById('resultCount').textContent = (isFiltered ? '符合 ' : '共 ') + filtered.length + ' 筆';
+
+  const slice = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  if (!slice.length) {
+    grid.innerHTML = '<div class="c-empty"><i class="fa-regular fa-file-magnifying-glass"></i>找不到符合的契約</div>';
+    pgEl.innerHTML = '';
+    return;
+  }
+
+  grid.innerHTML = slice.map(c => `
+    <div class="c-card">
+      <div class="c-card__title">${c.title}（${c.no}）</div>
+      <div class="c-card__meta">
+        <div class="c-card__row"><strong>契約編號</strong>${c.no}</div>
+        <div class="c-card__row"><strong>契約期間</strong>${c.start} – ${c.end}</div>
+      </div>
+      <a class="c-card__dl" href="#" download><i class="fa-solid fa-download"></i>下載</a>
+    </div>
+  `).join('');
+
+  const total = Math.ceil(filtered.length / PER_PAGE);
+  if (total <= 1) { pgEl.innerHTML = ''; return; }
+  let h = `<button class="c-pg" ${page===1?'disabled':''} onclick="goPage(${page-1})"><i class="fa-solid fa-chevron-left"></i></button>`;
+  for (let i = 1; i <= total; i++) {
+    h += `<button class="c-pg ${i===page?'is-active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  h += `<button class="c-pg" ${page===total?'disabled':''} onclick="goPage(${page+1})"><i class="fa-solid fa-chevron-right"></i></button>`;
+  pgEl.innerHTML = h;
+}
+
+/* ── Nav scripts ───────────────────────────────── */
+
+
+
+
+/* ── Init ──────────────────────────────────────── */
+document.getElementById('kwFilter').addEventListener('input', applyFilter);
+document.getElementById('yearFilter').addEventListener('change', applyFilter);
+render();
+</script>
+<site-back-to-top></site-back-to-top>
+  <script src="site-chrome.js"></script>
+</body>
+</html>
