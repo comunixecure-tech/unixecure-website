@@ -6,7 +6,7 @@
 <title id="pageTitle">新增新聞 · uniXecure 後台</title>
 <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="has-action-bar">
 
 <div class="topbar">
   <div class="wrap topbar__inner">
@@ -51,8 +51,8 @@
       </div>
 
       <div class="form-field">
-        <label>產品線標籤 <span class="hint">可複選</span></label>
-        <div class="chip-select" id="prodChips"></div>
+        <label>標籤 <span class="hint">點選現有標籤快速加入,也可輸入新標籤後按 Enter</span></label>
+        <div id="tagPicker"></div>
       </div>
 
       <div class="form-field">
@@ -78,11 +78,6 @@
         <textarea id="f_body" style="min-height:220px" placeholder="請輸入新聞內文,空行分段。可用上方工具列插入粗體、連結、列點、圖片"></textarea>
       </div>
 
-      <div class="form-field">
-        <label>標籤 <span class="hint">用逗號分隔,例如:RAVEN, 金融資安, SOC</span></label>
-        <input type="text" id="f_tags" placeholder="RAVEN, 金融資安, SOC" />
-      </div>
-
       <details class="seo-details">
         <summary>SEO 設定</summary>
         <div class="seo-details__body">
@@ -106,30 +101,29 @@
           </div>
         </div>
       </details>
-
-      <div class="form-actions">
-        <button class="btn" id="draftBtn">儲存草稿</button>
-        <button class="btn btn-primary" id="publishBtn">立即發布</button>
-        <a class="btn btn-ghost" href="news.html">取消</a>
-      </div>
     </div>
 
     <!-- 預覽 -->
     <div class="preview-panel">
-      <div class="preview-tabs">
-        <button class="preview-tab is-active" data-tab="card">列表卡片</button>
-        <button class="preview-tab" data-tab="article">內頁完整版面</button>
-      </div>
-
       <div class="preview-stage" id="stageCard">
         <div class="preview-stage__label">新聞中心列表 · 卡片預覽</div>
         <div id="cardPreview"></div>
       </div>
 
-      <div class="preview-stage" id="stageArticle" style="display:none">
+      <div class="preview-stage" id="stageArticle">
         <div class="preview-stage__label">新聞內頁 · 完整版面預覽</div>
         <div id="articlePreview"></div>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="action-bar">
+  <div class="wrap action-bar__inner">
+    <a class="btn btn-ghost" href="news.html">取消</a>
+    <div class="action-bar__group">
+      <button class="btn" id="draftBtn">儲存草稿</button>
+      <button class="btn btn-primary" id="publishBtn">立即發布</button>
     </div>
   </div>
 </div>
@@ -140,24 +134,7 @@ const params = new URLSearchParams(location.search);
 const editId = params.get('id');
 const existing = editId ? getNewsById(editId) : null;
 let slugTouched = !!existing;
-let selectedProds = new Set(existing ? (existing.prods || []) : []);
-
-/* 產品線多選 chips */
-const chipsBox = document.getElementById('prodChips');
-function renderChips() {
-  chipsBox.innerHTML = PROD_OPTIONS.map(o => `
-    <button type="button" class="chip-toggle ${selectedProds.has(o.value) ? 'is-active' : ''}" data-value="${o.value}">${o.value}</button>
-  `).join('');
-  chipsBox.querySelectorAll('.chip-toggle').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const v = btn.dataset.value;
-      if (selectedProds.has(v)) selectedProds.delete(v); else selectedProds.add(v);
-      renderChips();
-      renderPreview();
-    });
-  });
-}
-renderChips();
+const tagPicker = createTagPicker(document.getElementById('tagPicker'), existing ? existing.tags : [], () => renderPreview());
 
 /* 編輯模式帶入既有資料 */
 if (existing) {
@@ -169,7 +146,6 @@ if (existing) {
   document.getElementById('f_desc').value = existing.desc || '';
   document.getElementById('f_cover').value = existing.cover || '';
   document.getElementById('f_body').value = existing.body || '';
-  document.getElementById('f_tags').value = (existing.tags || []).join(', ');
   document.getElementById('f_slug').value = existing.slug || '';
   document.getElementById('f_seoTitle').value = existing.seoTitle || '';
   document.getElementById('f_seoDesc').value = existing.seoDesc || '';
@@ -243,18 +219,17 @@ document.getElementById('btnImage').addEventListener('click', () => {
   mdInsertAtCursor(bodyTa, `\n![${alt}](${url})\n`, '', '');
 });
 
-const fields = ['f_title','f_publishAt','f_desc','f_cover','f_body','f_tags','f_slug','f_seoTitle','f_seoDesc'];
+const fields = ['f_title','f_publishAt','f_desc','f_cover','f_body','f_slug','f_seoTitle','f_seoDesc'];
 
 function currentData() {
   return {
     id: existing ? existing.id : null,
     title: document.getElementById('f_title').value.trim(),
     publishAt: document.getElementById('f_publishAt').value,
-    prods: Array.from(selectedProds),
     desc: document.getElementById('f_desc').value.trim(),
     cover: document.getElementById('f_cover').value.trim(),
     body: document.getElementById('f_body').value,
-    tags: document.getElementById('f_tags').value.split(',').map(t => t.trim()).filter(Boolean),
+    tags: tagPicker.getTags(),
     slug: document.getElementById('f_slug').value.trim(),
     seoTitle: document.getElementById('f_seoTitle').value.trim(),
     seoDesc: document.getElementById('f_seoDesc').value.trim(),
@@ -270,7 +245,7 @@ function renderPreview() {
   if (d.cover) { coverImg.src = d.cover; coverImg.style.display = 'block'; }
   else { coverImg.style.display = 'none'; }
 
-  const prodTagsHtml = d.prods.map(p => `<span class="mock-card__tag">${p}</span>`).join(' ');
+  const tagsHtml = tagChipsHtml(d.tags, 3, 'mock-card__tag');
 
   document.getElementById('cardPreview').innerHTML = `
     ${scheduled ? '<div class="status-badge status-badge--scheduled" style="margin-bottom:10px">已排程</div>' : ''}
@@ -279,7 +254,7 @@ function renderPreview() {
       <div class="mock-card__body">
         <div class="mock-card__meta">
           <span class="mock-card__date">${formatDateTime(d.publishAt) || '尚未設定日期'}</span>
-          <div style="display:flex;gap:4px;flex-wrap:wrap">${prodTagsHtml}</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${tagsHtml}</div>
         </div>
         <p class="mock-card__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</p>
         <p class="mock-card__desc">${escapeHtml(d.desc) || '(尚未輸入摘要)'}</p>
@@ -298,7 +273,7 @@ function renderPreview() {
       ${d.cover ? `<img class="mock-article__banner" src="${d.cover}" alt="" onerror="this.style.display='none'" />` : ''}
       <div class="mock-article__body">${bodyHtml}</div>
       <div class="mock-article__tags">
-        ${d.tags.map(t => `<span class="mock-article__tag">#${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--ink-4);font-size:12px">(尚未輸入標籤)</span>'}
+        ${sortTags(d.tags).map(t => `<span class="mock-article__tag">#${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--ink-4);font-size:12px">(尚未輸入標籤)</span>'}
       </div>
     </div>
   `;
@@ -314,17 +289,6 @@ document.getElementById('f_publishAt').addEventListener('input', updatePublishBt
 updatePublishBtnLabel();
 
 fields.forEach(id => document.getElementById(id).addEventListener('input', renderPreview));
-
-/* Tab 切換 */
-document.querySelectorAll('.preview-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.preview-tab').forEach(t => t.classList.remove('is-active'));
-    tab.classList.add('is-active');
-    const which = tab.dataset.tab;
-    document.getElementById('stageCard').style.display = which === 'card' ? 'block' : 'none';
-    document.getElementById('stageArticle').style.display = which === 'article' ? 'block' : 'none';
-  });
-});
 
 /* 儲存草稿:不檢查發布時間,狀態一律存為 draft */
 document.getElementById('draftBtn').addEventListener('click', () => {

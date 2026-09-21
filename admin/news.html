@@ -63,7 +63,7 @@ function render() {
 
   const head = `
     <div class="data-row data-row--head">
-      <div>封面</div><div>標題</div><div>產品線</div><div>日期</div><div style="text-align:right">操作</div>
+      <div>封面</div><div>標題</div><div>標籤</div><div>日期</div><div style="text-align:right">操作</div>
     </div>`;
 
   if (!list.length) {
@@ -71,15 +71,15 @@ function render() {
   } else {
     box.innerHTML = head + list.map(n => {
       const status = getStatus(n);
-      const prodTags = (n.prods || []).map(p => `<span class="data-tag">${p}</span>`).join(' ') || '<span class="data-sub">—</span>';
+      const tagsHtml = tagChipsHtml(n.tags, 3, 'data-tag', '<span class="data-sub">—</span>');
       return `
       <div class="data-row">
         <img class="data-thumb" src="${n.cover || ''}" alt="" onerror="this.style.visibility='hidden'" />
         <div>
           <div class="data-title">${n.title}</div>
-          <div class="data-sub">/${n.slug || ''} · ${(n.tags||[]).map(t=>'#'+t).join(' ')}</div>
+          <div class="data-sub">/${n.slug || ''}</div>
         </div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px">${prodTags}</div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${tagsHtml}</div>
         <div class="data-date">
           <span class="status-badge status-badge--${status}">${STATUS_LABEL[status]}</span>
           <div>${formatDateTime(n.publishAt)}</div>
@@ -107,7 +107,7 @@ function renderTrash() {
   const box = document.getElementById('trashList');
   const head = `
     <div class="data-row data-row--head">
-      <div>封面</div><div>標題</div><div>產品線</div><div>刪除時間</div><div style="text-align:right">操作</div>
+      <div>封面</div><div>標題</div><div>標籤</div><div>刪除時間</div><div style="text-align:right">操作</div>
     </div>`;
   if (!list.length) {
     box.innerHTML = head + `<div class="empty-state">垃圾桶是空的</div>`;
@@ -120,7 +120,7 @@ function renderTrash() {
         <div class="data-title">${n.title}</div>
         <div class="data-sub">/${n.slug || ''}</div>
       </div>
-      <div>${(n.prods||[]).map(p=>`<span class="data-tag">${p}</span>`).join(' ') || '<span class="data-sub">—</span>'}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px">${tagChipsHtml(n.tags, 3, 'data-tag', '<span class="data-sub">—</span>')}</div>
       <div class="data-date">${formatDateTime((n.trashedAt||'').slice(0,16))}</div>
       <div class="data-actions">
         <button class="btn btn-sm" onclick="restoreItem('${n.id}')">還原</button>

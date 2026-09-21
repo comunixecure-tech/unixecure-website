@@ -139,15 +139,9 @@ a{color:inherit;text-decoration:none}
 }
 .form-row{display:flex;gap:12px}
 .form-row .form-field{flex:1}
-.form-actions{display:flex;gap:10px;padding-top:6px;border-top:1px solid var(--line);margin-top:4px}
 
-.preview-panel{position:sticky;top:76px}
-.preview-tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px;margin-bottom:16px;width:fit-content}
-.preview-tab{
-  border:none;background:transparent;font:inherit;font-size:13px;font-weight:600;color:var(--ink-3);
-  padding:8px 16px;border-radius:7px;cursor:pointer;transition:.15s;
-}
-.preview-tab.is-active{background:var(--indigo);color:#fff}
+.preview-panel{position:sticky;top:76px;max-height:calc(100vh - 152px);overflow-y:auto}
+.preview-stage + .preview-stage{margin-top:16px}
 .preview-stage{
   background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
   padding:32px;min-height:420px;box-shadow:var(--shadow);
@@ -177,7 +171,7 @@ a{color:inherit;text-decoration:none}
 
 @media(max-width:960px){
   .editor-layout{grid-template-columns:1fr}
-  .preview-panel{position:static}
+  .preview-panel{position:static;max-height:none;overflow:visible}
 }
 
 /* ── Status badge(已發布 / 已排程)────────── */
@@ -229,3 +223,27 @@ a{color:inherit;text-decoration:none}
 .topbar__right{display:flex;align-items:center;gap:20px}
 .topbar__back{font-size:13px;font-weight:600;color:var(--indigo);display:inline-flex;align-items:center;gap:6px}
 .topbar__back:hover{text-decoration:underline}
+
+/* ── 標籤選擇元件 ─────────────────────────── */
+.tag-picker__box{display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-height:42px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:#fdfdfe;cursor:text;transition:.15s}
+.tag-picker__box:focus-within{border-color:var(--indigo);background:#fff}
+.tag-picker__selected{display:contents}
+.tag-chip{display:inline-flex;align-items:center;gap:2px;height:26px;padding:0 4px 0 10px;border-radius:20px;background:var(--indigo-50);color:var(--indigo);font-size:12.5px;font-weight:700}
+.tag-chip--prod{background:var(--indigo);color:#fff}
+.tag-chip button{border:0;background:none;color:inherit;opacity:.65;cursor:pointer;font-size:15px;line-height:1;padding:2px 6px}
+.tag-chip button:hover{opacity:1}
+.form-field .tag-picker__input[type=text]{flex:1;min-width:150px;width:auto;border:0;padding:4px;background:transparent}
+.tag-picker__group{display:flex;align-items:flex-start;gap:12px;margin-top:10px}
+.tag-picker__label{flex:none;width:56px;padding-top:7px;font-size:12px;font-weight:700;color:var(--ink-3)}
+.tag-picker .chip-toggle{padding:5px 12px}
+.data-tag.tag-more,.mock-card__tag.tag-more{background:#eceef4;color:var(--ink-3)}
+
+/* ── 底部固定按鈕列(窄螢幕取消固定)──────── */
+.action-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(20,22,40,.06);padding:12px 0}
+.action-bar__inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.action-bar__group{display:flex;gap:10px}
+body.has-action-bar{padding-bottom:76px}
+@media(max-width:960px){
+  .action-bar{position:static;box-shadow:none;margin-top:0;padding:16px 0 40px;background:transparent;border-top:0}
+  body.has-action-bar{padding-bottom:0}
+}

@@ -1,18 +1,13 @@
 /* ── 共用資料層(demo 用 localStorage 模擬資料庫)───────────── */
 const STORAGE_KEY = 'ux_admin_news_v2';
 
-const PROD_OPTIONS = [
-  { value: 'RAVEN', label: 'RAVEN 資安監控維運中心' },
-  { value: 'HEIS', label: 'HEIS 資安意識人因分析系統' },
-  { value: 'SRMAS', label: 'SRMAS 系統資源監控暨告警系統' },
-  { value: 'LUCAS', label: 'LUCAS 跡證保存系統' },
-];
+const PRODUCT_TAGS = ['RAVEN', 'HEIS', 'SRMAS', 'LUCAS', 'SESC', 'SIVAS', '資安健診'];
 
 const SEED_NEWS = [
   {
     id: 'n1', slug: 'gsoc-2-0-upgrade',
     title: 'uniXecure 攜手主管機關推動公部門 G-SOC 2.0 升級',
-    publishAt: '2026-05-12T09:00', prods: ['RAVEN'],
+    publishAt: '2026-05-12T09:00',
     desc: '強化跨部會威脅情資聯防能力,打造一體化資安韌性,並與行政院資安處協同建置跨部會事件通報機制。',
     cover: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', '公部門', 'SOC'],
@@ -23,7 +18,7 @@ const SEED_NEWS = [
   {
     id: 'n2', slug: 'raven-iso27701',
     title: 'RAVEN 監控中心通過 ISO 27701 隱私資訊管理驗證',
-    publishAt: '2026-04-28T09:00', prods: ['RAVEN'],
+    publishAt: '2026-04-28T09:00',
     desc: '成為國內少數同時取得 ISO 27001 與 27701 雙證的資安維運廠商,強化個資保護與安全管理雙軌並行。',
     cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', '合規認證'],
@@ -34,7 +29,7 @@ const SEED_NEWS = [
   {
     id: 'n3', slug: 'heis-ai-engine-upgrade',
     title: 'HEIS 全面升級 AI 行為意識分析引擎',
-    publishAt: '2026-03-15T09:00', prods: ['HEIS'],
+    publishAt: '2026-03-15T09:00',
     desc: '以行為訊號量化員工資安意識,識別準確率提升 47%,並支援多語系報表輸出與主管儀表板整合。',
     cover: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
     tags: ['HEIS', 'AI', '產品更新'],
@@ -45,7 +40,7 @@ const SEED_NEWS = [
   {
     id: 'n4', slug: 'srmas-cloud-alert-module',
     title: 'SRMAS 新增雲端資源異常告警模組',
-    publishAt: '2026-02-20T09:00', prods: ['SRMAS'],
+    publishAt: '2026-02-20T09:00',
     desc: '即時偵測雲端主機資源異常波動,結合告警規則引擎,降低誤報並縮短事件應變時間。',
     cover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
     tags: ['SRMAS', '雲端監控'],
@@ -56,7 +51,7 @@ const SEED_NEWS = [
   {
     id: 'n5', slug: 'lucas-forensic-compat',
     title: 'LUCAS 跡證保存系統通過司法鑑識標準相容測試',
-    publishAt: '2025-12-09T09:00', prods: ['LUCAS'],
+    publishAt: '2025-12-09T09:00',
     desc: '完成第三方鑑識工具相容性驗證,確保跡證保存鏈完整可供法遵佐證。',
     cover: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
     tags: ['LUCAS', '法遵鑑識'],
@@ -67,7 +62,7 @@ const SEED_NEWS = [
   {
     id: 'n6', slug: 'raven-iso20000-renewal',
     title: 'uniXecure 資安監控維運中心通過 ISO 20000 續驗',
-    publishAt: '2025-10-30T09:00', prods: ['RAVEN'],
+    publishAt: '2025-10-30T09:00',
     desc: '服務管理制度持續優化,維運 SLA 達成率連續三年超過 99.5%。',
     cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', '合規認證'],
@@ -78,7 +73,7 @@ const SEED_NEWS = [
   {
     id: 'n7', slug: 'raven-heis-joint-webinar-preview',
     title: 'RAVEN × HEIS 聯合技術分享會即將登場(排程發布示範)',
-    publishAt: '2026-08-15T10:00', prods: ['RAVEN', 'HEIS'],
+    publishAt: '2026-08-15T10:00',
     desc: '這則新聞的發布時間設定在未來,用來示範「排程發布」功能——時間到之前會顯示「已排程」。',
     cover: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', 'HEIS', '活動預告'],
@@ -89,7 +84,7 @@ const SEED_NEWS = [
   {
     id: 'n8', slug: 'lucas-next-version-draft',
     title: 'LUCAS 下一版功能預告(草稿,尚未對外發布)',
-    publishAt: '2026-09-01T09:00', prods: ['LUCAS'],
+    publishAt: '2026-09-01T09:00',
     desc: '這是一篇草稿示範——內容還在編輯中,不會出現在官網上,直到按下「發布」為止。',
     cover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
     tags: ['LUCAS', '草稿示範'],
@@ -105,7 +100,14 @@ function loadNews() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_NEWS));
     return [...SEED_NEWS];
   }
-  try { return JSON.parse(raw); } catch (e) { return [...SEED_NEWS]; }
+  try { return JSON.parse(raw).map(normalizeNews); } catch (e) { return [...SEED_NEWS]; }
+}
+
+/* 舊資料相容:早期版本有獨立的 prods(產品線)欄位,併入 tags */
+function normalizeNews(n) {
+  if (!n.prods) return n;
+  const { prods, ...rest } = n;
+  return { ...rest, tags: sortTags([...prods, ...(n.tags || [])]) };
 }
 
 function saveNewsList(list) {
@@ -120,6 +122,7 @@ function upsertNews(item) {
   const list = loadNews();
   const now = new Date().toISOString();
   item.updatedAt = now;
+  addTagsToPool(item.tags);
   if (item.id) {
     const idx = list.findIndex(n => n.id === item.id);
     if (idx > -1) { list[idx] = item; saveNewsList(list); return item; }
@@ -203,6 +206,112 @@ function checkSlugStatus(slug, excludeId) {
 }
 
 /* ── 極簡 Markdown → HTML(支援粗體、連結、圖片、巢狀列點)── */
+/* ── 標籤(新聞 / 成功案例 / 影音專區共用同一個標籤池)────────
+   產品標籤固定寫法;其餘標籤由各編輯頁存檔時寫入共用標籤池。 */
+const TAG_POOL_KEY = 'ux_admin_tags_v1';
+
+function loadCustomTags() {
+  try { return JSON.parse(localStorage.getItem(TAG_POOL_KEY)) || []; } catch (e) { return []; }
+}
+
+function addTagsToPool(tags) {
+  const set = new Set(loadCustomTags());
+  (tags || []).forEach(t => { if (!PRODUCT_TAGS.includes(t)) set.add(t); });
+  localStorage.setItem(TAG_POOL_KEY, JSON.stringify([...set]));
+}
+
+/* 常用標籤 = 標籤池 + 目前新聞用到的標籤(扣掉產品標籤),依使用次數排序 */
+function getCommonTags() {
+  const count = new Map();
+  loadNews().forEach(n => (n.tags || []).forEach(t => count.set(t, (count.get(t) || 0) + 1)));
+  loadCustomTags().forEach(t => { if (!count.has(t)) count.set(t, 0); });
+  return [...count.entries()].filter(([t]) => !PRODUCT_TAGS.includes(t)).sort((a, b) => b[1] - a[1]).map(([t]) => t);
+}
+
+/* 產品標籤排前面(依 PRODUCT_TAGS 順序),其餘維持原順序 */
+function sortTags(tags) {
+  const uniq = [...new Set(tags || [])];
+  return [...PRODUCT_TAGS.filter(p => uniq.includes(p)), ...uniq.filter(t => !PRODUCT_TAGS.includes(t))];
+}
+
+/* 輸入的標籤若和既有標籤只差大小寫,一律用既有寫法(避免 Raven / RAVEN 變兩個) */
+function canonicalTag(raw) {
+  const t = (raw || '').trim().replace(/^#+/, '').trim();
+  if (!t) return '';
+  return [...PRODUCT_TAGS, ...getCommonTags()].find(x => x.toLowerCase() === t.toLowerCase()) || t;
+}
+
+/* 列表 / 預覽用:最多顯示 max 個,其餘收成 +N */
+function tagChipsHtml(tags, max, cls, emptyHtml = '') {
+  const list = sortTags(tags);
+  if (!list.length) return emptyHtml;
+  const shown = list.slice(0, max).map(t => `<span class="${cls}">${escapeHtml(t)}</span>`).join(' ');
+  return shown + (list.length > max ? ` <span class="${cls} tag-more">+${list.length - max}</span>` : '');
+}
+
+/* 標籤選擇元件:已選標籤 + 輸入新增 + 可點選的產品 / 常用標籤 */
+function createTagPicker(root, initial, onChange) {
+  let selected = sortTags(initial);
+  root.classList.add('tag-picker');
+  root.innerHTML = `
+    <div class="tag-picker__box">
+      <span class="tag-picker__selected"></span>
+      <input class="tag-picker__input" type="text" placeholder="輸入標籤後按 Enter 新增" />
+    </div>
+    <div class="tag-picker__group"><span class="tag-picker__label">產品</span><div class="chip-select" data-group="prod"></div></div>
+    <div class="tag-picker__group" data-wrap="common"><span class="tag-picker__label">常用標籤</span><div class="chip-select" data-group="common"></div></div>`;
+  const box = root.querySelector('.tag-picker__box');
+  const input = root.querySelector('.tag-picker__input');
+
+  const toggleBtn = t => `<button type="button" class="chip-toggle ${selected.includes(t) ? 'is-active' : ''}" data-toggle="${escapeHtml(t)}">${escapeHtml(t)}</button>`;
+
+  function render() {
+    root.querySelector('.tag-picker__selected').innerHTML = selected.map(t => `
+      <span class="tag-chip ${PRODUCT_TAGS.includes(t) ? 'tag-chip--prod' : ''}">${escapeHtml(t)}<button type="button" data-remove="${escapeHtml(t)}" aria-label="移除 ${escapeHtml(t)}">×</button></span>`).join('');
+    root.querySelector('[data-group=prod]').innerHTML = PRODUCT_TAGS.map(toggleBtn).join('');
+    const common = [...getCommonTags(), ...selected.filter(t => !PRODUCT_TAGS.includes(t) && !getCommonTags().includes(t))];
+    root.querySelector('[data-group=common]').innerHTML = common.map(toggleBtn).join('');
+    root.querySelector('[data-wrap=common]').style.display = common.length ? '' : 'none';
+  }
+  function change() { render(); onChange && onChange(selected); }
+  function add(raw) {
+    const t = canonicalTag(raw);
+    if (t && !selected.includes(t)) { selected = sortTags([...selected, t]); change(); }
+  }
+
+  root.addEventListener('click', e => {
+    const tg = e.target.closest('[data-toggle]');
+    const rm = e.target.closest('[data-remove]');
+    if (tg) {
+      const t = tg.dataset.toggle;
+      selected = selected.includes(t) ? selected.filter(x => x !== t) : sortTags([...selected, t]);
+      change();
+    } else if (rm) {
+      selected = selected.filter(x => x !== rm.dataset.remove);
+      change();
+    }
+  });
+  box.addEventListener('click', () => input.focus());
+  input.addEventListener('keydown', e => {
+    if (e.isComposing || e.keyCode === 229) return;
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      add(input.value); input.value = '';
+    } else if (e.key === 'Backspace' && !input.value && selected.length) {
+      selected = selected.slice(0, -1); change();
+    }
+  });
+  input.addEventListener('input', e => {
+    if (e.isComposing || !/[,，]/.test(input.value)) return;
+    input.value.split(/[,，]/).forEach(add);
+    input.value = '';
+  });
+  input.addEventListener('blur', () => { add(input.value); input.value = ''; });
+
+  render();
+  return { getTags: () => selected };
+}
+
 function escapeHtml(s) {
   return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
