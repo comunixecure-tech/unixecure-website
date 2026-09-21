@@ -950,3 +950,16 @@ body { transition: background-color .4s var(--b-ease), color .4s var(--b-ease); 
 .nav__logo-white { display: none; }
 :root[data-theme="dark"] .nav__logo-black { display: none; }
 :root[data-theme="dark"] .nav__logo-white { display: block; }
+
+/* ── nav 後台 demo 切換鈕 ─────────────────────────────────── */
+.nav__admin {
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 32px; padding: 0 12px;
+  font-size: 13px; font-weight: 600; white-space: nowrap;
+  color: var(--b-ink-3);
+  border: 1px dashed var(--b-line-2); border-radius: 8px;
+  transition: color .2s var(--b-ease), border-color .2s var(--b-ease);
+}
+.nav__admin:hover { color: var(--b-indigo); border-color: var(--b-indigo); }
+.nav__admin i { font-size: 12px; }
+@media (max-width: 940px) { .nav__admin { display: none; } }

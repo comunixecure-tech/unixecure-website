@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>新聞中心管理 · uniXecure 後台</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar__inner">
+    <div class="topbar__brand">
+      <span class="topbar__brand-badge">UX</span>
+      uniXecure 內容管理後台
+    </div>
+    <div class="topbar__right"><a class="topbar__back" href="../index.html"><i>←</i> 回官網</a><div class="topbar__crumb">
+      <a href="index.html">後台首頁</a>
+      <span class="topbar__crumb-sep">/</span>
+      <span class="topbar__crumb-current">新聞中心</span>
+    </div>
+  </div></div>
+</div>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <h1>新聞中心</h1>
+      <p>管理官網「新聞中心」顯示的所有文章。</p>
+    </div>
+    <a class="btn btn-primary" href="news-editor.html">＋ 新增新聞</a>
+  </div>
+
+  <div class="list-toolbar">
+    <div class="list-search">
+      <span>搜尋</span>
+      <input type="text" id="kw" placeholder="輸入標題關鍵字" />
+    </div>
+    <button class="btn" id="trashToggle" type="button"></button>
+  </div>
+
+  <div class="data-list" id="dataList"></div>
+
+  <div id="trashSection" style="display:none;margin-top:28px">
+    <div class="page-head" style="padding:0 0 14px">
+      <div>
+        <h1 style="font-size:16px">垃圾桶</h1>
+        <p>移到垃圾桶的文章還佔用原本的網址(slug),避免還原後撞網址;確定不要了再永久刪除。</p>
+      </div>
+    </div>
+    <div class="data-list" id="trashList"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+let showTrash = false;
+
+function render() {
+  const kw = document.getElementById('kw').value.trim().toLowerCase();
+  const list = loadActiveNews().filter(n => !kw || n.title.toLowerCase().includes(kw));
+  const box = document.getElementById('dataList');
+
+  const head = `
+    <div class="data-row data-row--head">
+      <div>封面</div><div>標題</div><div>產品線</div><div>日期</div><div style="text-align:right">操作</div>
+    </div>`;
+
+  if (!list.length) {
+    box.innerHTML = head + `<div class="empty-state">找不到符合的新聞,試試看清空搜尋關鍵字</div>`;
+  } else {
+    box.innerHTML = head + list.map(n => {
+      const status = getStatus(n);
+      const prodTags = (n.prods || []).map(p => `<span class="data-tag">${p}</span>`).join(' ') || '<span class="data-sub">—</span>';
+      return `
+      <div class="data-row">
+        <img class="data-thumb" src="${n.cover || ''}" alt="" onerror="this.style.visibility='hidden'" />
+        <div>
+          <div class="data-title">${n.title}</div>
+          <div class="data-sub">/${n.slug || ''} · ${(n.tags||[]).map(t=>'#'+t).join(' ')}</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:4px">${prodTags}</div>
+        <div class="data-date">
+          <span class="status-badge status-badge--${status}">${STATUS_LABEL[status]}</span>
+          <div>${formatDateTime(n.publishAt)}</div>
+        </div>
+        <div class="data-actions">
+          <a class="btn btn-sm" href="news-editor.html?id=${n.id}">編輯</a>
+          <button class="btn btn-sm btn-danger" onclick="trashItem('${n.id}')">移到垃圾桶</button>
+        </div>
+      </div>
+    `;
+    }).join('');
+  }
+
+  renderTrashToggle();
+  if (showTrash) renderTrash();
+}
+
+function renderTrashToggle() {
+  const count = loadTrashedNews().length;
+  document.getElementById('trashToggle').textContent = `垃圾桶(${count})`;
+}
+
+function renderTrash() {
+  const list = loadTrashedNews();
+  const box = document.getElementById('trashList');
+  const head = `
+    <div class="data-row data-row--head">
+      <div>封面</div><div>標題</div><div>產品線</div><div>刪除時間</div><div style="text-align:right">操作</div>
+    </div>`;
+  if (!list.length) {
+    box.innerHTML = head + `<div class="empty-state">垃圾桶是空的</div>`;
+    return;
+  }
+  box.innerHTML = head + list.map(n => `
+    <div class="data-row">
+      <img class="data-thumb" src="${n.cover || ''}" alt="" onerror="this.style.visibility='hidden'" />
+      <div>
+        <div class="data-title">${n.title}</div>
+        <div class="data-sub">/${n.slug || ''}</div>
+      </div>
+      <div>${(n.prods||[]).map(p=>`<span class="data-tag">${p}</span>`).join(' ') || '<span class="data-sub">—</span>'}</div>
+      <div class="data-date">${formatDateTime((n.trashedAt||'').slice(0,16))}</div>
+      <div class="data-actions">
+        <button class="btn btn-sm" onclick="restoreItem('${n.id}')">還原</button>
+        <button class="btn btn-sm btn-danger" onclick="purgeItem('${n.id}')">永久刪除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function trashItem(id) {
+  if (!confirm('移到垃圾桶?之後還可以還原,不會馬上消失。')) return;
+  trashNewsById(id);
+  render();
+}
+function restoreItem(id) {
+  restoreNewsById(id);
+  render();
+}
+function purgeItem(id) {
+  if (!confirm('永久刪除後無法復原,確定嗎?')) return;
+  purgeNewsById(id);
+  render();
+}
+
+document.getElementById('kw').addEventListener('input', render);
+document.getElementById('trashToggle').addEventListener('click', () => {
+  showTrash = !showTrash;
+  document.getElementById('trashSection').style.display = showTrash ? 'block' : 'none';
+  if (showTrash) renderTrash();
+});
+render();
+</script>
+</body>
+</html>

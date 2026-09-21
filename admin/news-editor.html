@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title id="pageTitle">新增新聞 · uniXecure 後台</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar__inner">
+    <div class="topbar__brand">
+      <span class="topbar__brand-badge">UX</span>
+      uniXecure 內容管理後台
+    </div>
+    <div class="topbar__right"><a class="topbar__back" href="../index.html"><i>←</i> 回官網</a><div class="topbar__crumb">
+      <a href="index.html">後台首頁</a>
+      <span class="topbar__crumb-sep">/</span>
+      <a href="news.html">新聞中心</a>
+      <span class="topbar__crumb-sep">/</span>
+      <span class="topbar__crumb-current" id="crumbCurrent">新增新聞</span>
+    </div>
+  </div></div>
+</div>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <h1 id="formTitle">新增新聞</h1>
+      <p>填寫左側欄位,右側會即時預覽官網呈現的樣子(樣式為簡化版,僅供確認內容結構)。</p>
+    </div>
+  </div>
+
+  <div class="editor-layout">
+    <!-- 表單 -->
+    <div class="editor-form">
+
+      <div class="meta-hint" id="metaHint" style="display:none"></div>
+
+      <div class="form-field">
+        <label>標題</label>
+        <input type="text" id="f_title" placeholder="請輸入新聞標題" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>發布日期時間 <span class="hint">選未來時間 = 自動排程</span></label>
+          <input type="datetime-local" id="f_publishAt" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>產品線標籤 <span class="hint">可複選</span></label>
+        <div class="chip-select" id="prodChips"></div>
+      </div>
+
+      <div class="form-field">
+        <label>摘要 <span class="hint">列表卡片會顯示這段文字</span></label>
+        <textarea id="f_desc" style="min-height:70px" placeholder="請輸入摘要,約 1–2 句話"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>封面圖網址 <span class="hint">用於列表縮圖 / 內頁 Banner</span></label>
+        <input type="url" id="f_cover" placeholder="貼上圖片網址,例如 https://..." />
+        <img class="cover-preview" id="coverPreview" src="" alt="" style="display:none" />
+      </div>
+
+      <div class="form-field">
+        <label>內文</label>
+        <div class="md-toolbar">
+          <button type="button" class="md-btn" id="btnBold">粗體</button>
+          <button type="button" class="md-btn" id="btnLink">連結</button>
+          <button type="button" class="md-btn" id="btnList">列點</button>
+          <button type="button" class="md-btn" id="btnIndent">縮排</button>
+          <button type="button" class="md-btn" id="btnImage">插入圖片</button>
+        </div>
+        <textarea id="f_body" style="min-height:220px" placeholder="請輸入新聞內文,空行分段。可用上方工具列插入粗體、連結、列點、圖片"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>標籤 <span class="hint">用逗號分隔,例如:RAVEN, 金融資安, SOC</span></label>
+        <input type="text" id="f_tags" placeholder="RAVEN, 金融資安, SOC" />
+      </div>
+
+      <details class="seo-details">
+        <summary>SEO 設定</summary>
+        <div class="seo-details__body">
+          <div class="form-field">
+            <label>網址代稱(Slug)</label>
+            <div class="slug-row">
+              <span class="slug-row__prefix">/news/</span>
+              <input type="text" id="f_slug" placeholder="會依標題自動產生,可手動修改" />
+            </div>
+            <div class="slug-hint" id="slugHint"></div>
+          </div>
+          <div class="form-field">
+            <label>SEO 標題 <span class="hint">留空則使用文章標題</span></label>
+            <input type="text" id="f_seoTitle" maxlength="70" placeholder="搜尋結果顯示的標題" />
+            <div class="char-count" id="seoTitleCount">0 / 60 建議字數</div>
+          </div>
+          <div class="form-field">
+            <label>SEO 描述 <span class="hint">留空則使用摘要</span></label>
+            <textarea id="f_seoDesc" maxlength="200" style="min-height:60px" placeholder="搜尋結果顯示的描述文字"></textarea>
+            <div class="char-count" id="seoDescCount">0 / 160 建議字數</div>
+          </div>
+        </div>
+      </details>
+
+      <div class="form-actions">
+        <button class="btn" id="draftBtn">儲存草稿</button>
+        <button class="btn btn-primary" id="publishBtn">立即發布</button>
+        <a class="btn btn-ghost" href="news.html">取消</a>
+      </div>
+    </div>
+
+    <!-- 預覽 -->
+    <div class="preview-panel">
+      <div class="preview-tabs">
+        <button class="preview-tab is-active" data-tab="card">列表卡片</button>
+        <button class="preview-tab" data-tab="article">內頁完整版面</button>
+      </div>
+
+      <div class="preview-stage" id="stageCard">
+        <div class="preview-stage__label">新聞中心列表 · 卡片預覽</div>
+        <div id="cardPreview"></div>
+      </div>
+
+      <div class="preview-stage" id="stageArticle" style="display:none">
+        <div class="preview-stage__label">新聞內頁 · 完整版面預覽</div>
+        <div id="articlePreview"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+const params = new URLSearchParams(location.search);
+const editId = params.get('id');
+const existing = editId ? getNewsById(editId) : null;
+let slugTouched = !!existing;
+let selectedProds = new Set(existing ? (existing.prods || []) : []);
+
+/* 產品線多選 chips */
+const chipsBox = document.getElementById('prodChips');
+function renderChips() {
+  chipsBox.innerHTML = PROD_OPTIONS.map(o => `
+    <button type="button" class="chip-toggle ${selectedProds.has(o.value) ? 'is-active' : ''}" data-value="${o.value}">${o.value}</button>
+  `).join('');
+  chipsBox.querySelectorAll('.chip-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.value;
+      if (selectedProds.has(v)) selectedProds.delete(v); else selectedProds.add(v);
+      renderChips();
+      renderPreview();
+    });
+  });
+}
+renderChips();
+
+/* 編輯模式帶入既有資料 */
+if (existing) {
+  document.getElementById('pageTitle').textContent = '編輯新聞 · uniXecure 後台';
+  document.getElementById('formTitle').textContent = '編輯新聞';
+  document.getElementById('crumbCurrent').textContent = '編輯新聞';
+  document.getElementById('f_title').value = existing.title || '';
+  document.getElementById('f_publishAt').value = existing.publishAt || '';
+  document.getElementById('f_desc').value = existing.desc || '';
+  document.getElementById('f_cover').value = existing.cover || '';
+  document.getElementById('f_body').value = existing.body || '';
+  document.getElementById('f_tags').value = (existing.tags || []).join(', ');
+  document.getElementById('f_slug').value = existing.slug || '';
+  document.getElementById('f_seoTitle').value = existing.seoTitle || '';
+  document.getElementById('f_seoDesc').value = existing.seoDesc || '';
+
+  if (existing.updatedAt) {
+    const hint = document.getElementById('metaHint');
+    const d = new Date(existing.updatedAt);
+    hint.style.display = 'block';
+    const timeStr = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    hint.textContent = `最後編輯時間:${timeStr} · 目前狀態:${STATUS_LABEL[getStatus(existing)]}`;
+  }
+}
+
+/* slug 撞網址檢查:垃圾桶裡的文章也算佔用,永久刪除過的不算 */
+function checkSlugAndRender() {
+  const slug = document.getElementById('f_slug').value.trim();
+  const hint = document.getElementById('slugHint');
+  const result = checkSlugStatus(slug, existing ? existing.id : null);
+  if (result.status === 'live') {
+    hint.textContent = `這個網址已經被「${result.title}」使用中,請換一個`;
+    hint.className = 'slug-hint slug-hint--error';
+  } else if (result.status === 'trash') {
+    hint.textContent = `這個網址目前被垃圾桶裡的「${result.title}」佔用,還原時會需要用到,請換一個或先去垃圾桶永久刪除那篇`;
+    hint.className = 'slug-hint slug-hint--error';
+  } else {
+    hint.textContent = '';
+    hint.className = 'slug-hint';
+  }
+  return result.status;
+}
+
+/* 標題變動時自動帶出 slug(除非使用者已手動編輯過 slug)*/
+document.getElementById('f_title').addEventListener('input', () => {
+  if (slugTouched) return;
+  const s = slugify(document.getElementById('f_title').value);
+  document.getElementById('f_slug').value = s;
+  checkSlugAndRender();
+});
+document.getElementById('f_slug').addEventListener('input', () => { slugTouched = true; checkSlugAndRender(); });
+checkSlugAndRender();
+
+/* SEO 字數提示 */
+function bindCharCount(inputId, countId, max) {
+  const el = document.getElementById(inputId);
+  const countEl = document.getElementById(countId);
+  const update = () => { countEl.textContent = `${el.value.length} / ${max} 建議字數`; };
+  el.addEventListener('input', update);
+  update();
+}
+bindCharCount('f_seoTitle', 'seoTitleCount', 60);
+bindCharCount('f_seoDesc', 'seoDescCount', 160);
+
+/* Markdown 工具列綁定 */
+const bodyTa = document.getElementById('f_body');
+document.getElementById('btnBold').addEventListener('click', () => mdInsertAtCursor(bodyTa, '**', '**', '粗體文字'));
+document.getElementById('btnLink').addEventListener('click', () => {
+  const url = prompt('請輸入連結網址', 'https://');
+  if (!url) return;
+  mdInsertAtCursor(bodyTa, '[', `](${url})`, '連結文字');
+});
+document.getElementById('btnList').addEventListener('click', () => {
+  mdPrefixLines(bodyTa, line => line.trim() === '' ? line : (/^\s*-\s+/.test(line) ? line : '- ' + line.replace(/^\s+/, '')));
+});
+document.getElementById('btnIndent').addEventListener('click', () => {
+  mdPrefixLines(bodyTa, line => line.trim() === '' ? line : '  ' + line);
+});
+document.getElementById('btnImage').addEventListener('click', () => {
+  const url = prompt('請輸入圖片網址', 'https://');
+  if (!url) return;
+  const alt = prompt('圖片說明文字(選填)', '') || '';
+  mdInsertAtCursor(bodyTa, `\n![${alt}](${url})\n`, '', '');
+});
+
+const fields = ['f_title','f_publishAt','f_desc','f_cover','f_body','f_tags','f_slug','f_seoTitle','f_seoDesc'];
+
+function currentData() {
+  return {
+    id: existing ? existing.id : null,
+    title: document.getElementById('f_title').value.trim(),
+    publishAt: document.getElementById('f_publishAt').value,
+    prods: Array.from(selectedProds),
+    desc: document.getElementById('f_desc').value.trim(),
+    cover: document.getElementById('f_cover').value.trim(),
+    body: document.getElementById('f_body').value,
+    tags: document.getElementById('f_tags').value.split(',').map(t => t.trim()).filter(Boolean),
+    slug: document.getElementById('f_slug').value.trim(),
+    seoTitle: document.getElementById('f_seoTitle').value.trim(),
+    seoDesc: document.getElementById('f_seoDesc').value.trim(),
+    createdAt: existing ? existing.createdAt : null,
+  };
+}
+
+function renderPreview() {
+  const d = currentData();
+  const scheduled = d.publishAt && new Date(d.publishAt).getTime() > Date.now();
+
+  const coverImg = document.getElementById('coverPreview');
+  if (d.cover) { coverImg.src = d.cover; coverImg.style.display = 'block'; }
+  else { coverImg.style.display = 'none'; }
+
+  const prodTagsHtml = d.prods.map(p => `<span class="mock-card__tag">${p}</span>`).join(' ');
+
+  document.getElementById('cardPreview').innerHTML = `
+    ${scheduled ? '<div class="status-badge status-badge--scheduled" style="margin-bottom:10px">已排程</div>' : ''}
+    <div class="mock-card">
+      <img class="mock-card__thumb" src="${d.cover || ''}" alt="" onerror="this.removeAttribute('src')" />
+      <div class="mock-card__body">
+        <div class="mock-card__meta">
+          <span class="mock-card__date">${formatDateTime(d.publishAt) || '尚未設定日期'}</span>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${prodTagsHtml}</div>
+        </div>
+        <p class="mock-card__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</p>
+        <p class="mock-card__desc">${escapeHtml(d.desc) || '(尚未輸入摘要)'}</p>
+      </div>
+    </div>
+  `;
+
+  const bodyHtml = mdToHtml(d.body);
+
+  document.getElementById('articlePreview').innerHTML = `
+    ${scheduled ? '<div class="status-badge status-badge--scheduled" style="margin-bottom:10px">已排程 · 尚未到發布時間</div>' : ''}
+    <div class="mock-article">
+      <div class="mock-article__crumb">首頁 / 最新消息 / 新聞中心</div>
+      <div class="mock-article__date">${formatDateTime(d.publishAt) || '尚未設定日期'}</div>
+      <h2 class="mock-article__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</h2>
+      ${d.cover ? `<img class="mock-article__banner" src="${d.cover}" alt="" onerror="this.style.display='none'" />` : ''}
+      <div class="mock-article__body">${bodyHtml}</div>
+      <div class="mock-article__tags">
+        ${d.tags.map(t => `<span class="mock-article__tag">#${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--ink-4);font-size:12px">(尚未輸入標籤)</span>'}
+      </div>
+    </div>
+  `;
+}
+
+/* 發布按鈕文字依日期動態調整:未來時間 → 排程發布 */
+function updatePublishBtnLabel() {
+  const v = document.getElementById('f_publishAt').value;
+  const future = v && new Date(v).getTime() > Date.now();
+  document.getElementById('publishBtn').textContent = future ? '排程發布' : '立即發布';
+}
+document.getElementById('f_publishAt').addEventListener('input', updatePublishBtnLabel);
+updatePublishBtnLabel();
+
+fields.forEach(id => document.getElementById(id).addEventListener('input', renderPreview));
+
+/* Tab 切換 */
+document.querySelectorAll('.preview-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.preview-tab').forEach(t => t.classList.remove('is-active'));
+    tab.classList.add('is-active');
+    const which = tab.dataset.tab;
+    document.getElementById('stageCard').style.display = which === 'card' ? 'block' : 'none';
+    document.getElementById('stageArticle').style.display = which === 'article' ? 'block' : 'none';
+  });
+});
+
+/* 儲存草稿:不檢查發布時間,狀態一律存為 draft */
+document.getElementById('draftBtn').addEventListener('click', () => {
+  const d = currentData();
+  if (!d.title) { alert('請至少輸入標題再儲存'); return; }
+  if (!d.slug) { d.slug = 'n' + Date.now(); }
+  const slugStatus = checkSlugAndRender();
+  if (slugStatus === 'live' || slugStatus === 'trash') { alert('這個網址(slug)已經被使用,請先修改再儲存'); return; }
+  d.status = 'draft';
+  upsertNews(d);
+  location.href = 'news.html';
+});
+
+/* 發布 / 排程發布:狀態存為 published,實際「已發布」或「已排程」由發布時間自動判斷 */
+document.getElementById('publishBtn').addEventListener('click', () => {
+  const d = currentData();
+  if (!d.title) { alert('請至少輸入標題再儲存'); return; }
+  if (!d.publishAt) { alert('請設定發布日期時間'); return; }
+  if (!d.slug) { d.slug = 'n' + Date.now(); }
+  const slugStatus = checkSlugAndRender();
+  if (slugStatus === 'live' || slugStatus === 'trash') { alert('這個網址(slug)已經被使用,請先修改再儲存'); return; }
+  d.status = 'published';
+  upsertNews(d);
+  location.href = 'news.html';
+});
+
+renderPreview();
+</script>
+</body>
+</html>

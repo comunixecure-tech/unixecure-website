@@ -201,6 +201,7 @@
     </div>
     <div class="nav__spacer"></div>
     <div class="nav__right">
+      <a class="nav__admin" href="admin/index.html" title="切換到後台 Demo"><i class="fa-solid fa-gear"></i> 後台</a>
       <div class="nav__lang" id="langPicker">
         <button class="nav__lang-btn" type="button" aria-haspopup="listbox" aria-expanded="false" id="langBtn">
           <i class="fa-solid fa-globe"></i><span id="langLabel">繁中</span>
@@ -241,6 +242,7 @@
     <a class="nav__m-link nav__m-sub" href="reports.html">報告書專區</a>
     <a class="nav__m-link nav__m-sub" href="contract.html">共同供應契約</a>
     <div class="nav__m-divider"></div>
+    <a class="nav__m-link" href="admin/index.html">後台（Demo）</a>
     <a class="nav__m-cta" href="contact.html">聯絡我們 <i class="fa-solid fa-arrow-right" style="margin-left:8px"></i></a>
   </div>
 </div>`;
