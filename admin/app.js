@@ -83,7 +83,7 @@ const SEED_NEWS = [
   },
   {
     id: 'n8', slug: 'lucas-next-version-draft',
-    title: 'LUCAS 下一版功能預告(草稿，尚未對外發布)',
+    title: 'LUCAS 下一版功能預告',
     publishAt: '2026-09-01T09:00',
     desc: '這是一篇草稿示範——內容還在編輯中，不會出現在官網上，直到按下「發布」為止。',
     cover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
@@ -146,6 +146,13 @@ function formatDateTime(v) {
   if (!v) return '';
   const [d, t] = v.split('T');
   return d.replaceAll('-', ' / ') + (t ? ' ' + t : '');
+}
+
+/* 列表用:日期與時間固定分行顯示,欄位不用跟著最長的那筆撐寬 */
+function dateTimeCellHtml(v) {
+  if (!v) return '';
+  const [d, t] = v.split('T');
+  return `${d.replaceAll('-', ' / ')}${t ? `<div class="data-date__time">${t}</div>` : ''}`;
 }
 
 function isScheduled(item) {

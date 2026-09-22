@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>uniXecure 後台｜新聞中心管理</title>
 <link rel="stylesheet" href="style.css" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -43,6 +44,7 @@
   </div>
 
   <div class="data-list" id="dataList"></div>
+  <div class="pagination" id="pagination"></div>
 
   <div id="trashSection" style="display:none;margin-top:28px">
     <div class="page-head" style="padding:0 0 14px">
@@ -65,7 +67,7 @@ const NEWS_COLUMNS = [
   { key: 'title', label: '標題', width: 'minmax(220px,1fr)', locked: true },
   { key: 'tags', label: '標籤', width: '110px' },
   { key: 'status', label: '狀態', width: '84px' },
-  { key: 'date', label: '日期', width: '120px' },
+  { key: 'date', label: '日期', width: '90px' },
   { key: 'actions', label: '操作', width: '160px', align: 'right', locked: true },
 ];
 
@@ -75,7 +77,7 @@ function newsCell(key, n) {
     case 'title': return `<div><div class="data-title">${escapeHtml(n.title)}</div><div class="data-sub">/${n.slug || ''}</div></div>`;
     case 'tags': return `<div style="display:flex;flex-wrap:wrap;gap:4px">${tagChipsHtml(n.tags, 3, 'data-tag', '<span class="data-sub">—</span>')}</div>`;
     case 'status': { const s = getStatus(n); return `<span class="status-badge status-badge--${s}">${STATUS_LABEL[s]}</span>`; }
-    case 'date': return `<div class="data-date">${formatDateTime(n.publishAt)}</div>`;
+    case 'date': return `<div class="data-date">${dateTimeCellHtml(n.publishAt)}</div>`;
     case 'actions': return `<div class="data-actions"><a class="btn btn-sm" href="news-editor.html?id=${n.id}">編輯</a><button class="btn btn-sm btn-danger" onclick="trashItem('${n.id}')">移到垃圾桶</button></div>`;
   }
 }
@@ -135,7 +137,7 @@ function renderTrash() {
         <div class="data-sub">/${n.slug || ''}</div>
       </div>
       <div style="display:flex;flex-wrap:wrap;gap:4px">${tagChipsHtml(n.tags, 3, 'data-tag', '<span class="data-sub">—</span>')}</div>
-      <div class="data-date">${formatDateTime((n.trashedAt||'').slice(0,16))}</div>
+      <div class="data-date">${dateTimeCellHtml((n.trashedAt||'').slice(0,16))}</div>
       <div class="data-actions">
         <button class="btn btn-sm" onclick="restoreItem('${n.id}')">還原</button>
         <button class="btn btn-sm btn-danger" onclick="purgeItem('${n.id}')">永久刪除</button>
