@@ -36,7 +36,10 @@
       <span>搜尋</span>
       <input type="text" id="kw" placeholder="輸入標題關鍵字" />
     </div>
-    <button class="btn" id="trashToggle" type="button"></button>
+    <div class="list-toolbar__right">
+      <div id="colToggle"></div>
+      <button class="btn" id="trashToggle" type="button"></button>
+    </div>
   </div>
 
   <div class="data-list" id="dataList"></div>
@@ -56,6 +59,34 @@
 <script>
 let showTrash = false;
 
+/* 欄位定義:標題／操作鎖定必顯示,其餘可在「欄位設定」勾選 */
+const NEWS_COLUMNS = [
+  { key: 'cover', label: '封面', width: '64px' },
+  { key: 'title', label: '標題', width: 'minmax(220px,1fr)', locked: true },
+  { key: 'tags', label: '標籤', width: '110px' },
+  { key: 'status', label: '狀態', width: '84px' },
+  { key: 'date', label: '日期', width: '120px' },
+  { key: 'actions', label: '操作', width: '160px', align: 'right', locked: true },
+];
+
+function newsCell(key, n) {
+  switch (key) {
+    case 'cover': return `<img class="data-thumb" src="${n.cover || ''}" alt="" onerror="this.style.visibility='hidden'" />`;
+    case 'title': return `<div><div class="data-title">${escapeHtml(n.title)}</div><div class="data-sub">/${n.slug || ''}</div></div>`;
+    case 'tags': return `<div style="display:flex;flex-wrap:wrap;gap:4px">${tagChipsHtml(n.tags, 3, 'data-tag', '<span class="data-sub">—</span>')}</div>`;
+    case 'status': { const s = getStatus(n); return `<span class="status-badge status-badge--${s}">${STATUS_LABEL[s]}</span>`; }
+    case 'date': return `<div class="data-date">${formatDateTime(n.publishAt)}</div>`;
+    case 'actions': return `<div class="data-actions"><a class="btn btn-sm" href="news-editor.html?id=${n.id}">編輯</a><button class="btn btn-sm btn-danger" onclick="trashItem('${n.id}')">移到垃圾桶</button></div>`;
+  }
+}
+
+let visibleCols = NEWS_COLUMNS;
+createColumnToggle(document.getElementById('colToggle'), 'ux_admin_news_cols_v1', NEWS_COLUMNS, keys => {
+  visibleCols = NEWS_COLUMNS.filter(c => keys.includes(c.key));
+  document.getElementById('dataList').style.setProperty('--cols', visibleCols.map(c => c.width).join(' '));
+  render();
+});
+
 function render() {
   const kw = document.getElementById('kw').value.trim().toLowerCase();
   const list = loadActiveNews().filter(n => !kw || n.title.toLowerCase().includes(kw));
@@ -63,34 +94,17 @@ function render() {
 
   const head = `
     <div class="data-row data-row--head">
-      <div>封面</div><div>標題</div><div>標籤</div><div>日期</div><div style="text-align:right">操作</div>
+      ${visibleCols.map(c => `<div${c.align === 'right' ? ' style="text-align:right"' : ''}>${c.label}</div>`).join('')}
     </div>`;
 
   if (!list.length) {
     box.innerHTML = head + `<div class="empty-state">找不到符合的新聞，試試看清空搜尋關鍵字</div>`;
   } else {
-    box.innerHTML = head + list.map(n => {
-      const status = getStatus(n);
-      const tagsHtml = tagChipsHtml(n.tags, 3, 'data-tag', '<span class="data-sub">—</span>');
-      return `
+    box.innerHTML = head + list.map(n => `
       <div class="data-row">
-        <img class="data-thumb" src="${n.cover || ''}" alt="" onerror="this.style.visibility='hidden'" />
-        <div>
-          <div class="data-title">${n.title}</div>
-          <div class="data-sub">/${n.slug || ''}</div>
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:4px">${tagsHtml}</div>
-        <div class="data-date">
-          <span class="status-badge status-badge--${status}">${STATUS_LABEL[status]}</span>
-          <div>${formatDateTime(n.publishAt)}</div>
-        </div>
-        <div class="data-actions">
-          <a class="btn btn-sm" href="news-editor.html?id=${n.id}">編輯</a>
-          <button class="btn btn-sm btn-danger" onclick="trashItem('${n.id}')">移到垃圾桶</button>
-        </div>
+        ${visibleCols.map(c => newsCell(c.key, n)).join('')}
       </div>
-    `;
-    }).join('');
+    `).join('');
   }
 
   renderTrashToggle();
@@ -151,7 +165,6 @@ document.getElementById('trashToggle').addEventListener('click', () => {
   document.getElementById('trashSection').style.display = showTrash ? 'block' : 'none';
   if (showTrash) renderTrash();
 });
-render();
 </script>
 </body>
 </html>

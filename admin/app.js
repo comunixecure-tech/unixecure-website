@@ -319,6 +319,48 @@ function createTagPicker(root, initial, onChange) {
   return { getTags: () => selected };
 }
 
+/* ── 列表欄位顯示設定(封面 / 標籤 / 狀態等可勾選顯示,locked 欄位一律顯示)
+   共用元件,之後成功案例、影音專區列表可直接套用,只要換 storageKey 和 columns。
+   設定存在 localStorage,尚未設定過時預設全部顯示。──────────────────── */
+function createColumnToggle(root, storageKey, columns, onChange) {
+  function loadVisible() {
+    const raw = localStorage.getItem(storageKey);
+    let saved = null;
+    if (raw !== null) { try { saved = JSON.parse(raw); } catch (e) {} }
+    if (!Array.isArray(saved)) return columns.map(() => true);
+    return columns.map(c => c.locked || saved.includes(c.key));
+  }
+  let visible = loadVisible();
+
+  function visibleKeys() { return columns.filter((c, i) => visible[i]).map(c => c.key); }
+  function persist() { localStorage.setItem(storageKey, JSON.stringify(visibleKeys())); }
+
+  root.classList.add('col-toggle');
+  root.innerHTML = `
+    <button type="button" class="btn" id="colToggleBtn">欄位設定 <i class="fa-solid fa-chevron-down" style="font-size:10px"></i></button>
+    <div class="col-toggle__panel" id="colTogglePanel" hidden>
+      ${columns.map((c, i) => `
+        <label class="col-toggle__item ${c.locked ? 'is-locked' : ''}">
+          <input type="checkbox" data-i="${i}" ${visible[i] ? 'checked' : ''} ${c.locked ? 'disabled' : ''} />
+          ${escapeHtml(c.label)}
+        </label>`).join('')}
+    </div>`;
+
+  const btn = root.querySelector('#colToggleBtn');
+  const panel = root.querySelector('#colTogglePanel');
+  btn.addEventListener('click', e => { e.stopPropagation(); panel.hidden = !panel.hidden; });
+  document.addEventListener('click', e => { if (!root.contains(e.target)) panel.hidden = true; });
+  panel.querySelectorAll('input').forEach(input => {
+    input.addEventListener('change', () => {
+      visible[Number(input.dataset.i)] = input.checked;
+      persist();
+      onChange(visibleKeys());
+    });
+  });
+
+  onChange(visibleKeys());
+}
+
 function escapeHtml(s) {
   return (s || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }

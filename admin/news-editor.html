@@ -78,6 +78,18 @@
         <textarea id="f_body" style="min-height:220px" placeholder="請輸入新聞內文，空行分段。可用上方工具列插入粗體、連結、列點、圖片"></textarea>
       </div>
 
+      <div class="form-field">
+        <label>CTA 按鈕 <span class="hint">選填，按鈕文字與網址都填寫才會顯示在內文結尾</span></label>
+        <div class="form-row">
+          <div class="form-field" style="margin-bottom:0">
+            <input type="text" id="f_ctaText" placeholder="按鈕文字，例如：了解更多" />
+          </div>
+          <div class="form-field" style="margin-bottom:0">
+            <input type="url" id="f_ctaUrl" placeholder="按鈕連結網址" />
+          </div>
+        </div>
+      </div>
+
       <details class="seo-details">
         <summary>SEO 設定</summary>
         <div class="seo-details__body">
@@ -146,6 +158,8 @@ if (existing) {
   document.getElementById('f_desc').value = existing.desc || '';
   document.getElementById('f_cover').value = existing.cover || '';
   document.getElementById('f_body').value = existing.body || '';
+  document.getElementById('f_ctaText').value = existing.ctaText || '';
+  document.getElementById('f_ctaUrl').value = existing.ctaUrl || '';
   document.getElementById('f_slug').value = existing.slug || '';
   document.getElementById('f_seoTitle').value = existing.seoTitle || '';
   document.getElementById('f_seoDesc').value = existing.seoDesc || '';
@@ -219,7 +233,7 @@ document.getElementById('btnImage').addEventListener('click', () => {
   mdInsertAtCursor(bodyTa, `\n![${alt}](${url})\n`, '', '');
 });
 
-const fields = ['f_title','f_publishAt','f_desc','f_cover','f_body','f_slug','f_seoTitle','f_seoDesc'];
+const fields = ['f_title','f_publishAt','f_desc','f_cover','f_body','f_ctaText','f_ctaUrl','f_slug','f_seoTitle','f_seoDesc'];
 
 function currentData() {
   return {
@@ -229,6 +243,8 @@ function currentData() {
     desc: document.getElementById('f_desc').value.trim(),
     cover: document.getElementById('f_cover').value.trim(),
     body: document.getElementById('f_body').value,
+    ctaText: document.getElementById('f_ctaText').value.trim(),
+    ctaUrl: document.getElementById('f_ctaUrl').value.trim(),
     tags: tagPicker.getTags(),
     slug: document.getElementById('f_slug').value.trim(),
     seoTitle: document.getElementById('f_seoTitle').value.trim(),
@@ -272,6 +288,7 @@ function renderPreview() {
       <h2 class="mock-article__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</h2>
       ${d.cover ? `<img class="mock-article__banner" src="${d.cover}" alt="" onerror="this.style.display='none'" />` : ''}
       <div class="mock-article__body">${bodyHtml}</div>
+      ${d.ctaText && d.ctaUrl ? `<a class="mock-article__cta" href="${escapeHtml(d.ctaUrl)}" target="_blank" rel="noopener">${escapeHtml(d.ctaText)}</a>` : ''}
       <div class="mock-article__tags">
         ${sortTags(d.tags).map(t => `<span class="mock-article__tag">#${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--ink-4);font-size:12px">(尚未輸入標籤)</span>'}
       </div>
