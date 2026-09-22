@@ -8,10 +8,10 @@ const SEED_NEWS = [
     id: 'n1', slug: 'gsoc-2-0-upgrade',
     title: 'uniXecure 攜手主管機關推動公部門 G-SOC 2.0 升級',
     publishAt: '2026-05-12T09:00',
-    desc: '強化跨部會威脅情資聯防能力,打造一體化資安韌性,並與行政院資安處協同建置跨部會事件通報機制。',
+    desc: '強化跨部會威脅情資聯防能力，打造一體化資安韌性，並與行政院資安處協同建置跨部會事件通報機制。',
     cover: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', '公部門', 'SOC'],
-    body: '隨著跨機關資安威脅日益複雜,單一機關獨立應變已難以因應大規模、跨系統的攻擊行動。uniXecure 攜手主管機關,協同建置跨部會事件通報機制。\n\n本次升級重點如下:\n- 自動化派工與分級應變流程\n  - 依事件嚴重度自動指派處理單位\n  - 支援跨機關協作案件追蹤\n- 定期產出**合規報告**供主管機關查核\n- 詳細架構請參考 [RAVEN 產品介紹](raven.html)\n\n大幅縮短從事件發現到跨機關協處完成的整體時間。',
+    body: '隨著跨機關資安威脅日益複雜，單一機關獨立應變已難以因應大規模、跨系統的攻擊行動。uniXecure 攜手主管機關，協同建置跨部會事件通報機制。\n\n本次升級重點如下:\n- 自動化派工與分級應變流程\n  - 依事件嚴重度自動指派處理單位\n  - 支援跨機關協作案件追蹤\n- 定期產出**合規報告**供主管機關查核\n- 詳細架構請參考 [RAVEN 產品介紹](raven.html)\n\n大幅縮短從事件發現到跨機關協處完成的整體時間。',
     seoTitle: '', seoDesc: '', status: 'published',
     createdAt: '2026-05-10T10:00', updatedAt: '2026-05-12T09:00',
   },
@@ -19,10 +19,10 @@ const SEED_NEWS = [
     id: 'n2', slug: 'raven-iso27701',
     title: 'RAVEN 監控中心通過 ISO 27701 隱私資訊管理驗證',
     publishAt: '2026-04-28T09:00',
-    desc: '成為國內少數同時取得 ISO 27001 與 27701 雙證的資安維運廠商,強化個資保護與安全管理雙軌並行。',
+    desc: '成為國內少數同時取得 ISO 27001 與 27701 雙證的資安維運廠商，強化個資保護與安全管理雙軌並行。',
     cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', '合規認證'],
-    body: 'uniXecure 資安監控維運中心正式通過 ISO 27701 隱私資訊管理系統驗證,成為國內少數同時具備 ISO 27001 與 27701 雙證的資安維運廠商。\n\n此次驗證涵蓋客戶個資蒐集、處理、傳輸與刪除全流程,確保監控維運服務在資安防護之外,也符合國際隱私保護標準。',
+    body: 'uniXecure 資安監控維運中心正式通過 ISO 27701 隱私資訊管理系統驗證，成為國內少數同時具備 ISO 27001 與 27701 雙證的資安維運廠商。\n\n此次驗證涵蓋客戶個資蒐集、處理、傳輸與刪除全流程，確保監控維運服務在資安防護之外，也符合國際隱私保護標準。',
     seoTitle: '', seoDesc: '', status: 'published',
     createdAt: '2026-04-25T10:00', updatedAt: '2026-04-28T09:00',
   },
@@ -30,10 +30,10 @@ const SEED_NEWS = [
     id: 'n3', slug: 'heis-ai-engine-upgrade',
     title: 'HEIS 全面升級 AI 行為意識分析引擎',
     publishAt: '2026-03-15T09:00',
-    desc: '以行為訊號量化員工資安意識,識別準確率提升 47%,並支援多語系報表輸出與主管儀表板整合。',
+    desc: '以行為訊號量化員工資安意識，識別準確率提升 47%，並支援多語系報表輸出與主管儀表板整合。',
     cover: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
     tags: ['HEIS', 'AI', '產品更新'],
-    body: 'HEIS 資安意識人因分析系統推出全新 AI 行為意識分析引擎,透過量化員工日常行為訊號,識別高風險使用者的準確率較前一版本提升 **47%**。\n\n新版本同步支援:\n- 跨語系情境模擬\n- 主管儀表板整合\n- 自動化週報輸出\n\n協助企業更直觀掌握全員資安意識現況。',
+    body: 'HEIS 資安意識人因分析系統推出全新 AI 行為意識分析引擎，透過量化員工日常行為訊號，識別高風險使用者的準確率較前一版本提升 **47%**。\n\n新版本同步支援:\n- 跨語系情境模擬\n- 主管儀表板整合\n- 自動化週報輸出\n\n協助企業更直觀掌握全員資安意識現況。',
     seoTitle: '', seoDesc: '', status: 'published',
     createdAt: '2026-03-12T10:00', updatedAt: '2026-03-15T09:00',
   },
@@ -41,10 +41,10 @@ const SEED_NEWS = [
     id: 'n4', slug: 'srmas-cloud-alert-module',
     title: 'SRMAS 新增雲端資源異常告警模組',
     publishAt: '2026-02-20T09:00',
-    desc: '即時偵測雲端主機資源異常波動,結合告警規則引擎,降低誤報並縮短事件應變時間。',
+    desc: '即時偵測雲端主機資源異常波動，結合告警規則引擎，降低誤報並縮短事件應變時間。',
     cover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
     tags: ['SRMAS', '雲端監控'],
-    body: 'SRMAS 系統資源監控暨告警系統推出雲端資源異常告警模組,可即時偵測雲端主機 CPU、記憶體與網路流量的異常波動。\n\n結合可調校的告警規則引擎,協助維運團隊降低誤報干擾,將人力聚焦在真正需要處理的異常事件上。',
+    body: 'SRMAS 系統資源監控暨告警系統推出雲端資源異常告警模組，可即時偵測雲端主機 CPU、記憶體與網路流量的異常波動。\n\n結合可調校的告警規則引擎，協助維運團隊降低誤報干擾，將人力聚焦在真正需要處理的異常事件上。',
     seoTitle: '', seoDesc: '', status: 'published',
     createdAt: '2026-02-18T10:00', updatedAt: '2026-02-20T09:00',
   },
@@ -52,10 +52,10 @@ const SEED_NEWS = [
     id: 'n5', slug: 'lucas-forensic-compat',
     title: 'LUCAS 跡證保存系統通過司法鑑識標準相容測試',
     publishAt: '2025-12-09T09:00',
-    desc: '完成第三方鑑識工具相容性驗證,確保跡證保存鏈完整可供法遵佐證。',
+    desc: '完成第三方鑑識工具相容性驗證，確保跡證保存鏈完整可供法遵佐證。',
     cover: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
     tags: ['LUCAS', '法遵鑑識'],
-    body: 'LUCAS 跡證保存系統完成與主流第三方司法鑑識工具的相容性驗證測試,確保系統輸出的日誌與跡證資料能無縫銜接既有鑑識流程。\n\n此次驗證強化了跡證保存鏈的完整性與可信度,協助企業在面對法規稽核或司法程序時,能提供具公信力的佐證資料。',
+    body: 'LUCAS 跡證保存系統完成與主流第三方司法鑑識工具的相容性驗證測試，確保系統輸出的日誌與跡證資料能無縫銜接既有鑑識流程。\n\n此次驗證強化了跡證保存鏈的完整性與可信度，協助企業在面對法規稽核或司法程序時，能提供具公信力的佐證資料。',
     seoTitle: '', seoDesc: '', status: 'published',
     createdAt: '2025-12-05T10:00', updatedAt: '2025-12-09T09:00',
   },
@@ -63,10 +63,10 @@ const SEED_NEWS = [
     id: 'n6', slug: 'raven-iso20000-renewal',
     title: 'uniXecure 資安監控維運中心通過 ISO 20000 續驗',
     publishAt: '2025-10-30T09:00',
-    desc: '服務管理制度持續優化,維運 SLA 達成率連續三年超過 99.5%。',
+    desc: '服務管理制度持續優化，維運 SLA 達成率連續三年超過 99.5%。',
     cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', '合規認證'],
-    body: 'uniXecure 資安監控維運中心通過 ISO 20000 資訊服務管理系統續驗,顯示公司服務管理制度持續優化並穩定運作。\n\n過去三年,維運中心的 SLA 達成率皆維持在 99.5% 以上,展現高可用性與服務穩定度。',
+    body: 'uniXecure 資安監控維運中心通過 ISO 20000 資訊服務管理系統續驗，顯示公司服務管理制度持續優化並穩定運作。\n\n過去三年，維運中心的 SLA 達成率皆維持在 99.5% 以上，展現高可用性與服務穩定度。',
     seoTitle: '', seoDesc: '', status: 'published',
     createdAt: '2025-10-28T10:00', updatedAt: '2025-10-30T09:00',
   },
@@ -74,18 +74,18 @@ const SEED_NEWS = [
     id: 'n7', slug: 'raven-heis-joint-webinar-preview',
     title: 'RAVEN × HEIS 聯合技術分享會即將登場(排程發布示範)',
     publishAt: '2026-08-15T10:00',
-    desc: '這則新聞的發布時間設定在未來,用來示範「排程發布」功能——時間到之前會顯示「已排程」。',
+    desc: '這則新聞的發布時間設定在未來，用來示範「排程發布」功能——時間到之前會顯示「已排程」。',
     cover: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', 'HEIS', '活動預告'],
-    body: '這是一則示範用的新聞,發布日期設定在未來時間。\n\n在發布時間到達之前,列表會顯示**已排程**狀態;時間一到,系統會自動視為已發布,不需要手動切換。',
+    body: '這是一則示範用的新聞，發布日期設定在未來時間。\n\n在發布時間到達之前，列表會顯示**已排程**狀態;時間一到，系統會自動視為已發布，不需要手動切換。',
     seoTitle: '', seoDesc: '', status: 'published',
     createdAt: '2026-07-28T10:00', updatedAt: '2026-07-28T10:00',
   },
   {
     id: 'n8', slug: 'lucas-next-version-draft',
-    title: 'LUCAS 下一版功能預告(草稿,尚未對外發布)',
+    title: 'LUCAS 下一版功能預告(草稿，尚未對外發布)',
     publishAt: '2026-09-01T09:00',
-    desc: '這是一篇草稿示範——內容還在編輯中,不會出現在官網上,直到按下「發布」為止。',
+    desc: '這是一篇草稿示範——內容還在編輯中，不會出現在官網上，直到按下「發布」為止。',
     cover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
     tags: ['LUCAS', '草稿示範'],
     body: '內容尚在撰寫中……',
@@ -132,6 +132,13 @@ function upsertNews(item) {
   list.unshift(item);
   saveNewsList(list);
   return item;
+}
+
+/* 目前時間,格式與 <input type=datetime-local> 的 value 一致(YYYY-MM-DDTHH:MM) */
+function nowLocalInputValue() {
+  const d = new Date();
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
 }
 
 /* ── 格式化 / 狀態判斷 ─────────────────────────────────── */
@@ -269,7 +276,7 @@ function createTagPicker(root, initial, onChange) {
     root.querySelector('.tag-picker__selected').innerHTML = selected.map(t => `
       <span class="tag-chip ${PRODUCT_TAGS.includes(t) ? 'tag-chip--prod' : ''}">${escapeHtml(t)}<button type="button" data-remove="${escapeHtml(t)}" aria-label="移除 ${escapeHtml(t)}">×</button></span>`).join('');
     root.querySelector('[data-group=prod]').innerHTML = PRODUCT_TAGS.map(toggleBtn).join('');
-    const common = [...getCommonTags(), ...selected.filter(t => !PRODUCT_TAGS.includes(t) && !getCommonTags().includes(t))];
+    const common = getCommonTags().slice(0, 5);
     root.querySelector('[data-group=common]').innerHTML = common.map(toggleBtn).join('');
     root.querySelector('[data-wrap=common]').style.display = common.length ? '' : 'none';
   }

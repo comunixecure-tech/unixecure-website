@@ -45,7 +45,7 @@
     <div class="page-head" style="padding:0 0 14px">
       <div>
         <h1 style="font-size:16px">垃圾桶</h1>
-        <p>移到垃圾桶的文章還佔用原本的網址(slug),避免還原後撞網址;確定不要了再永久刪除。</p>
+        <p>移到垃圾桶的文章還佔用原本的網址(slug)，避免還原後撞網址;確定不要了再永久刪除。</p>
       </div>
     </div>
     <div class="data-list" id="trashList"></div>
@@ -67,7 +67,7 @@ function render() {
     </div>`;
 
   if (!list.length) {
-    box.innerHTML = head + `<div class="empty-state">找不到符合的新聞,試試看清空搜尋關鍵字</div>`;
+    box.innerHTML = head + `<div class="empty-state">找不到符合的新聞，試試看清空搜尋關鍵字</div>`;
   } else {
     box.innerHTML = head + list.map(n => {
       const status = getStatus(n);
@@ -131,7 +131,7 @@ function renderTrash() {
 }
 
 function trashItem(id) {
-  if (!confirm('移到垃圾桶?之後還可以還原,不會馬上消失。')) return;
+  if (!confirm('移到垃圾桶?之後還可以還原，不會馬上消失。')) return;
   trashNewsById(id);
   render();
 }
@@ -140,7 +140,7 @@ function restoreItem(id) {
   render();
 }
 function purgeItem(id) {
-  if (!confirm('永久刪除後無法復原,確定嗎?')) return;
+  if (!confirm('永久刪除後無法復原，確定嗎?')) return;
   purgeNewsById(id);
   render();
 }

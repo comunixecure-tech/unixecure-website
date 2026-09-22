@@ -28,7 +28,7 @@
   <div class="page-head">
     <div>
       <h1 id="formTitle">新增新聞</h1>
-      <p>填寫左側欄位,右側會即時預覽官網呈現的樣子(樣式為簡化版,僅供確認內容結構)。</p>
+      <p>填寫左側欄位，右側會即時預覽官網呈現的樣子。</p>
     </div>
   </div>
 
@@ -45,24 +45,24 @@
 
       <div class="form-row">
         <div class="form-field">
-          <label>發布日期時間 <span class="hint">選未來時間 = 自動排程</span></label>
+          <label>發布日期時間 <span class="hint">留空 = 立即發布目前時間，選未來時間 = 自動排程</span></label>
           <input type="datetime-local" id="f_publishAt" />
         </div>
       </div>
 
       <div class="form-field">
-        <label>標籤 <span class="hint">點選現有標籤快速加入,也可輸入新標籤後按 Enter</span></label>
+        <label>標籤</label>
         <div id="tagPicker"></div>
       </div>
 
       <div class="form-field">
         <label>摘要 <span class="hint">列表卡片會顯示這段文字</span></label>
-        <textarea id="f_desc" style="min-height:70px" placeholder="請輸入摘要,約 1–2 句話"></textarea>
+        <textarea id="f_desc" style="min-height:70px" placeholder="請輸入摘要，約 1–2 句話"></textarea>
       </div>
 
       <div class="form-field">
         <label>封面圖網址 <span class="hint">用於列表縮圖 / 內頁 Banner</span></label>
-        <input type="url" id="f_cover" placeholder="貼上圖片網址,例如 https://..." />
+        <input type="url" id="f_cover" placeholder="貼上圖片網址，例如 https://..." />
         <img class="cover-preview" id="coverPreview" src="" alt="" style="display:none" />
       </div>
 
@@ -75,7 +75,7 @@
           <button type="button" class="md-btn" id="btnIndent">縮排</button>
           <button type="button" class="md-btn" id="btnImage">插入圖片</button>
         </div>
-        <textarea id="f_body" style="min-height:220px" placeholder="請輸入新聞內文,空行分段。可用上方工具列插入粗體、連結、列點、圖片"></textarea>
+        <textarea id="f_body" style="min-height:220px" placeholder="請輸入新聞內文，空行分段。可用上方工具列插入粗體、連結、列點、圖片"></textarea>
       </div>
 
       <details class="seo-details">
@@ -85,7 +85,7 @@
             <label>網址代稱(Slug)</label>
             <div class="slug-row">
               <span class="slug-row__prefix">/news/</span>
-              <input type="text" id="f_slug" placeholder="會依標題自動產生,可手動修改" />
+              <input type="text" id="f_slug" placeholder="會依標題自動產生，可手動修改" />
             </div>
             <div class="slug-hint" id="slugHint"></div>
           </div>
@@ -165,10 +165,10 @@ function checkSlugAndRender() {
   const hint = document.getElementById('slugHint');
   const result = checkSlugStatus(slug, existing ? existing.id : null);
   if (result.status === 'live') {
-    hint.textContent = `這個網址已經被「${result.title}」使用中,請換一個`;
+    hint.textContent = `這個網址已經被「${result.title}」使用中，請換一個`;
     hint.className = 'slug-hint slug-hint--error';
   } else if (result.status === 'trash') {
-    hint.textContent = `這個網址目前被垃圾桶裡的「${result.title}」佔用,還原時會需要用到,請換一個或先去垃圾桶永久刪除那篇`;
+    hint.textContent = `這個網址目前被垃圾桶裡的「${result.title}」佔用，還原時會需要用到，請換一個或先去垃圾桶永久刪除那篇`;
     hint.className = 'slug-hint slug-hint--error';
   } else {
     hint.textContent = '';
@@ -296,7 +296,7 @@ document.getElementById('draftBtn').addEventListener('click', () => {
   if (!d.title) { alert('請至少輸入標題再儲存'); return; }
   if (!d.slug) { d.slug = 'n' + Date.now(); }
   const slugStatus = checkSlugAndRender();
-  if (slugStatus === 'live' || slugStatus === 'trash') { alert('這個網址(slug)已經被使用,請先修改再儲存'); return; }
+  if (slugStatus === 'live' || slugStatus === 'trash') { alert('這個網址(slug)已經被使用，請先修改再儲存'); return; }
   d.status = 'draft';
   upsertNews(d);
   location.href = 'news.html';
@@ -306,10 +306,10 @@ document.getElementById('draftBtn').addEventListener('click', () => {
 document.getElementById('publishBtn').addEventListener('click', () => {
   const d = currentData();
   if (!d.title) { alert('請至少輸入標題再儲存'); return; }
-  if (!d.publishAt) { alert('請設定發布日期時間'); return; }
+  if (!d.publishAt) { d.publishAt = nowLocalInputValue(); }
   if (!d.slug) { d.slug = 'n' + Date.now(); }
   const slugStatus = checkSlugAndRender();
-  if (slugStatus === 'live' || slugStatus === 'trash') { alert('這個網址(slug)已經被使用,請先修改再儲存'); return; }
+  if (slugStatus === 'live' || slugStatus === 'trash') { alert('這個網址(slug)已經被使用，請先修改再儲存'); return; }
   d.status = 'published';
   upsertNews(d);
   location.href = 'news.html';
