@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>uniXecure 後台｜成功案例管理</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar__inner">
+    <div class="topbar__brand">
+      <span class="topbar__brand-badge">UX</span>
+      uniXecure 內容管理後台
+    </div>
+    <div class="topbar__right"><a class="topbar__back" href="../index.html"><i>←</i> 回官網</a><div class="topbar__crumb">
+      <a href="index.html">後台首頁</a>
+      <span class="topbar__crumb-sep">/</span>
+      <span class="topbar__crumb-current">成功案例</span>
+    </div>
+  </div></div>
+</div>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <h1>成功案例</h1>
+    </div>
+  </div>
+
+  <div class="list-toolbar">
+    <div class="list-toolbar__left">
+      <div class="list-search">
+        <span>搜尋</span>
+        <input type="text" id="kw" placeholder="輸入標題關鍵字" />
+      </div>
+      <div id="pageSizePicker"></div>
+    </div>
+    <div class="list-toolbar__right">
+      <div id="colToggle"></div>
+      <a class="btn btn-primary" href="cases-editor.html">＋ 新增案例</a>
+      <button class="btn" id="trashToggle" type="button"></button>
+    </div>
+  </div>
+
+  <div class="data-list" id="dataList"></div>
+  <div class="pagination" id="pagination"></div>
+  <div class="th-filter__panel" id="thFilterPanel" hidden></div>
+
+  <div id="trashSection" style="display:none;margin-top:28px">
+    <div class="page-head" style="padding:0 0 14px">
+      <div>
+        <h1 style="font-size:16px">垃圾桶</h1>
+        <p>移到垃圾桶的案例還佔用原本的網址(slug)，避免還原後撞網址;確定不要了再永久刪除。</p>
+      </div>
+    </div>
+    <div class="data-list" id="trashList"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+const casesStore = createContentStore('ux_admin_cases_v1', SEED_CASES, 'c');
+
+let showTrash = false;
+
+/* 欄位定義:標題／操作鎖定必顯示,其餘可在「欄位設定」勾選 */
+const CASE_COLUMNS = [
+  { key: 'cover', label: '封面', width: '64px' },
+  { key: 'title', label: '標題', width: 'minmax(220px,1fr)', locked: true },
+  { key: 'industry', label: '產業', width: '100px' },
+  { key: 'tags', label: '標籤', width: '110px' },
+  { key: 'status', label: '狀態', width: '100px' },
+  { key: 'date', label: '日期', width: '90px' },
+  { key: 'actions', label: '操作', width: '160px', align: 'right', locked: true },
+];
+
+function caseCell(key, c) {
+  switch (key) {
+    case 'cover': return `<img class="data-thumb" src="${c.cover || ''}" alt="" onerror="this.style.visibility='hidden'" />`;
+    case 'title': return `<div><div class="data-title">${escapeHtml(c.title)}</div><div class="data-sub">/${c.slug || ''}</div></div>`;
+    case 'industry': return `<span class="data-sub">${escapeHtml(c.industry || '—')}</span>`;
+    case 'tags': return `<div style="display:flex;flex-wrap:wrap;gap:4px">${tagChipsHtml(c.tags, 3, 'data-tag', '<span class="data-sub">—</span>')}</div>`;
+    case 'status': { const s = getStatus(c); return `<span class="status-badge status-badge--${s}">${STATUS_LABEL[s]}</span>`; }
+    case 'date': return `<div class="data-date">${dateTimeCellHtml(c.publishAt)}</div>`;
+    case 'actions': return `<div class="data-actions"><a class="btn btn-sm" href="cases-editor.html?id=${c.id}">編輯</a><button class="btn btn-sm btn-danger" onclick="trashItem('${c.id}')">移到垃圾桶</button></div>`;
+  }
+}
+
+let visibleCols = CASE_COLUMNS;
+const STATUS_ORDER = ['published', 'scheduled', 'draft'];
+const statusFilterSel = new Set();
+const tagFilterSel = new Set();
+const industryFilterSel = new Set();
+
+const pagination = createPagination(
+  document.getElementById('pageSizePicker'),
+  document.getElementById('pagination'),
+  'ux_admin_cases_pagesize_v1',
+  render
+);
+
+const headerFilter = createHeaderFilter(document.getElementById('thFilterPanel'), document.getElementById('dataList'), () => {
+  pagination.resetPage();
+  render();
+});
+
+function headerCell(c) {
+  if (c.key === 'status') {
+    return headerFilter.headerCell('status', c.label, '狀態篩選',
+      () => STATUS_ORDER.map(v => ({ value: v, label: STATUS_LABEL[v] })), statusFilterSel);
+  }
+  if (c.key === 'industry') {
+    return headerFilter.headerCell('industry', c.label, '產業篩選',
+      () => CASE_INDUSTRIES.map(v => ({ value: v, label: v })), industryFilterSel);
+  }
+  if (c.key === 'tags') {
+    return headerFilter.headerCell('tags', c.label, '標籤篩選',
+      () => sortTags([...PRODUCT_TAGS, ...getCommonTags()]).map(v => ({ value: v, label: v })), tagFilterSel);
+  }
+  return `<div${c.align === 'right' ? ' style="text-align:right"' : ''}>${c.label}</div>`;
+}
+
+createColumnToggle(document.getElementById('colToggle'), 'ux_admin_cases_cols_v1', CASE_COLUMNS, keys => {
+  visibleCols = CASE_COLUMNS.filter(c => keys.includes(c.key));
+  document.getElementById('dataList').style.setProperty('--cols', visibleCols.map(c => c.width).join(' '));
+  render();
+});
+
+function render() {
+  const kw = document.getElementById('kw').value.trim().toLowerCase();
+  let list = casesStore.loadActive().filter(c => !kw || c.title.toLowerCase().includes(kw));
+  if (statusFilterSel.size) list = list.filter(c => statusFilterSel.has(getStatus(c)));
+  if (industryFilterSel.size) list = list.filter(c => industryFilterSel.has(c.industry));
+  if (tagFilterSel.size) list = list.filter(c => (c.tags || []).some(t => tagFilterSel.has(t)));
+
+  const { pageList, total, totalPages } = pagination.paginate(list);
+
+  const box = document.getElementById('dataList');
+  const head = `<div class="data-row data-row--head">${visibleCols.map(headerCell).join('')}</div>`;
+
+  if (!total) {
+    box.innerHTML = head + `<div class="empty-state">找不到符合的案例，試試看清空搜尋關鍵字或篩選條件</div>`;
+  } else {
+    box.innerHTML = head + pageList.map(c => `
+      <div class="data-row">
+        ${visibleCols.map(col => caseCell(col.key, c)).join('')}
+      </div>
+    `).join('');
+  }
+
+  pagination.renderControls(total, totalPages);
+  headerFilter.syncPanel();
+  renderTrashToggle();
+  if (showTrash) renderTrash();
+}
+
+function renderTrashToggle() {
+  const count = casesStore.loadTrashed().length;
+  document.getElementById('trashToggle').textContent = `垃圾桶(${count})`;
+}
+
+function renderTrash() {
+  const list = casesStore.loadTrashed();
+  const box = document.getElementById('trashList');
+  const head = `
+    <div class="data-row data-row--head">
+      <div>封面</div><div>標題</div><div>標籤</div><div>刪除時間</div><div style="text-align:right">操作</div>
+    </div>`;
+  if (!list.length) {
+    box.innerHTML = head + `<div class="empty-state">垃圾桶是空的</div>`;
+    return;
+  }
+  box.innerHTML = head + list.map(c => `
+    <div class="data-row">
+      <img class="data-thumb" src="${c.cover || ''}" alt="" onerror="this.style.visibility='hidden'" />
+      <div>
+        <div class="data-title">${c.title}</div>
+        <div class="data-sub">/${c.slug || ''}</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px">${tagChipsHtml(c.tags, 3, 'data-tag', '<span class="data-sub">—</span>')}</div>
+      <div class="data-date">${dateTimeCellHtml((c.trashedAt||'').slice(0,16))}</div>
+      <div class="data-actions">
+        <button class="btn btn-sm" onclick="restoreItem('${c.id}')">還原</button>
+        <button class="btn btn-sm btn-danger" onclick="purgeItem('${c.id}')">永久刪除</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function trashItem(id) {
+  if (!confirm('移到垃圾桶?之後還可以還原，不會馬上消失。')) return;
+  casesStore.trashById(id);
+  render();
+}
+function restoreItem(id) {
+  casesStore.restoreById(id);
+  render();
+}
+function purgeItem(id) {
+  if (!confirm('永久刪除後無法復原，確定嗎?')) return;
+  casesStore.purgeById(id);
+  render();
+}
+
+document.getElementById('kw').addEventListener('input', () => { pagination.resetPage(); render(); });
+document.getElementById('trashToggle').addEventListener('click', () => {
+  showTrash = !showTrash;
+  document.getElementById('trashSection').style.display = showTrash ? 'block' : 'none';
+  if (showTrash) renderTrash();
+});
+</script>
+</body>
+</html>

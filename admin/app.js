@@ -219,6 +219,186 @@ function checkSlugStatus(slug, excludeId) {
   return { status: hit.trashed ? 'trash' : 'live', title: hit.title };
 }
 
+/* ── 通用內容資料層工廠(成功案例 / 影音專區共用,新聞中心維持原本寫法不動,
+   避免更動已經驗證過的邏輯)。行為與上面新聞中心的資料層一致:load 時自動塞入種子資料、
+   軟刪除進垃圾桶、slug 衝突檢查同樣區分 free/self/live/trash。──────────── */
+function createContentStore(storageKey, seedData, idPrefix) {
+  function load() {
+    const raw = localStorage.getItem(storageKey);
+    if (!raw) {
+      localStorage.setItem(storageKey, JSON.stringify(seedData));
+      return [...seedData];
+    }
+    try { return JSON.parse(raw); } catch (e) { return [...seedData]; }
+  }
+  function saveList(list) { localStorage.setItem(storageKey, JSON.stringify(list)); }
+  function loadActive() { return load().filter(x => !x.trashed); }
+  function loadTrashed() { return load().filter(x => x.trashed); }
+  function getById(id) { return load().find(x => x.id === id) || null; }
+
+  function upsert(item) {
+    const list = load();
+    const now = new Date().toISOString();
+    item.updatedAt = now;
+    if (item.tags) addTagsToPool(item.tags);
+    if (item.id) {
+      const idx = list.findIndex(x => x.id === item.id);
+      if (idx > -1) { list[idx] = item; saveList(list); return item; }
+    }
+    item.id = idPrefix + Date.now();
+    item.createdAt = now;
+    list.unshift(item);
+    saveList(list);
+    return item;
+  }
+
+  function trashById(id) {
+    const list = load();
+    const idx = list.findIndex(x => x.id === id);
+    if (idx === -1) return;
+    list[idx].trashed = true;
+    list[idx].trashedAt = new Date().toISOString();
+    saveList(list);
+  }
+  function restoreById(id) {
+    const list = load();
+    const idx = list.findIndex(x => x.id === id);
+    if (idx === -1) return;
+    list[idx].trashed = false;
+    list[idx].trashedAt = null;
+    saveList(list);
+  }
+  function purgeById(id) { saveList(load().filter(x => x.id !== id)); }
+
+  function checkSlugStatus(slug, excludeId) {
+    if (!slug) return { status: 'free' };
+    const hit = load().find(x => x.slug === slug);
+    if (!hit) return { status: 'free' };
+    if (hit.id === excludeId) return { status: 'self' };
+    return { status: hit.trashed ? 'trash' : 'live', title: hit.title };
+  }
+
+  return { load, loadActive, loadTrashed, getById, upsert, trashById, restoreById, purgeById, checkSlugStatus };
+}
+
+/* ── 成功案例種子資料 ─────────────────────────────────────
+   產業別固定選項,跟官網 cases.html 的篩選下拉選單對齊。 */
+const CASE_INDUSTRIES = ['一般製造', '科技製造', '零售/流通', '一般服務', '政府/教育', '醫療', '金融', '資訊服務', '其他'];
+
+const SEED_CASES = [
+  {
+    id: 'c1', slug: 'gov-cross-agency-raven',
+    title: '某政府機關導入 RAVEN 強化跨部會聯防監控',
+    industry: '政府/教育',
+    tags: ['RAVEN', '跨機關聯防'],
+    publishAt: '2026-05-20T09:00',
+    desc: '透過 24 小時資安監控維運，整合跨部會威脅情資，事件平均應變時間縮短逾 60%。',
+    cover: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
+    body: {
+      intro: '面對日益頻繁的跨機關網路攻擊，該政府機關過去仰賴各單位獨立的資安監控機制，事件研判與情資交換缺乏統一窗口，難以在攻擊初期掌握全貌。',
+      need: '27 個下屬機關各自建置防護措施，告警規則與通報流程不一致，一旦發生跨機關串連攻擊，資安團隊得耗費大量人力彙整各單位回報資料，往往在釐清全貌時已錯失第一時間應變的黃金時機。',
+      solution: 'uniXecure 導入 [RAVEN](raven.html) 風險分析暨視覺化平台，建置跨機關聯防指揮中心，統一彙整各下屬機關的資安事件與威脅情資，並以視覺化儀表板呈現攻擊路徑與影響範圍，讓資安團隊能即時掌握全局。',
+      value: '導入後，該機關已完成 27 個下屬機關的連線整合，建立起跨機關威脅情資聯防機制，大幅提升整體資安韌性。',
+    },
+    solutions: [
+      { name: 'RAVEN 資安監控維運中心', url: 'raven.html' },
+      { name: 'Claroty OT 資安防護平台', url: '' },
+    ],
+    ctaText: '', ctaUrl: '', seoTitle: '', seoDesc: '', status: 'published',
+    createdAt: '2026-05-15T10:00', updatedAt: '2026-05-20T09:00',
+  },
+  {
+    id: 'c2', slug: 'financial-heis-awareness',
+    title: '某金融業者以 HEIS 提升員工資安意識',
+    industry: '金融',
+    tags: ['HEIS'],
+    publishAt: '2026-04-10T09:00',
+    desc: '導入行為分析與模擬釣魚演練，員工資安意識識別準確率大幅提升，降低社交工程風險。',
+    cover: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
+    body: {
+      intro: '該金融業者過去員工資安意識訓練多為年度單次課程，缺乏持續性的行為監測，難以掌握實際風險缺口。',
+      need: '員工面對社交工程與釣魚郵件的辨識能力參差不齊，且無法量化訓練成效，資安主管難以向管理層說明投資效益。',
+      solution: 'uniXecure 導入 [HEIS](heis.html) 資安意識人因分析系統，透過模擬釣魚演練與行為訊號分析量化每位員工的風險等級，並提供主管儀表板追蹤全公司訓練成效。',
+      value: '導入後員工資安意識識別準確率大幅提升，模擬演練的誤點擊率明顯下降，有效降低社交工程造成的資安風險。',
+    },
+    solutions: [{ name: 'HEIS 資安意識人因分析系統', url: 'heis.html' }],
+    ctaText: '', ctaUrl: '', seoTitle: '', seoDesc: '', status: 'published',
+    createdAt: '2026-04-05T10:00', updatedAt: '2026-04-10T09:00',
+  },
+  {
+    id: 'c3', slug: 'manufacturing-srmas-monitoring',
+    title: '某製造業大廠以 SRMAS 監控雲端與地端資源',
+    industry: '一般製造',
+    tags: ['SRMAS'],
+    publishAt: '2026-02-25T09:00',
+    desc: '整合多雲與地端維運視角，即時告警機制降低系統異常導致的產線中斷風險。',
+    cover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
+    body: {
+      intro: '該製造業大廠橫跨多個雲端平台與地端機房，過去各環境監控系統各自獨立，難以即時掌握整體資源健康狀況。',
+      need: '系統異常發生時，維運團隊得分頭查詢不同平台的監控介面，拉長事件應變時間，曾因此造成產線短暫中斷。',
+      solution: 'uniXecure 導入 SRMAS 系統資源監控暨告警系統，整合多雲與地端環境的監控視角，建立統一告警規則引擎，即時通知維運團隊異常事件。',
+      value: '導入後系統異常平均應變時間明顯縮短，產線因系統問題中斷的次數大幅降低。',
+    },
+    solutions: [{ name: 'SRMAS 系統資源監控暨告警系統', url: '' }],
+    ctaText: '', ctaUrl: '', seoTitle: '', seoDesc: '', status: 'published',
+    createdAt: '2026-02-20T10:00', updatedAt: '2026-02-25T09:00',
+  },
+  {
+    id: 'c4', slug: 'financial-lucas-forensic',
+    title: '某金融機構以 LUCAS 完善跡證保存鏈',
+    industry: '金融',
+    tags: ['LUCAS'],
+    publishAt: '2025-12-15T09:00',
+    desc: '建立符合法遵要求的日誌保存架構，協助內部稽核與法律訴訟佐證需求。',
+    cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80',
+    body: {
+      intro: '該金融機構因應法規要求，需要建立可長期保存且不可竄改的日誌與跡證保存機制，供稽核與司法程序使用。',
+      need: '既有日誌分散在多套系統，保存格式不一致，內部稽核與外部查核時得花大量時間彙整比對，也難以證明保存鏈完整未經竄改。',
+      solution: 'uniXecure 導入 LUCAS 跡證保存系統，統一彙整各系統日誌並建立具公信力的保存鏈，完整記錄每一筆資料的存取與異動軌跡。',
+      value: '導入後內部稽核作業時間大幅縮短，也讓該機構在面對法律訴訟時能提供具公信力的佐證資料。',
+    },
+    solutions: [{ name: 'LUCAS 跡證保存系統', url: '' }],
+    ctaText: '', ctaUrl: '', seoTitle: '', seoDesc: '', status: 'published',
+    createdAt: '2025-12-10T10:00', updatedAt: '2025-12-15T09:00',
+  },
+  {
+    id: 'c5', slug: 'healthcare-raven-monitoring',
+    title: '某醫療機構委託 RAVEN 進行全院資安監控',
+    industry: '醫療',
+    tags: ['RAVEN'],
+    publishAt: '2025-10-08T09:00',
+    desc: '因應病歷資料保護法規要求，建置全天候資安監控機制並定期產出合規報告。',
+    cover: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80',
+    body: {
+      intro: '該醫療機構持有大量病患個資與病歷資料，資安防護等級須符合主管機關法規要求，但內部缺乏 24 小時監控量能。',
+      need: '院內資安人力有限，無法全天候監控各項系統告警，一旦下班時間發生異常事件，往往隔天上班才發現，錯失第一時間應變機會。',
+      solution: 'uniXecure 委託 [RAVEN](raven.html) 資安監控維運中心提供全天候監控服務，即時偵測異常事件並依嚴重度分級通報，同時定期產出合規報告供院方留存查核。',
+      value: '導入後該機構具備全天候資安監控能力，並順利通過主管機關的法規查核。',
+    },
+    solutions: [{ name: 'RAVEN 資安監控維運中心', url: 'raven.html' }],
+    ctaText: '', ctaUrl: '', seoTitle: '', seoDesc: '', status: 'published',
+    createdAt: '2025-10-03T10:00', updatedAt: '2025-10-08T09:00',
+  },
+  {
+    id: 'c6', slug: 'government-heis-training',
+    title: '某政府機關以 HEIS 執行全員資安教育訓練',
+    industry: '政府/教育',
+    tags: ['HEIS'],
+    publishAt: '2025-08-12T09:00',
+    desc: '涵蓋逾千名公務人員的模擬演練與教育訓練，有效提升整體資安意識水準。',
+    cover: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
+    body: {
+      intro: '該政府機關每年須依規定辦理全員資安教育訓練，但過去以單次講習為主，難以掌握同仁實際的風險意識水準。',
+      need: '逾千名公務人員分屬不同單位與職等，統一辦理實體講習成本高，訓練成效也無法量化，難以向上級機關說明具體改善情形。',
+      solution: 'uniXecure 導入 [HEIS](heis.html) 資安意識人因分析系統，以線上模擬釣魚演練搭配情境化教育訓練，並提供主管儀表板彙整全院訓練成效。',
+      value: '導入後完成逾千名公務人員的訓練覆蓋，整體資安意識水準明顯提升，也讓機關具備可量化的成效數據供上級查核。',
+    },
+    solutions: [{ name: 'HEIS 資安意識人因分析系統', url: 'heis.html' }],
+    ctaText: '', ctaUrl: '', seoTitle: '', seoDesc: '', status: 'published',
+    createdAt: '2025-08-07T10:00', updatedAt: '2025-08-12T09:00',
+  },
+];
+
 /* ── 極簡 Markdown → HTML(支援粗體、連結、圖片、巢狀列點)── */
 /* ── 標籤(新聞 / 成功案例 / 影音專區共用同一個標籤池)────────
    產品標籤固定寫法;其餘標籤由各編輯頁存檔時寫入共用標籤池。 */

@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title id="pageTitle">uniXecure 後台｜新增案例</title>
+<link rel="stylesheet" href="style.css" />
+<script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
+</head>
+<body class="has-action-bar">
+
+<div class="topbar">
+  <div class="wrap topbar__inner">
+    <div class="topbar__brand">
+      <span class="topbar__brand-badge">UX</span>
+      uniXecure 內容管理後台
+    </div>
+    <div class="topbar__right"><a class="topbar__back" href="../index.html"><i>←</i> 回官網</a><div class="topbar__crumb">
+      <a href="index.html">後台首頁</a>
+      <span class="topbar__crumb-sep">/</span>
+      <a href="cases.html">成功案例</a>
+      <span class="topbar__crumb-sep">/</span>
+      <span class="topbar__crumb-current" id="crumbCurrent">新增案例</span>
+    </div>
+  </div></div>
+</div>
+
+<div class="wrap">
+  <div class="page-head">
+    <div>
+      <h1 id="formTitle">新增案例</h1>
+      <p>填寫左側欄位，右側會即時預覽官網呈現的樣子。</p>
+    </div>
+  </div>
+
+  <div class="editor-layout">
+    <!-- 表單 -->
+    <div class="editor-form">
+
+      <div class="meta-hint" id="metaHint" style="display:none"></div>
+
+      <div class="form-field">
+        <label>標題</label>
+        <input type="text" id="f_title" placeholder="請輸入案例標題" />
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>產業別</label>
+          <select id="f_industry">
+            <option value="">請選擇產業別</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>發布日期時間 <span class="hint">留空 = 立即發布目前時間，選未來時間 = 自動排程</span></label>
+          <input type="datetime-local" id="f_publishAt" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>標籤</label>
+        <div id="tagPicker"></div>
+      </div>
+
+      <div class="form-field">
+        <label>摘要 <span class="hint">列表卡片會顯示這段文字</span></label>
+        <textarea id="f_desc" style="min-height:70px" placeholder="請輸入摘要，約 1–2 句話"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>封面圖網址 <span class="hint">用於列表縮圖 / 內頁 Banner</span></label>
+        <input type="url" id="f_cover" placeholder="貼上圖片網址，例如 https://..." />
+        <img class="cover-preview" id="coverPreview" src="" alt="" style="display:none" />
+      </div>
+
+      <div class="form-field">
+        <label>說明</label>
+        <div class="md-toolbar" data-target="f_intro">
+          <button type="button" class="md-btn" data-md="bold">粗體</button>
+          <button type="button" class="md-btn" data-md="link">連結</button>
+        </div>
+        <textarea id="f_intro" style="min-height:80px" placeholder="客戶背景與面臨的情境概述"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>客戶需求</label>
+        <div class="md-toolbar" data-target="f_need">
+          <button type="button" class="md-btn" data-md="bold">粗體</button>
+          <button type="button" class="md-btn" data-md="link">連結</button>
+          <button type="button" class="md-btn" data-md="list">列點</button>
+        </div>
+        <textarea id="f_need" style="min-height:80px" placeholder="客戶原本遇到的問題與痛點"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>解決方案</label>
+        <div class="md-toolbar" data-target="f_solution">
+          <button type="button" class="md-btn" data-md="bold">粗體</button>
+          <button type="button" class="md-btn" data-md="link">連結</button>
+          <button type="button" class="md-btn" data-md="list">列點</button>
+        </div>
+        <textarea id="f_solution" style="min-height:80px" placeholder="uniXecure 導入了什麼方案來解決問題"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>創造價值</label>
+        <div class="md-toolbar" data-target="f_value">
+          <button type="button" class="md-btn" data-md="bold">粗體</button>
+          <button type="button" class="md-btn" data-md="link">連結</button>
+        </div>
+        <textarea id="f_value" style="min-height:80px" placeholder="導入後帶來的具體成效"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>導入方案 <span class="hint">可新增多筆，連結網址選填</span></label>
+        <div class="repeat-list" id="solutionsList"></div>
+        <button type="button" class="btn btn-sm repeat-add" id="addSolutionBtn"><i class="fa-solid fa-plus"></i> 新增方案</button>
+      </div>
+
+      <div class="form-field">
+        <label>頁尾 CTA 按鈕 <span class="hint">都填才會顯示</span></label>
+        <div class="form-row">
+          <div class="form-field" style="margin-bottom:0">
+            <input type="text" id="f_ctaText" placeholder="按鈕文字，例如：了解更多" />
+          </div>
+          <div class="form-field" style="margin-bottom:0">
+            <select id="f_ctaUrlPreset" style="margin-bottom:6px">
+              <option value="">自訂網址…</option>
+              <option value="contact.html">聯絡我們</option>
+              <option value="raven.html">RAVEN 產品頁</option>
+              <option value="heis.html">HEIS 產品頁</option>
+              <option value="partners.html">代理產品</option>
+            </select>
+            <input type="url" id="f_ctaUrl" placeholder="按鈕連結網址" />
+          </div>
+        </div>
+      </div>
+
+      <details class="seo-details">
+        <summary>SEO 設定</summary>
+        <div class="seo-details__body">
+          <div class="form-field">
+            <label>網址代稱(Slug)</label>
+            <div class="slug-row">
+              <span class="slug-row__prefix">/cases/</span>
+              <input type="text" id="f_slug" placeholder="會依標題自動產生，可手動修改" />
+            </div>
+            <div class="slug-hint" id="slugHint"></div>
+          </div>
+          <div class="form-field">
+            <label>SEO 標題 <span class="hint">留空則使用案例標題</span></label>
+            <input type="text" id="f_seoTitle" maxlength="70" placeholder="搜尋結果顯示的標題" />
+            <div class="char-count" id="seoTitleCount">0 / 60 建議字數</div>
+          </div>
+          <div class="form-field">
+            <label>SEO 描述 <span class="hint">留空則使用摘要</span></label>
+            <textarea id="f_seoDesc" maxlength="200" style="min-height:60px" placeholder="搜尋結果顯示的描述文字"></textarea>
+            <div class="char-count" id="seoDescCount">0 / 160 建議字數</div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- 預覽 -->
+    <div class="preview-panel">
+      <div class="preview-stage" id="stageCard">
+        <div class="preview-stage__label">列表預覽</div>
+        <div id="cardPreview"></div>
+      </div>
+
+      <div class="preview-stage" id="stageArticle">
+        <div class="preview-stage__label">內頁預覽</div>
+        <div id="articlePreview"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="action-bar">
+  <div class="wrap action-bar__inner">
+    <a class="btn btn-ghost" href="cases.html">取消</a>
+    <div class="action-bar__group">
+      <button class="btn" id="draftBtn">儲存草稿</button>
+      <button class="btn btn-primary" id="publishBtn">立即發布</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+const casesStore = createContentStore('ux_admin_cases_v1', SEED_CASES, 'c');
+
+/* 產業別選單 */
+document.getElementById('f_industry').insertAdjacentHTML('beforeend',
+  CASE_INDUSTRIES.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join(''));
+
+const params = new URLSearchParams(location.search);
+const editId = params.get('id');
+const existing = editId ? casesStore.getById(editId) : null;
+let slugTouched = !!existing;
+const tagPicker = createTagPicker(document.getElementById('tagPicker'), existing ? existing.tags : [], () => renderPreview());
+
+/* 導入方案:可新增/刪除多筆,狀態存在 solutions 陣列 */
+let solutions = (existing && existing.solutions && existing.solutions.length)
+  ? existing.solutions.map(s => ({ ...s }))
+  : [{ name: '', url: '' }];
+
+function renderSolutions() {
+  const box = document.getElementById('solutionsList');
+  box.innerHTML = solutions.map((s, i) => `
+    <div class="repeat-row">
+      <input type="text" data-i="${i}" data-f="name" placeholder="方案名稱，例如：RAVEN 資安監控維運中心" value="${escapeHtml(s.name)}" />
+      <input type="text" data-i="${i}" data-f="url" placeholder="連結網址(選填)" value="${escapeHtml(s.url)}" />
+      <button type="button" class="repeat-row__remove" data-remove="${i}" aria-label="刪除這一筆"><i class="fa-solid fa-xmark"></i></button>
+    </div>`).join('');
+}
+document.getElementById('solutionsList').addEventListener('input', e => {
+  const i = e.target.dataset.i, f = e.target.dataset.f;
+  if (i === undefined) return;
+  solutions[Number(i)][f] = e.target.value;
+  renderPreview();
+});
+document.getElementById('solutionsList').addEventListener('click', e => {
+  const rm = e.target.closest('[data-remove]');
+  if (!rm) return;
+  solutions.splice(Number(rm.dataset.remove), 1);
+  if (!solutions.length) solutions = [{ name: '', url: '' }];
+  renderSolutions();
+  renderPreview();
+});
+document.getElementById('addSolutionBtn').addEventListener('click', () => {
+  solutions.push({ name: '', url: '' });
+  renderSolutions();
+});
+renderSolutions();
+
+/* 編輯模式帶入既有資料 */
+if (existing) {
+  document.getElementById('pageTitle').textContent = 'uniXecure 後台｜編輯案例';
+  document.getElementById('formTitle').textContent = '編輯案例';
+  document.getElementById('crumbCurrent').textContent = '編輯案例';
+  document.getElementById('f_title').value = existing.title || '';
+  document.getElementById('f_industry').value = existing.industry || '';
+  document.getElementById('f_publishAt').value = existing.publishAt || '';
+  document.getElementById('f_desc').value = existing.desc || '';
+  document.getElementById('f_cover').value = existing.cover || '';
+  document.getElementById('f_intro').value = existing.body ? existing.body.intro || '' : '';
+  document.getElementById('f_need').value = existing.body ? existing.body.need || '' : '';
+  document.getElementById('f_solution').value = existing.body ? existing.body.solution || '' : '';
+  document.getElementById('f_value').value = existing.body ? existing.body.value || '' : '';
+  document.getElementById('f_ctaText').value = existing.ctaText || '';
+  document.getElementById('f_ctaUrl').value = existing.ctaUrl || '';
+  const ctaPresetInit = document.getElementById('f_ctaUrlPreset');
+  if ([...ctaPresetInit.options].some(o => o.value === existing.ctaUrl)) ctaPresetInit.value = existing.ctaUrl;
+  document.getElementById('f_slug').value = existing.slug || '';
+  document.getElementById('f_seoTitle').value = existing.seoTitle || '';
+  document.getElementById('f_seoDesc').value = existing.seoDesc || '';
+
+  if (existing.updatedAt) {
+    const hint = document.getElementById('metaHint');
+    const d = new Date(existing.updatedAt);
+    hint.style.display = 'block';
+    const timeStr = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    hint.textContent = `最後編輯時間：${timeStr}，目前狀態：${STATUS_LABEL[getStatus(existing)]}`;
+  }
+}
+
+/* slug 撞網址檢查:垃圾桶裡的案例也算佔用,永久刪除過的不算 */
+function checkSlugAndRender() {
+  const slug = document.getElementById('f_slug').value.trim();
+  const hint = document.getElementById('slugHint');
+  const result = casesStore.checkSlugStatus(slug, existing ? existing.id : null);
+  if (result.status === 'live') {
+    hint.textContent = `這個網址已經被「${result.title}」使用中，請換一個`;
+    hint.className = 'slug-hint slug-hint--error';
+  } else if (result.status === 'trash') {
+    hint.textContent = `這個網址目前被垃圾桶裡的「${result.title}」佔用，還原時會需要用到，請換一個或先去垃圾桶永久刪除那篇`;
+    hint.className = 'slug-hint slug-hint--error';
+  } else {
+    hint.textContent = '';
+    hint.className = 'slug-hint';
+  }
+  return result.status;
+}
+
+/* 標題變動時自動帶出 slug(除非使用者已手動編輯過 slug)*/
+document.getElementById('f_title').addEventListener('input', () => {
+  if (slugTouched) return;
+  const s = slugify(document.getElementById('f_title').value);
+  document.getElementById('f_slug').value = s;
+  checkSlugAndRender();
+});
+document.getElementById('f_slug').addEventListener('input', () => { slugTouched = true; checkSlugAndRender(); });
+checkSlugAndRender();
+
+/* SEO 字數提示 */
+function bindCharCount(inputId, countId, max) {
+  const el = document.getElementById(inputId);
+  const countEl = document.getElementById(countId);
+  const update = () => { countEl.textContent = `${el.value.length} / ${max} 建議字數`; };
+  el.addEventListener('input', update);
+  update();
+}
+bindCharCount('f_seoTitle', 'seoTitleCount', 60);
+bindCharCount('f_seoDesc', 'seoDescCount', 160);
+
+/* Markdown 工具列:每段內文各自一組,用 data-target 對應到自己的 textarea */
+document.querySelectorAll('.md-toolbar[data-target]').forEach(bar => {
+  const ta = document.getElementById(bar.dataset.target);
+  bar.addEventListener('click', e => {
+    const btn = e.target.closest('[data-md]');
+    if (!btn) return;
+    if (btn.dataset.md === 'bold') {
+      mdInsertAtCursor(ta, '**', '**', '粗體文字');
+    } else if (btn.dataset.md === 'link') {
+      const url = prompt('請輸入連結網址', 'https://');
+      if (!url) return;
+      mdInsertAtCursor(ta, '[', `](${url})`, '連結文字');
+    } else if (btn.dataset.md === 'list') {
+      mdPrefixLines(ta, line => line.trim() === '' ? line : (/^\s*-\s+/.test(line) ? line : '- ' + line.replace(/^\s+/, '')));
+    }
+  });
+});
+
+const fields = ['f_title','f_industry','f_publishAt','f_desc','f_cover','f_intro','f_need','f_solution','f_value','f_ctaText','f_ctaUrl','f_slug','f_seoTitle','f_seoDesc'];
+
+function currentData() {
+  return {
+    id: existing ? existing.id : null,
+    title: document.getElementById('f_title').value.trim(),
+    industry: document.getElementById('f_industry').value,
+    publishAt: document.getElementById('f_publishAt').value,
+    desc: document.getElementById('f_desc').value.trim(),
+    cover: document.getElementById('f_cover').value.trim(),
+    body: {
+      intro: document.getElementById('f_intro').value,
+      need: document.getElementById('f_need').value,
+      solution: document.getElementById('f_solution').value,
+      value: document.getElementById('f_value').value,
+    },
+    solutions: solutions.filter(s => s.name.trim()).map(s => ({ name: s.name.trim(), url: s.url.trim() })),
+    ctaText: document.getElementById('f_ctaText').value.trim(),
+    ctaUrl: document.getElementById('f_ctaUrl').value.trim(),
+    tags: tagPicker.getTags(),
+    slug: document.getElementById('f_slug').value.trim(),
+    seoTitle: document.getElementById('f_seoTitle').value.trim(),
+    seoDesc: document.getElementById('f_seoDesc').value.trim(),
+    createdAt: existing ? existing.createdAt : null,
+  };
+}
+
+function renderPreview() {
+  const d = currentData();
+  const scheduled = d.publishAt && new Date(d.publishAt).getTime() > Date.now();
+
+  const coverImg = document.getElementById('coverPreview');
+  if (d.cover) { coverImg.src = d.cover; coverImg.style.display = 'block'; }
+  else { coverImg.style.display = 'none'; }
+
+  const tagsHtml = tagChipsHtml(d.tags, 3, 'mock-card__tag');
+
+  document.getElementById('cardPreview').innerHTML = `
+    ${scheduled ? '<div class="status-badge status-badge--scheduled" style="margin-bottom:10px">已排程</div>' : ''}
+    <div class="mock-card">
+      <img class="mock-card__thumb" src="${d.cover || ''}" alt="" onerror="this.removeAttribute('src')" />
+      <div class="mock-card__body">
+        <div class="mock-card__meta">
+          <span class="mock-card__industry">${escapeHtml(d.industry) || '尚未選擇產業'}</span>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${tagsHtml}</div>
+        </div>
+        <p class="mock-card__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</p>
+        <p class="mock-card__desc">${escapeHtml(d.desc) || '(尚未輸入摘要)'}</p>
+      </div>
+    </div>
+  `;
+
+  const solutionsHtml = d.solutions.length ? `
+    <div class="mock-article__h2">導入方案</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+      ${d.solutions.map(s => s.url
+        ? `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener" style="color:var(--indigo);font-weight:600;font-size:14px;text-decoration:none">${escapeHtml(s.name)} ↗</a>`
+        : `<span style="font-size:14px;font-weight:600;color:var(--ink)">${escapeHtml(s.name)}</span>`
+      ).join('')}
+    </div>` : '';
+
+  document.getElementById('articlePreview').innerHTML = `
+    ${scheduled ? '<div class="status-badge status-badge--scheduled" style="margin-bottom:10px">已排程，尚未到發布時間</div>' : ''}
+    <div class="mock-article">
+      <div class="mock-article__crumb">首頁 / 最新消息 / 成功案例</div>
+      ${d.industry ? `<span class="mock-article__industry">${escapeHtml(d.industry)}</span>` : ''}
+      <h2 class="mock-article__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</h2>
+      <div class="mock-article__body"><p>${mdInline(d.body.intro) || '(尚未輸入說明)'}</p></div>
+      ${d.cover ? `<img class="mock-article__banner" src="${d.cover}" alt="" onerror="this.style.display='none'" />` : ''}
+      <div class="mock-article__body">
+        <div class="mock-article__h2">客戶需求</div>
+        ${mdToHtml(d.body.need)}
+        <div class="mock-article__h2">解決方案</div>
+        ${mdToHtml(d.body.solution)}
+        <div class="mock-article__h2">創造價值</div>
+        ${mdToHtml(d.body.value)}
+      </div>
+      ${solutionsHtml}
+      ${d.ctaText && d.ctaUrl ? `<div class="mock-article__cta-row"><a class="mock-article__cta" href="${escapeHtml(d.ctaUrl)}" target="_blank" rel="noopener">${escapeHtml(d.ctaText)}</a></div>` : ''}
+      <div class="mock-article__tags">
+        ${sortTags(d.tags).map(t => `<span class="mock-article__tag">#${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--ink-4);font-size:12px">(尚未輸入標籤)</span>'}
+      </div>
+    </div>
+  `;
+}
+
+/* 發布按鈕文字依日期動態調整:未來時間 → 排程發布 */
+function updatePublishBtnLabel() {
+  const v = document.getElementById('f_publishAt').value;
+  const future = v && new Date(v).getTime() > Date.now();
+  document.getElementById('publishBtn').textContent = future ? '排程發布' : '立即發布';
+}
+document.getElementById('f_publishAt').addEventListener('input', updatePublishBtnLabel);
+updatePublishBtnLabel();
+
+fields.forEach(id => document.getElementById(id).addEventListener('input', renderPreview));
+
+/* CTA 網址下拉:選了就幫忙帶入,仍可在下面文字框改成其他網址 */
+document.getElementById('f_ctaUrlPreset').addEventListener('change', function () {
+  if (!this.value) return;
+  const urlInput = document.getElementById('f_ctaUrl');
+  urlInput.value = this.value;
+  urlInput.dispatchEvent(new Event('input', { bubbles: true }));
+});
+
+/* 儲存草稿:不檢查發布時間,狀態一律存為 draft */
+document.getElementById('draftBtn').addEventListener('click', () => {
+  const d = currentData();
+  if (!d.title) { alert('請至少輸入標題再儲存'); return; }
+  if (!d.slug) { d.slug = 'c' + Date.now(); }
+  const slugStatus = checkSlugAndRender();
+  if (slugStatus === 'live' || slugStatus === 'trash') { alert('這個網址(slug)已經被使用，請先修改再儲存'); return; }
+  d.status = 'draft';
+  casesStore.upsert(d);
+  location.href = 'cases.html';
+});
+
+/* 發布 / 排程發布:狀態存為 published,實際「已發布」或「已排程」由發布時間自動判斷 */
+document.getElementById('publishBtn').addEventListener('click', () => {
+  const d = currentData();
+  if (!d.title) { alert('請至少輸入標題再儲存'); return; }
+  if (!d.publishAt) { d.publishAt = nowLocalInputValue(); }
+  if (!d.slug) { d.slug = 'c' + Date.now(); }
+  const slugStatus = checkSlugAndRender();
+  if (slugStatus === 'live' || slugStatus === 'trash') { alert('這個網址(slug)已經被使用，請先修改再儲存'); return; }
+  d.status = 'published';
+  casesStore.upsert(d);
+  location.href = 'cases.html';
+});
+
+renderPreview();
+</script>
+</body>
+</html>

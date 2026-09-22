@@ -35,7 +35,7 @@
 const TYPES = [
   { key:'news', name:'新聞中心', desc:'產品動態、合規升級、產業觀察', badge:'新', color:'#3c49ba', href:'news.html', open:true },
   { key:'events', name:'行銷活動', desc:'研討會、展會與線上活動', badge:'動', color:'#ffb415', href:'#', open:false },
-  { key:'cases', name:'成功案例', desc:'各產業導入案例(僅列表，無內頁)', badge:'案', color:'#4caf82', href:'#', open:false },
+  { key:'cases', name:'成功案例', desc:'各產業導入案例，含列表與內頁', badge:'案', color:'#4caf82', href:'cases.html', open:true },
   { key:'contract', name:'共同供應契約', desc:'契約主檔與品項明細', badge:'契', color:'#8a5cf6', href:'#', open:false },
   { key:'reports', name:'報告書專區', desc:'白皮書、技術文件、產品型錄', badge:'報', color:'#e2544a', href:'#', open:false },
   { key:'videos', name:'影音專區', desc:'直接連結至 YouTube 影片', badge:'影', color:'#2ba0c9', href:'#', open:false },
@@ -45,10 +45,14 @@ const TYPES = [
 function newsCount(){
   try { return loadActiveNews().length; } catch(e){ return 0; }
 }
+function casesCount(){
+  try { return createContentStore('ux_admin_cases_v1', SEED_CASES, 'c').loadActive().length; } catch(e){ return 0; }
+}
+const COUNTERS = { news: newsCount, cases: casesCount };
 
 const grid = document.getElementById('typeGrid');
 grid.innerHTML = TYPES.map(t => {
-  const count = t.key === 'news' ? newsCount() : null;
+  const count = COUNTERS[t.key] ? COUNTERS[t.key]() : null;
   const countHtml = t.open
     ? `<span class="type-card__count">共 <b>${count}</b> 筆</span>`
     : `<span class="type-card__count">尚未建立內容</span>`;
