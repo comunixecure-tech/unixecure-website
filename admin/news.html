@@ -83,11 +83,6 @@ function newsCell(key, n) {
 }
 
 let visibleCols = NEWS_COLUMNS;
-createColumnToggle(document.getElementById('colToggle'), 'ux_admin_news_cols_v1', NEWS_COLUMNS, keys => {
-  visibleCols = NEWS_COLUMNS.filter(c => keys.includes(c.key));
-  document.getElementById('dataList').style.setProperty('--cols', visibleCols.map(c => c.width).join(' '));
-  render();
-});
 
 /* ── 表頭篩選(狀態 / 標籤):面板獨立浮在 body 上，不受表格橫向捲動裁切影響 ── */
 const statusFilterSel = new Set();
@@ -164,6 +159,12 @@ function headerCell(c) {
 let currentPage = 1;
 let pageSize = Number(localStorage.getItem('ux_admin_news_pagesize_v1')) || 10;
 const PAGE_SIZE_OPTIONS = [10, 20, 50];
+
+createColumnToggle(document.getElementById('colToggle'), 'ux_admin_news_cols_v1', NEWS_COLUMNS, keys => {
+  visibleCols = NEWS_COLUMNS.filter(c => keys.includes(c.key));
+  document.getElementById('dataList').style.setProperty('--cols', visibleCols.map(c => c.width).join(' '));
+  render();
+});
 
 function changePageSize(v) {
   pageSize = Number(v);
