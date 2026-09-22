@@ -44,17 +44,16 @@
         <input type="text" id="f_title" placeholder="請輸入案例標題" />
       </div>
 
-      <div class="form-row">
-        <div class="form-field">
-          <label>產業別</label>
-          <select id="f_industry">
-            <option value="">請選擇產業別</option>
-          </select>
-        </div>
-        <div class="form-field">
-          <label>發布日期時間 <span class="hint">留空 = 立即發布目前時間，選未來時間 = 自動排程</span></label>
-          <input type="datetime-local" id="f_publishAt" />
-        </div>
+      <div class="form-field">
+        <label>產業別</label>
+        <select id="f_industry">
+          <option value="">請選擇產業別</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label>發布日期時間 <span class="hint">留空 = 立即發布目前時間，選未來時間 = 自動排程</span></label>
+        <input type="datetime-local" id="f_publishAt" />
       </div>
 
       <div class="form-field">
@@ -375,12 +374,15 @@ function renderPreview() {
   `;
 
   const solutionsHtml = d.solutions.length ? `
-    <div class="mock-article__h2">導入方案</div>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
-      ${d.solutions.map(s => s.url
-        ? `<a href="${escapeHtml(s.url)}" target="_blank" rel="noopener" style="color:var(--indigo);font-weight:600;font-size:14px;text-decoration:none">${escapeHtml(s.name)} ↗</a>`
-        : `<span style="font-size:14px;font-weight:600;color:var(--ink)">${escapeHtml(s.name)}</span>`
-      ).join('')}
+    <div class="mock-case-product">
+      <div class="mock-case-product__label">導入方案</div>
+      ${d.solutions.map(s => `
+        <div class="mock-case-product__item">
+          <div class="mock-case-product__logobox"><i class="fa-solid fa-shield-halved"></i></div>
+          ${s.url
+            ? `<a class="mock-case-product__link" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.name)} <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
+            : `<span class="mock-case-product__name">${escapeHtml(s.name)}</span>`}
+        </div>`).join('')}
     </div>` : '';
 
   document.getElementById('articlePreview').innerHTML = `

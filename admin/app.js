@@ -450,7 +450,7 @@ function createTagPicker(root, initial, onChange) {
   root.innerHTML = `
     <div class="tag-picker__box">
       <span class="tag-picker__selected"></span>
-      <input class="tag-picker__input" type="text" placeholder="輸入標籤後按 Enter 新增" />
+      <input class="tag-picker__input" type="text" placeholder="按 Enter 新增" />
     </div>
     <div class="tag-picker__group"><span class="tag-picker__label">產品</span><div class="chip-select" data-group="prod"></div></div>
     <div class="tag-picker__group" data-wrap="common"><span class="tag-picker__label">常用標籤</span><div class="chip-select" data-group="common"></div></div>`;
