@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title id="pageTitle">新增新聞 · uniXecure 後台</title>
+<title id="pageTitle">uniXecure 後台｜新增新聞</title>
 <link rel="stylesheet" href="style.css" />
 </head>
 <body class="has-action-bar">
@@ -118,12 +118,12 @@
     <!-- 預覽 -->
     <div class="preview-panel">
       <div class="preview-stage" id="stageCard">
-        <div class="preview-stage__label">新聞中心列表 · 卡片預覽</div>
+        <div class="preview-stage__label">列表預覽</div>
         <div id="cardPreview"></div>
       </div>
 
       <div class="preview-stage" id="stageArticle">
-        <div class="preview-stage__label">新聞內頁 · 完整版面預覽</div>
+        <div class="preview-stage__label">內頁預覽</div>
         <div id="articlePreview"></div>
       </div>
     </div>
@@ -150,7 +150,7 @@ const tagPicker = createTagPicker(document.getElementById('tagPicker'), existing
 
 /* 編輯模式帶入既有資料 */
 if (existing) {
-  document.getElementById('pageTitle').textContent = '編輯新聞 · uniXecure 後台';
+  document.getElementById('pageTitle').textContent = 'uniXecure 後台｜編輯新聞';
   document.getElementById('formTitle').textContent = '編輯新聞';
   document.getElementById('crumbCurrent').textContent = '編輯新聞';
   document.getElementById('f_title').value = existing.title || '';
@@ -169,7 +169,7 @@ if (existing) {
     const d = new Date(existing.updatedAt);
     hint.style.display = 'block';
     const timeStr = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    hint.textContent = `最後編輯時間:${timeStr} · 目前狀態:${STATUS_LABEL[getStatus(existing)]}`;
+    hint.textContent = `最後編輯時間：${timeStr}，目前狀態：${STATUS_LABEL[getStatus(existing)]}`;
   }
 }
 
@@ -281,7 +281,7 @@ function renderPreview() {
   const bodyHtml = mdToHtml(d.body);
 
   document.getElementById('articlePreview').innerHTML = `
-    ${scheduled ? '<div class="status-badge status-badge--scheduled" style="margin-bottom:10px">已排程 · 尚未到發布時間</div>' : ''}
+    ${scheduled ? '<div class="status-badge status-badge--scheduled" style="margin-bottom:10px">已排程，尚未到發布時間</div>' : ''}
     <div class="mock-article">
       <div class="mock-article__crumb">首頁 / 最新消息 / 新聞中心</div>
       <div class="mock-article__date">${formatDateTime(d.publishAt) || '尚未設定日期'}</div>
