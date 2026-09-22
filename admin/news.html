@@ -27,7 +27,6 @@
   <div class="page-head">
     <div>
       <h1>新聞中心</h1>
-      <p>管理官網「新聞中心」顯示的所有文章。</p>
     </div>
     <a class="btn btn-primary" href="news-editor.html">＋ 新增新聞</a>
   </div>
@@ -45,6 +44,7 @@
 
   <div class="data-list" id="dataList"></div>
   <div class="pagination" id="pagination"></div>
+  <div class="th-filter__panel" id="thFilterPanel" hidden></div>
 
   <div id="trashSection" style="display:none;margin-top:28px">
     <div class="page-head" style="padding:0 0 14px">
@@ -66,7 +66,7 @@ const NEWS_COLUMNS = [
   { key: 'cover', label: '封面', width: '64px' },
   { key: 'title', label: '標題', width: 'minmax(220px,1fr)', locked: true },
   { key: 'tags', label: '標籤', width: '110px' },
-  { key: 'status', label: '狀態', width: '84px' },
+  { key: 'status', label: '狀態', width: '100px' },
   { key: 'date', label: '日期', width: '90px' },
   { key: 'actions', label: '操作', width: '160px', align: 'right', locked: true },
 ];
@@ -89,26 +89,137 @@ createColumnToggle(document.getElementById('colToggle'), 'ux_admin_news_cols_v1'
   render();
 });
 
+/* ── 表頭篩選(狀態 / 標籤):面板獨立浮在 body 上，不受表格橫向捲動裁切影響 ── */
+const statusFilterSel = new Set();
+const tagFilterSel = new Set();
+let openFilterCol = null; // 'status' | 'tags' | null
+const filterPanelEl = document.getElementById('thFilterPanel');
+const STATUS_ORDER = ['published', 'scheduled', 'draft'];
+
+function filterOptionRow(label, checked, onclick) {
+  return `<label class="col-toggle__item"><input type="checkbox" onchange="${onclick}" ${checked ? 'checked' : ''} /> ${label}</label>`;
+}
+
+function renderFilterPanel() {
+  if (!openFilterCol) { filterPanelEl.hidden = true; return; }
+  let title, body;
+  if (openFilterCol === 'status') {
+    title = '狀態篩選';
+    body = STATUS_ORDER.map(v => filterOptionRow(STATUS_LABEL[v], statusFilterSel.has(v), `toggleStatusFilter('${v}')`)).join('');
+  } else {
+    title = '標籤篩選';
+    const opts = sortTags([...PRODUCT_TAGS, ...getCommonTags()]);
+    body = `<div class="th-filter__list">${opts.map(v => filterOptionRow(escapeHtml(v), tagFilterSel.has(v), `toggleTagFilter('${escapeHtml(v)}')`)).join('')}</div>`;
+  }
+  const sel = openFilterCol === 'status' ? statusFilterSel : tagFilterSel;
+  filterPanelEl.innerHTML = `
+    <div class="th-filter__head">${title}${sel.size ? `<button type="button" class="th-filter__clear" onclick="clearColFilter('${openFilterCol}')">清除</button>` : ''}</div>
+    ${body}`;
+  filterPanelEl.hidden = false;
+}
+
+function positionFilterPanel(btn) {
+  const r = btn.getBoundingClientRect();
+  filterPanelEl.style.top = (r.bottom + window.scrollY + 6) + 'px';
+  filterPanelEl.style.left = Math.max(8, r.right + window.scrollX - 200) + 'px';
+}
+
+function toggleFilterPanel(col, btn) {
+  if (openFilterCol === col) { openFilterCol = null; renderFilterPanel(); return; }
+  openFilterCol = col;
+  renderFilterPanel();
+  positionFilterPanel(btn);
+}
+function toggleStatusFilter(v) {
+  statusFilterSel.has(v) ? statusFilterSel.delete(v) : statusFilterSel.add(v);
+  currentPage = 1; render();
+}
+function toggleTagFilter(v) {
+  tagFilterSel.has(v) ? tagFilterSel.delete(v) : tagFilterSel.add(v);
+  currentPage = 1; render();
+}
+function clearColFilter(col) {
+  (col === 'status' ? statusFilterSel : tagFilterSel).clear();
+  currentPage = 1; render();
+}
+document.addEventListener('click', e => {
+  if (!openFilterCol) return;
+  if (e.target.closest('#thFilterPanel') || e.target.closest('.th-filter__btn')) return;
+  openFilterCol = null;
+  filterPanelEl.hidden = true;
+});
+
+function headerCell(c) {
+  if (c.key === 'status' || c.key === 'tags') {
+    const sel = c.key === 'status' ? statusFilterSel : tagFilterSel;
+    return `<div class="th-filter-wrap">
+      <span>${c.label}</span>
+      <button type="button" class="th-filter__btn ${sel.size ? 'is-active' : ''}" onclick="toggleFilterPanel('${c.key}', this)"><i class="fa-solid fa-filter"></i></button>
+    </div>`;
+  }
+  return `<div${c.align === 'right' ? ' style="text-align:right"' : ''}>${c.label}</div>`;
+}
+
+/* ── 分頁 ────────────────────────────────────────────── */
+let currentPage = 1;
+let pageSize = Number(localStorage.getItem('ux_admin_news_pagesize_v1')) || 10;
+const PAGE_SIZE_OPTIONS = [10, 20, 50];
+
+function changePageSize(v) {
+  pageSize = Number(v);
+  localStorage.setItem('ux_admin_news_pagesize_v1', String(pageSize));
+  currentPage = 1;
+  render();
+}
+function goToPage(p) { currentPage = p; render(); }
+
+function renderPagination(total, totalPages) {
+  const box = document.getElementById('pagination');
+  if (!total) { box.innerHTML = ''; return; }
+  const sizeSelect = `
+    <label class="pagination__size">每頁顯示
+      <select onchange="changePageSize(this.value)">
+        ${PAGE_SIZE_OPTIONS.map(n => `<option value="${n}" ${n === pageSize ? 'selected' : ''}>${n}</option>`).join('')}
+      </select>
+      筆，共 ${total} 筆
+    </label>`;
+  let pages = '';
+  if (totalPages > 1) {
+    pages = `<div class="pagination__pages">
+      <button type="button" class="btn btn-sm" ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">上一頁</button>
+      ${Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `<button type="button" class="btn btn-sm ${p === currentPage ? 'btn-primary' : ''}" onclick="goToPage(${p})">${p}</button>`).join('')}
+      <button type="button" class="btn btn-sm" ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">下一頁</button>
+    </div>`;
+  }
+  box.innerHTML = `<div class="pagination__bar">${sizeSelect}${pages}</div>`;
+}
+
 function render() {
   const kw = document.getElementById('kw').value.trim().toLowerCase();
-  const list = loadActiveNews().filter(n => !kw || n.title.toLowerCase().includes(kw));
+  let list = loadActiveNews().filter(n => !kw || n.title.toLowerCase().includes(kw));
+  if (statusFilterSel.size) list = list.filter(n => statusFilterSel.has(getStatus(n)));
+  if (tagFilterSel.size) list = list.filter(n => (n.tags || []).some(t => tagFilterSel.has(t)));
+
+  const total = list.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  if (currentPage > totalPages) currentPage = totalPages;
+  const pageList = list.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+
   const box = document.getElementById('dataList');
+  const head = `<div class="data-row data-row--head">${visibleCols.map(headerCell).join('')}</div>`;
 
-  const head = `
-    <div class="data-row data-row--head">
-      ${visibleCols.map(c => `<div${c.align === 'right' ? ' style="text-align:right"' : ''}>${c.label}</div>`).join('')}
-    </div>`;
-
-  if (!list.length) {
-    box.innerHTML = head + `<div class="empty-state">找不到符合的新聞，試試看清空搜尋關鍵字</div>`;
+  if (!total) {
+    box.innerHTML = head + `<div class="empty-state">找不到符合的新聞，試試看清空搜尋關鍵字或篩選條件</div>`;
   } else {
-    box.innerHTML = head + list.map(n => `
+    box.innerHTML = head + pageList.map(n => `
       <div class="data-row">
         ${visibleCols.map(c => newsCell(c.key, n)).join('')}
       </div>
     `).join('');
   }
 
+  renderPagination(total, totalPages);
+  renderFilterPanel();
   renderTrashToggle();
   if (showTrash) renderTrash();
 }
@@ -161,7 +272,7 @@ function purgeItem(id) {
   render();
 }
 
-document.getElementById('kw').addEventListener('input', render);
+document.getElementById('kw').addEventListener('input', () => { currentPage = 1; render(); });
 document.getElementById('trashToggle').addEventListener('click', () => {
   showTrash = !showTrash;
   document.getElementById('trashSection').style.display = showTrash ? 'block' : 'none';
