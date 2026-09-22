@@ -80,12 +80,19 @@
       </div>
 
       <div class="form-field">
-        <label>CTA 按鈕 <span class="hint">選填，按鈕文字與網址都填寫才會顯示在內文結尾</span></label>
+        <label>頁尾 CTA 按鈕 <span class="hint">都填才會顯示</span></label>
         <div class="form-row">
           <div class="form-field" style="margin-bottom:0">
             <input type="text" id="f_ctaText" placeholder="按鈕文字，例如：了解更多" />
           </div>
           <div class="form-field" style="margin-bottom:0">
+            <select id="f_ctaUrlPreset" style="margin-bottom:6px">
+              <option value="">自訂網址…</option>
+              <option value="contact.html">聯絡我們</option>
+              <option value="raven.html">RAVEN 產品頁</option>
+              <option value="heis.html">HEIS 產品頁</option>
+              <option value="partners.html">代理產品</option>
+            </select>
             <input type="url" id="f_ctaUrl" placeholder="按鈕連結網址" />
           </div>
         </div>
@@ -161,6 +168,8 @@ if (existing) {
   document.getElementById('f_body').value = existing.body || '';
   document.getElementById('f_ctaText').value = existing.ctaText || '';
   document.getElementById('f_ctaUrl').value = existing.ctaUrl || '';
+  const ctaPresetInit = document.getElementById('f_ctaUrlPreset');
+  if ([...ctaPresetInit.options].some(o => o.value === existing.ctaUrl)) ctaPresetInit.value = existing.ctaUrl;
   document.getElementById('f_slug').value = existing.slug || '';
   document.getElementById('f_seoTitle').value = existing.seoTitle || '';
   document.getElementById('f_seoDesc').value = existing.seoDesc || '';
@@ -289,7 +298,7 @@ function renderPreview() {
       <h2 class="mock-article__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</h2>
       ${d.cover ? `<img class="mock-article__banner" src="${d.cover}" alt="" onerror="this.style.display='none'" />` : ''}
       <div class="mock-article__body">${bodyHtml}</div>
-      ${d.ctaText && d.ctaUrl ? `<a class="mock-article__cta" href="${escapeHtml(d.ctaUrl)}" target="_blank" rel="noopener">${escapeHtml(d.ctaText)}</a>` : ''}
+      ${d.ctaText && d.ctaUrl ? `<div class="mock-article__cta-row"><a class="mock-article__cta" href="${escapeHtml(d.ctaUrl)}" target="_blank" rel="noopener">${escapeHtml(d.ctaText)}</a></div>` : ''}
       <div class="mock-article__tags">
         ${sortTags(d.tags).map(t => `<span class="mock-article__tag">#${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--ink-4);font-size:12px">(尚未輸入標籤)</span>'}
       </div>
@@ -307,6 +316,14 @@ document.getElementById('f_publishAt').addEventListener('input', updatePublishBt
 updatePublishBtnLabel();
 
 fields.forEach(id => document.getElementById(id).addEventListener('input', renderPreview));
+
+/* CTA 網址下拉:選了就幫忙帶入,仍可在下面文字框改成其他網址 */
+document.getElementById('f_ctaUrlPreset').addEventListener('change', function () {
+  if (!this.value) return;
+  const urlInput = document.getElementById('f_ctaUrl');
+  urlInput.value = this.value;
+  urlInput.dispatchEvent(new Event('input', { bubbles: true }));
+});
 
 /* 儲存草稿:不檢查發布時間,狀態一律存為 draft */
 document.getElementById('draftBtn').addEventListener('click', () => {
