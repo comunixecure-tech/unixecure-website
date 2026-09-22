@@ -125,12 +125,14 @@ a{color:inherit;text-decoration:none}
 .form-field .hint{font-weight:400;color:var(--ink-4);margin-left:4px}
 .form-field input[type=text],
 .form-field input[type=date],
+.form-field input[type=datetime-local],
 .form-field input[type=url],
 .form-field select,
 .form-field textarea{
   width:100%;border:1px solid var(--line);border-radius:8px;padding:9px 12px;
   font:inherit;font-size:13.5px;color:var(--ink);background:#fdfdfe;outline:none;transition:.15s;
 }
+.form-field input[type=datetime-local]{color-scheme:light}
 .form-field textarea{resize:vertical;min-height:100px;line-height:1.7}
 .form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--indigo);background:#fff}
 .form-field .cover-preview{
