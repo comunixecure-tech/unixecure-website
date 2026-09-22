@@ -40,7 +40,7 @@ const SEED_NEWS = [
   {
     id: 'n4', slug: 'srmas-cloud-alert-module',
     title: 'SRMAS 新增雲端資源異常告警模組',
-    publishAt: '2026-02-20T09:00',
+    publishAt: '2026-11-05T09:00',
     desc: '即時偵測雲端主機資源異常波動，結合告警規則引擎，降低誤報並縮短事件應變時間。',
     cover: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
     tags: ['SRMAS', '雲端監控'],
@@ -73,7 +73,7 @@ const SEED_NEWS = [
   {
     id: 'n7', slug: 'raven-heis-joint-webinar-preview',
     title: 'RAVEN × HEIS 聯合技術分享會即將登場(排程發布示範)',
-    publishAt: '2026-08-15T10:00',
+    publishAt: '2026-10-20T10:00',
     desc: '這則新聞的發布時間設定在未來，用來示範「排程發布」功能——時間到之前會顯示「已排程」。',
     cover: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=800&q=80',
     tags: ['RAVEN', 'HEIS', '活動預告'],
