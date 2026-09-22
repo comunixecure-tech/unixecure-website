@@ -326,6 +326,122 @@ function createTagPicker(root, initial, onChange) {
   return { getTags: () => selected };
 }
 
+/* ── 分頁元件(共用)────────────────────────────────────────
+   建立一次,回傳的物件負責記住目前頁碼／每頁筆數(存在 localStorage,依 storageKey 各列表分開記)。
+   呼叫端流程:render() 裡呼叫 pagination.paginate(filteredList) 拿到這一頁要顯示的資料,
+   畫完列表後呼叫 pagination.renderControls(total, totalPages) 把每頁筆數選單／頁碼畫出來。
+   搜尋或篩選條件改變時呼叫 pagination.resetPage(),讓使用者回到第 1 頁。──────────────── */
+function createPagination(sizeBoxEl, pagesBoxEl, storageKey, onChange) {
+  const SIZE_OPTIONS = [10, 20, 50];
+  let pageSize = Number(localStorage.getItem(storageKey)) || 10;
+  let currentPage = 1;
+
+  sizeBoxEl.addEventListener('change', e => {
+    if (!e.target.matches('select')) return;
+    pageSize = Number(e.target.value);
+    localStorage.setItem(storageKey, String(pageSize));
+    currentPage = 1;
+    onChange();
+  });
+  pagesBoxEl.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-page]');
+    if (!btn || btn.disabled) return;
+    currentPage = Number(btn.dataset.page);
+    onChange();
+  });
+
+  return {
+    resetPage() { currentPage = 1; },
+    paginate(list) {
+      const totalPages = Math.max(1, Math.ceil(list.length / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
+      return {
+        pageList: list.slice((currentPage - 1) * pageSize, currentPage * pageSize),
+        total: list.length,
+        totalPages,
+      };
+    },
+    renderControls(total, totalPages) {
+      sizeBoxEl.innerHTML = `<label class="pagination__size">每頁顯示
+        <select>${SIZE_OPTIONS.map(n => `<option value="${n}" ${n === pageSize ? 'selected' : ''}>${n}</option>`).join('')}</select>
+        筆，共 ${total} 筆</label>`;
+      if (totalPages <= 1) { pagesBoxEl.innerHTML = ''; return; }
+      pagesBoxEl.innerHTML = `
+        <button type="button" class="btn btn-sm" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>上一頁</button>
+        ${Array.from({ length: totalPages }, (_, i) => i + 1).map(p => `<button type="button" class="btn btn-sm ${p === currentPage ? 'btn-primary' : ''}" data-page="${p}">${p}</button>`).join('')}
+        <button type="button" class="btn btn-sm" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>下一頁</button>`;
+    },
+  };
+}
+
+/* ── 表頭篩選元件(共用):狀態、標籤這類「依值篩選欄位」都能用 ──────────
+   建立一次;組表頭 HTML 時呼叫 filter.headerCell(key, 顯示文字, 面板標題, 取得選項的函式, 目前已選的 Set)
+   換到那顆篩選鈕(選項函式延遲呼叫,每次開面板才重算,標籤這種會變動的清單才會即時)。
+   render() 尾端呼叫 filter.syncPanel(),讓面板內容跟著資料同步(不會自己重新定位)。
+   面板浮在 body 上、fixed 定位,不受表格橫向捲動裁切。──────────────────────────── */
+function createHeaderFilter(panelEl, tableWrapEl, onChange) {
+  const columns = {};
+  let openKey = null;
+
+  function renderPanel() {
+    if (!openKey) { panelEl.hidden = true; return; }
+    const col = columns[openKey];
+    const opts = col.getOptions();
+    panelEl.innerHTML = `
+      <div class="th-filter__head">${escapeHtml(col.title)}${col.selected.size ? `<button type="button" class="th-filter__clear" data-clear>清除</button>` : ''}</div>
+      <div class="th-filter__list">${opts.map(o => `<label class="col-toggle__item"><input type="checkbox" data-value="${escapeHtml(o.value)}" ${col.selected.has(o.value) ? 'checked' : ''} /> ${escapeHtml(o.label)}</label>`).join('')}</div>`;
+    panelEl.hidden = false;
+  }
+
+  tableWrapEl.addEventListener('click', e => {
+    const btn = e.target.closest('.th-filter__btn');
+    if (!btn) return;
+    const key = btn.dataset.filterKey;
+    if (openKey === key) { openKey = null; renderPanel(); return; }
+    openKey = key;
+    renderPanel();
+    const r = btn.getBoundingClientRect();
+    panelEl.style.top = (r.bottom + window.scrollY + 6) + 'px';
+    panelEl.style.left = Math.max(8, r.right + window.scrollX - 200) + 'px';
+  });
+
+  panelEl.addEventListener('click', e => {
+    if (!openKey) return;
+    const cb = e.target.closest('input[type=checkbox]');
+    if (cb) {
+      const sel = columns[openKey].selected;
+      const v = cb.dataset.value;
+      sel.has(v) ? sel.delete(v) : sel.add(v);
+      renderPanel();
+      onChange();
+      return;
+    }
+    if (e.target.closest('[data-clear]')) {
+      columns[openKey].selected.clear();
+      renderPanel();
+      onChange();
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (!openKey) return;
+    if (e.target.closest('.th-filter__panel') || e.target.closest('.th-filter__btn')) return;
+    openKey = null;
+    panelEl.hidden = true;
+  });
+
+  return {
+    headerCell(key, label, title, getOptions, selected) {
+      columns[key] = { title, getOptions, selected };
+      return `<div class="th-filter-wrap">
+        <span>${escapeHtml(label)}</span>
+        <button type="button" class="th-filter__btn ${selected.size ? 'is-active' : ''}" data-filter-key="${key}"><i class="fa-solid fa-filter"></i></button>
+      </div>`;
+    },
+    syncPanel: renderPanel,
+  };
+}
+
 /* ── 列表欄位顯示設定(封面 / 標籤 / 狀態等可勾選顯示,locked 欄位一律顯示)
    共用元件,之後成功案例、影音專區列表可直接套用,只要換 storageKey 和 columns。
    設定存在 localStorage,尚未設定過時預設全部顯示。──────────────────── */
