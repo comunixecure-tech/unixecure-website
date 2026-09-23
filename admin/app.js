@@ -3,18 +3,19 @@ const STORAGE_KEY = 'ux_admin_news_v2';
 
 const PRODUCT_TAGS = ['RAVEN', 'HEIS', 'SRMAS', 'LUCAS', 'SESC', 'SIVAS', '資安健診'];
 
-/* 自家產品全名/連結/logo、代理品牌清單與 logo 路徑(對齊官網首頁產品卡與 partners.html),
+/* 自家產品全名/連結/logo/標籤、代理品牌清單與 logo 路徑(對齊官網首頁產品卡與 partners.html),
    給「導入方案」這類需要挑選方案/品牌的欄位共用,之後其他模組也能直接套用。
    logo 對應官網共用的 SVG symbol(見本檔案下方 Logo Sprite);沒有 logo 的產品(SESC/SIVAS/資安健診)
-   留 null,畫面上會改用 uniXecure 自己的 logo 代替。 */
+   留 null,畫面上會改用 uniXecure 自己的 logo 代替。
+   tag 是選了這個方案時要自動帶入標籤欄位的值。 */
 const SOLUTION_PRESETS = [
-  { name: 'RAVEN 資安監控維運中心', url: 'raven.html', logo: 'raven' },
-  { name: 'HEIS 資安意識人因分析系統', url: 'heis.html', logo: 'heis' },
-  { name: 'SRMAS 系統資源監控暨告警系統', url: '', logo: 'srmas' },
-  { name: 'LUCAS 跡證保存系統', url: '', logo: 'lucas' },
-  { name: 'SESC 次世代郵件安全雲', url: '', logo: null },
-  { name: 'SIVAS', url: '', logo: null },
-  { name: '資安健診', url: '', logo: null },
+  { name: 'RAVEN 資安監控維運中心', url: 'raven.html', logo: 'raven', tag: 'RAVEN' },
+  { name: 'HEIS 資安意識人因分析系統', url: 'heis.html', logo: 'heis', tag: 'HEIS' },
+  { name: 'SRMAS 系統資源監控暨告警系統', url: '', logo: 'srmas', tag: 'SRMAS' },
+  { name: 'LUCAS 跡證保存系統', url: '', logo: 'lucas', tag: 'LUCAS' },
+  { name: 'SESC 次世代郵件安全雲', url: '', logo: null, tag: 'SESC' },
+  { name: 'SIVAS', url: '', logo: null, tag: 'SIVAS' },
+  { name: '資安健診', url: '', logo: null, tag: '資安健診' },
 ];
 /* 代理品牌 logo(對齊 partners.html 的 logo 路徑,從 admin/ 底下引用要加 ../) */
 const PARTNER_LOGOS = {
@@ -57,22 +58,6 @@ function solutionLogoHtml(name, rootPrefix) {
   return r.type === 'svg'
     ? `<svg class="mock-case-product__logo-svg" viewBox="0 0 1770 500" role="img" aria-label="${escapeHtml(r.alt)}"><use href="#lg-${r.logo}"></use></svg>`
     : `<img class="mock-case-product__logo-img" src="${prefix}${r.src}" alt="${escapeHtml(r.alt)}" />`;
-}
-
-/* 列表欄位用的小圖示版,最多顯示 max 個,其餘收成 +N(比照 tagChipsHtml 的收合方式) */
-function solutionsIconsHtml(solutions, max, rootPrefix, emptyHtml = '') {
-  const list = solutions || [];
-  if (!list.length) return emptyHtml;
-  const prefix = rootPrefix || '';
-  const icon = s => {
-    const r = resolveSolutionLogo(s.name);
-    const inner = r.type === 'svg'
-      ? `<svg class="solution-icon__svg" viewBox="0 0 1770 500" role="img" aria-label="${escapeHtml(r.alt)}"><use href="#lg-${r.logo}"></use></svg>`
-      : `<img class="solution-icon__img" src="${prefix}${r.src}" alt="${escapeHtml(r.alt)}" />`;
-    return `<span class="solution-icon" title="${escapeHtml(s.name)}">${inner}</span>`;
-  };
-  const shown = list.slice(0, max).map(icon).join('');
-  return shown + (list.length > max ? ` <span class="data-tag tag-more">+${list.length - max}</span>` : '');
 }
 
 const SEED_NEWS = [
@@ -355,7 +340,7 @@ function createContentStore(storageKey, seedData, idPrefix) {
 
 /* ── 成功案例種子資料 ─────────────────────────────────────
    產業別固定選項,跟官網 cases.html 的篩選下拉選單對齊。 */
-const CASE_INDUSTRIES = ['一般製造', '科技製造', '零售/流通', '一般服務', '政府/教育', '醫療', '金融', '資訊服務', '其他'];
+const CASE_INDUSTRIES = ['一般製造', '科技製造', '零售/流通', '一般服務', '政府/教育', '醫療', '金融', '資訊服務', '其他產業'];
 
 const SEED_CASES = [
   {
@@ -515,6 +500,14 @@ function tagChipsHtml(tags, max, cls, emptyHtml = '') {
   return shown + (list.length > max ? ` <span class="${cls} tag-more">+${list.length - max}</span>` : '');
 }
 
+/* 「導入方案」列表欄用:純文字版(不帶 logo),最多顯示 max 個,其餘收成 +N */
+function solutionsChipsHtml(solutions, max, cls, emptyHtml = '') {
+  const list = solutions || [];
+  if (!list.length) return emptyHtml;
+  const shown = list.slice(0, max).map(s => `<span class="${cls}">${escapeHtml(s.name)}</span>`).join(' ');
+  return shown + (list.length > max ? ` <span class="${cls} tag-more">+${list.length - max}</span>` : '');
+}
+
 /* 標籤選擇元件:已選標籤 + 輸入新增 + 可點選的產品 / 常用標籤 */
 function createTagPicker(root, initial, onChange) {
   let selected = sortTags(initial);
@@ -575,7 +568,7 @@ function createTagPicker(root, initial, onChange) {
   input.addEventListener('blur', () => { add(input.value); input.value = ''; });
 
   render();
-  return { getTags: () => selected };
+  return { getTags: () => selected, addTag: add };
 }
 
 /* ── 分頁元件(共用)────────────────────────────────────────

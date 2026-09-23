@@ -71,8 +71,7 @@ const CASE_COLUMNS = [
   { key: 'cover', label: '封面', width: '64px' },
   { key: 'title', label: '標題', width: 'minmax(220px,1fr)', locked: true },
   { key: 'industry', label: '產業', width: '100px' },
-  { key: 'tags', label: '標籤', width: '110px' },
-  { key: 'solutions', label: '導入方案', width: '110px' },
+  { key: 'solutions', label: '導入方案', width: '160px' },
   { key: 'status', label: '狀態', width: '100px' },
   { key: 'date', label: '日期', width: '90px' },
   { key: 'actions', label: '操作', width: '160px', align: 'right', locked: true },
@@ -83,8 +82,7 @@ function caseCell(key, c) {
     case 'cover': return `<img class="data-thumb" src="${c.cover || ''}" alt="" onerror="this.style.visibility='hidden'" />`;
     case 'title': return `<div><div class="data-title">${escapeHtml(c.title)}</div><div class="data-sub">/${c.slug || ''}</div></div>`;
     case 'industry': return `<span class="data-sub">${escapeHtml(c.industry || '—')}</span>`;
-    case 'tags': return `<div style="display:flex;flex-wrap:wrap;gap:4px">${tagChipsHtml(c.tags, 3, 'data-tag', '<span class="data-sub">—</span>')}</div>`;
-    case 'solutions': return `<div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px">${solutionsIconsHtml(c.solutions, 3, '../', '<span class="data-sub">—</span>')}</div>`;
+    case 'solutions': return `<div style="display:flex;flex-wrap:wrap;gap:4px">${solutionsChipsHtml(c.solutions, 2, 'data-tag', '<span class="data-sub">—</span>')}</div>`;
     case 'status': { const s = getStatus(c); return `<span class="status-badge status-badge--${s}">${STATUS_LABEL[s]}</span>`; }
     case 'date': return `<div class="data-date">${dateTimeCellHtml(c.publishAt)}</div>`;
     case 'actions': return `<div class="data-actions"><a class="btn btn-sm" href="cases-editor.html?id=${c.id}">編輯</a><button class="btn btn-sm btn-danger" onclick="trashItem('${c.id}')">移到垃圾桶</button></div>`;
@@ -94,8 +92,15 @@ function caseCell(key, c) {
 let visibleCols = CASE_COLUMNS;
 const STATUS_ORDER = ['published', 'scheduled', 'draft'];
 const statusFilterSel = new Set();
-const tagFilterSel = new Set();
 const industryFilterSel = new Set();
+const solutionsFilterSel = new Set();
+
+/* 導入方案篩選選項:彙整目前所有現存案例用過的方案名稱,依字母/筆畫排序 */
+function getAllSolutionNames() {
+  const set = new Set();
+  casesStore.loadActive().forEach(c => (c.solutions || []).forEach(s => { if (s.name) set.add(s.name); }));
+  return [...set].sort((a, b) => a.localeCompare(b, 'zh-Hant'));
+}
 
 const pagination = createPagination(
   document.getElementById('pageSizePicker'),
@@ -118,9 +123,9 @@ function headerCell(c) {
     return headerFilter.headerCell('industry', c.label, '產業篩選',
       () => CASE_INDUSTRIES.map(v => ({ value: v, label: v })), industryFilterSel);
   }
-  if (c.key === 'tags') {
-    return headerFilter.headerCell('tags', c.label, '標籤篩選',
-      () => sortTags([...PRODUCT_TAGS, ...getCommonTags()]).map(v => ({ value: v, label: v })), tagFilterSel);
+  if (c.key === 'solutions') {
+    return headerFilter.headerCell('solutions', c.label, '導入方案篩選',
+      () => getAllSolutionNames().map(v => ({ value: v, label: v })), solutionsFilterSel);
   }
   return `<div${c.align === 'right' ? ' style="text-align:right"' : ''}>${c.label}</div>`;
 }
@@ -136,7 +141,7 @@ function render() {
   let list = casesStore.loadActive().filter(c => !kw || c.title.toLowerCase().includes(kw));
   if (statusFilterSel.size) list = list.filter(c => statusFilterSel.has(getStatus(c)));
   if (industryFilterSel.size) list = list.filter(c => industryFilterSel.has(c.industry));
-  if (tagFilterSel.size) list = list.filter(c => (c.tags || []).some(t => tagFilterSel.has(t)));
+  if (solutionsFilterSel.size) list = list.filter(c => (c.solutions || []).some(s => solutionsFilterSel.has(s.name)));
 
   const { pageList, total, totalPages } = pagination.paginate(list);
 

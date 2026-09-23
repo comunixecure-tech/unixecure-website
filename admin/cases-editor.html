@@ -57,11 +57,6 @@
       </div>
 
       <div class="form-field">
-        <label>標籤</label>
-        <div id="tagPicker"></div>
-      </div>
-
-      <div class="form-field">
         <label>摘要 <span class="hint">列表卡片會顯示這段文字</span></label>
         <textarea id="f_desc" style="min-height:70px" placeholder="請輸入摘要，約 1–2 句話"></textarea>
       </div>
@@ -114,6 +109,11 @@
         <label>導入方案 <span class="hint">可新增多筆，連結網址選填</span></label>
         <div class="repeat-list" id="solutionsList"></div>
         <button type="button" class="btn btn-sm repeat-add" id="addSolutionBtn"><i class="fa-solid fa-plus"></i> 新增方案</button>
+      </div>
+
+      <div class="form-field">
+        <label>標籤 <span class="hint">挑選導入方案會自動帶入對應標籤</span></label>
+        <div id="tagPicker"></div>
       </div>
 
       <div class="form-field">
@@ -233,9 +233,13 @@ document.getElementById('solutionsList').addEventListener('input', e => {
 document.getElementById('solutionsList').addEventListener('change', e => {
   const sel = e.target.closest('.repeat-row__preset');
   if (!sel || !sel.value) return;
-  const preset = [...SOLUTION_PRESETS, ...PARTNER_BRANDS.map(b => ({ name: b, url: '' }))].find(p => p.name === sel.value);
-  if (!preset) return;
-  solutions[Number(sel.dataset.i)] = { name: preset.name, url: preset.url };
+  const ownPreset = SOLUTION_PRESETS.find(p => p.name === sel.value);
+  const isPartner = !ownPreset && PARTNER_BRANDS.includes(sel.value);
+  if (!ownPreset && !isPartner) return;
+  solutions[Number(sel.dataset.i)] = { name: sel.value, url: ownPreset ? ownPreset.url : '' };
+  /* 選了方案就自動帶入對應標籤:自家產品用固定的 tag,代理品牌用品牌名稱本身 */
+  const tag = ownPreset ? ownPreset.tag : sel.value;
+  if (tag) tagPicker.addTag(tag);
   renderSolutions();
   renderPreview();
 });
