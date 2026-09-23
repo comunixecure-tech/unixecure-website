@@ -39,8 +39,6 @@
     <!-- 表單 -->
     <div class="editor-form">
 
-      <div class="meta-hint" id="metaHint" style="display:none"></div>
-
       <div class="form-field">
         <label>標題</label>
         <input type="text" id="f_title" placeholder="請輸入新聞標題" />
@@ -51,11 +49,6 @@
           <label>發布日期時間 <span class="hint">留空 = 立即發布目前時間，選未來時間 = 自動排程</span></label>
           <input type="datetime-local" id="f_publishAt" />
         </div>
-      </div>
-
-      <div class="form-field">
-        <label>標籤</label>
-        <div id="tagPicker"></div>
       </div>
 
       <div class="form-field">
@@ -79,6 +72,11 @@
           <button type="button" class="md-btn" id="btnImage">插入圖片</button>
         </div>
         <textarea id="f_body" style="min-height:220px" placeholder="請輸入新聞內文，空行分段。可用上方工具列插入粗體、連結、列點、圖片"></textarea>
+      </div>
+
+      <div class="form-field">
+        <label>標籤</label>
+        <div id="tagPicker"></div>
       </div>
 
       <div class="form-field">
@@ -142,8 +140,9 @@
 
 <div class="action-bar">
   <div class="wrap action-bar__inner">
-    <a class="btn btn-ghost" href="news.html">取消</a>
+    <div class="action-bar__meta" id="metaHint"></div>
     <div class="action-bar__group">
+      <a class="btn btn-ghost" href="news.html">取消</a>
       <button class="btn" id="draftBtn">儲存草稿</button>
       <button class="btn btn-primary" id="publishBtn">立即發布</button>
     </div>
@@ -177,11 +176,9 @@ if (existing) {
   document.getElementById('f_seoDesc').value = existing.seoDesc || '';
 
   if (existing.updatedAt) {
-    const hint = document.getElementById('metaHint');
     const d = new Date(existing.updatedAt);
-    hint.style.display = 'block';
     const timeStr = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    hint.textContent = `最後編輯時間：${timeStr}，目前狀態：${STATUS_LABEL[getStatus(existing)]}`;
+    document.getElementById('metaHint').textContent = `最後編輯時間：${timeStr}，目前狀態：${STATUS_LABEL[getStatus(existing)]}`;
   }
 }
 
