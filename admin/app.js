@@ -38,18 +38,41 @@ const PARTNER_BRANDS = Object.keys(PARTNER_LOGOS);
 const UX_LOGO_PATH = 'ds/unixecure-logo-black.png';
 
 /* 依名稱找出對應的 logo 顯示方式:自家有 SVG logo 的產品 → svg symbol;
-   自家沒 logo 的產品、代理品牌以外的自訂名稱 → uniXecure logo;代理品牌 → 品牌 logo 圖檔。 */
-function solutionLogoHtml(name, rootPrefix) {
-  const prefix = rootPrefix || '';
+   自家沒 logo 的產品、代理品牌以外的自訂名稱 → uniXecure logo;代理品牌 → 品牌 logo 圖檔。
+   回傳 {type:'svg', logo} | {type:'img', src, alt},給不同大小的顯示情境各自組 HTML。 */
+function resolveSolutionLogo(name) {
   const preset = SOLUTION_PRESETS.find(p => p.name === name);
   if (preset) {
-    return preset.logo
-      ? `<svg class="mock-case-product__logo-svg" viewBox="0 0 1770 500" role="img" aria-label="${escapeHtml(name)}"><use href="#lg-${preset.logo}"></use></svg>`
-      : `<img class="mock-case-product__logo-img" src="${prefix}${UX_LOGO_PATH}" alt="uniXecure" />`;
+    return preset.logo ? { type: 'svg', logo: preset.logo, alt: name } : { type: 'img', src: UX_LOGO_PATH, alt: 'uniXecure' };
   }
   const partnerLogo = PARTNER_LOGOS[name];
-  if (partnerLogo) return `<img class="mock-case-product__logo-img" src="${prefix}${partnerLogo}" alt="${escapeHtml(name)}" />`;
-  return `<img class="mock-case-product__logo-img" src="${prefix}${UX_LOGO_PATH}" alt="uniXecure" />`;
+  if (partnerLogo) return { type: 'img', src: partnerLogo, alt: name };
+  return { type: 'img', src: UX_LOGO_PATH, alt: 'uniXecure' };
+}
+
+/* 內頁預覽用的大版 logo(導入方案卡片) */
+function solutionLogoHtml(name, rootPrefix) {
+  const prefix = rootPrefix || '';
+  const r = resolveSolutionLogo(name);
+  return r.type === 'svg'
+    ? `<svg class="mock-case-product__logo-svg" viewBox="0 0 1770 500" role="img" aria-label="${escapeHtml(r.alt)}"><use href="#lg-${r.logo}"></use></svg>`
+    : `<img class="mock-case-product__logo-img" src="${prefix}${r.src}" alt="${escapeHtml(r.alt)}" />`;
+}
+
+/* 列表欄位用的小圖示版,最多顯示 max 個,其餘收成 +N(比照 tagChipsHtml 的收合方式) */
+function solutionsIconsHtml(solutions, max, rootPrefix, emptyHtml = '') {
+  const list = solutions || [];
+  if (!list.length) return emptyHtml;
+  const prefix = rootPrefix || '';
+  const icon = s => {
+    const r = resolveSolutionLogo(s.name);
+    const inner = r.type === 'svg'
+      ? `<svg class="solution-icon__svg" viewBox="0 0 1770 500" role="img" aria-label="${escapeHtml(r.alt)}"><use href="#lg-${r.logo}"></use></svg>`
+      : `<img class="solution-icon__img" src="${prefix}${r.src}" alt="${escapeHtml(r.alt)}" />`;
+    return `<span class="solution-icon" title="${escapeHtml(s.name)}">${inner}</span>`;
+  };
+  const shown = list.slice(0, max).map(icon).join('');
+  return shown + (list.length > max ? ` <span class="data-tag tag-more">+${list.length - max}</span>` : '');
 }
 
 const SEED_NEWS = [
