@@ -3,6 +3,19 @@ const STORAGE_KEY = 'ux_admin_news_v2';
 
 const PRODUCT_TAGS = ['RAVEN', 'HEIS', 'SRMAS', 'LUCAS', 'SESC', 'SIVAS', '資安健診'];
 
+/* 自家產品全名/連結、代理品牌清單(對齊官網首頁產品卡與 partners.html),
+   給「導入方案」這類需要挑選方案/品牌的欄位共用,之後其他模組也能直接套用。 */
+const SOLUTION_PRESETS = [
+  { name: 'RAVEN 資安監控維運中心', url: 'raven.html' },
+  { name: 'HEIS 資安意識人因分析系統', url: 'heis.html' },
+  { name: 'SRMAS 系統資源監控暨告警系統', url: '' },
+  { name: 'LUCAS 跡證保存系統', url: '' },
+  { name: 'SESC 次世代郵件安全雲', url: '' },
+  { name: 'SIVAS', url: '' },
+  { name: '資安健診', url: '' },
+];
+const PARTNER_BRANDS = ['CHELPIS', 'Delinea', 'illumio', 'Claroty', 'Entrust', 'TrendAI', 'Rapid7', 'CelloPoint', 'Invicti', 'Recorded Future', 'Tufin', 'OPSWAT', 'NEiTHNET', 'AuthenTrend', 'eLock'];
+
 const SEED_NEWS = [
   {
     id: 'n1', slug: 'gsoc-2-0-upgrade',

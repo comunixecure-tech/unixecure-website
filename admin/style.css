@@ -236,8 +236,14 @@ a{color:inherit;text-decoration:none}
 .mock-case-product__link i{font-size:11px}
 .mock-case-product__name{font-size:13.5px;font-weight:600;color:var(--ink)}
 
-/* ── 可新增/刪除多筆的清單欄位(成功案例「導入方案」用,之後其他模組可套用)── */
-.repeat-list{display:flex;flex-direction:column;gap:8px}
+/* ── 可新增/刪除多筆的清單欄位(成功案例「導入方案」用,之後其他模組可套用)──
+   每一筆是獨立卡片:上面是挑選清單(選填,選了會直接帶入名稱＋網址),下面是可編輯的名稱／網址列。── */
+.repeat-list{display:flex;flex-direction:column;gap:10px}
+.repeat-item{border:1px solid var(--line);border-radius:8px;padding:10px;background:#fdfdfe}
+.repeat-row__preset{
+  width:100%;border:1px solid var(--line);border-radius:6px;padding:6px 8px;margin-bottom:8px;
+  font:inherit;font-size:12.5px;color:var(--ink-3);background:#fff;
+}
 .repeat-row{display:flex;gap:8px;align-items:center}
 .repeat-row input{flex:1;min-width:0}
 .repeat-row__remove{

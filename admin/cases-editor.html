@@ -207,16 +207,36 @@ let solutions = (existing && existing.solutions && existing.solutions.length)
 function renderSolutions() {
   const box = document.getElementById('solutionsList');
   box.innerHTML = solutions.map((s, i) => `
-    <div class="repeat-row">
-      <input type="text" data-i="${i}" data-f="name" placeholder="方案名稱，例如：RAVEN 資安監控維運中心" value="${escapeHtml(s.name)}" />
-      <input type="text" data-i="${i}" data-f="url" placeholder="連結網址(選填)" value="${escapeHtml(s.url)}" />
-      <button type="button" class="repeat-row__remove" data-remove="${i}" aria-label="刪除這一筆"><i class="fa-solid fa-xmark"></i></button>
+    <div class="repeat-item">
+      <select class="repeat-row__preset" data-i="${i}">
+        <option value="">從清單挑選…</option>
+        <optgroup label="uniXecure 產品">
+          ${SOLUTION_PRESETS.map(p => `<option value="${escapeHtml(p.name)}" ${s.name === p.name ? 'selected' : ''}>${escapeHtml(p.name)}</option>`).join('')}
+        </optgroup>
+        <optgroup label="代理品牌">
+          ${PARTNER_BRANDS.map(b => `<option value="${escapeHtml(b)}" ${s.name === b ? 'selected' : ''}>${escapeHtml(b)}</option>`).join('')}
+        </optgroup>
+      </select>
+      <div class="repeat-row">
+        <input type="text" data-i="${i}" data-f="name" placeholder="方案名稱，或從上方清單挑選" value="${escapeHtml(s.name)}" />
+        <input type="text" data-i="${i}" data-f="url" placeholder="連結網址(選填)" value="${escapeHtml(s.url)}" />
+        <button type="button" class="repeat-row__remove" data-remove="${i}" aria-label="刪除這一筆"><i class="fa-solid fa-xmark"></i></button>
+      </div>
     </div>`).join('');
 }
 document.getElementById('solutionsList').addEventListener('input', e => {
   const i = e.target.dataset.i, f = e.target.dataset.f;
   if (i === undefined) return;
   solutions[Number(i)][f] = e.target.value;
+  renderPreview();
+});
+document.getElementById('solutionsList').addEventListener('change', e => {
+  const sel = e.target.closest('.repeat-row__preset');
+  if (!sel || !sel.value) return;
+  const preset = [...SOLUTION_PRESETS, ...PARTNER_BRANDS.map(b => ({ name: b, url: '' }))].find(p => p.name === sel.value);
+  if (!preset) return;
+  solutions[Number(sel.dataset.i)] = { name: preset.name, url: preset.url };
+  renderSolutions();
   renderPreview();
 });
 document.getElementById('solutionsList').addEventListener('click', e => {
