@@ -57,9 +57,6 @@ grid.innerHTML = TYPES.map(t => {
   const countHtml = t.open
     ? `<span class="type-card__count">共 <b>${count}</b> 筆</span>`
     : `<span class="type-card__count">尚未建立內容</span>`;
-  const statusHtml = t.open
-    ? `<span class="type-card__status type-card__status--open">可管理</span>`
-    : `<span class="type-card__status type-card__status--soon">即將開放</span>`;
   return `
     <${t.open ? 'a' : 'div'} class="type-card ${t.open ? 'is-active' : 'is-disabled'}" ${t.open ? `href="${t.href}"` : ''}>
       <div class="type-badge" style="background:${t.color}">${t.badge}</div>
@@ -69,7 +66,6 @@ grid.innerHTML = TYPES.map(t => {
       </div>
       <div class="type-card__foot">
         ${countHtml}
-        ${statusHtml}
       </div>
     </${t.open ? 'a' : 'div'}>
   `;

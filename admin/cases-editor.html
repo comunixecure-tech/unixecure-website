@@ -4,13 +4,14 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title id="pageTitle">uniXecure 後台｜新增案例</title>
+<link rel="stylesheet" href="../ds/colors_and_type.css" />
 <link rel="stylesheet" href="style.css" />
 <script src="https://kit.fontawesome.com/fb083deec1.js" crossorigin="anonymous"></script>
 </head>
 <body class="has-action-bar">
 
 <div class="topbar">
-  <div class="wrap topbar__inner">
+  <div class="wrap wrap--wide topbar__inner">
     <div class="topbar__left">
       <a class="topbar__brand" href="index.html">
         <span class="topbar__brand-badge">UX</span>
@@ -27,7 +28,7 @@
   </div>
 </div>
 
-<div class="wrap">
+<div class="wrap wrap--wide">
   <div class="page-head">
     <div>
       <h1 id="formTitle">新增案例</h1>
@@ -182,7 +183,7 @@
 </div>
 
 <div class="action-bar">
-  <div class="wrap action-bar__inner">
+  <div class="wrap wrap--wide action-bar__inner">
     <div class="action-bar__meta" id="metaHint"></div>
     <div class="action-bar__group">
       <a class="btn btn-ghost" href="cases.html">取消</a>
@@ -531,7 +532,7 @@ function renderPreview() {
       <div class="mock-article__crumb">首頁 / 最新消息 / 成功案例</div>
       ${industryLabel ? `<span class="mock-article__industry">${escapeHtml(industryLabel)}</span>` : ''}
       <h2 class="mock-article__title">${escapeHtml(title) || '(尚未輸入標題)'}</h2>
-      <div class="mock-article__body"><p>${mdInline(introText) || '(尚未輸入說明)'}</p></div>
+      <p class="mock-article__lead">${mdInline(introText) || '(尚未輸入說明)'}</p>
       ${d.cover ? `<img class="mock-article__banner" src="${d.cover}" alt="" onerror="this.style.display='none'" />` : ''}
       <div class="mock-article__body">
         <div class="mock-article__h2">客戶需求</div>
