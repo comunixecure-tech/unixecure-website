@@ -457,9 +457,20 @@ const SEED_CASES = [
 ];
 
 /* ── 極簡 Markdown → HTML(支援粗體、連結、圖片、巢狀列點)── */
-/* ── 標籤(新聞 / 成功案例 / 影音專區共用同一個標籤池)────────
-   產品標籤固定寫法;其餘標籤由各編輯頁存檔時寫入共用標籤池。 */
+/* ── 標籤(新聞 / 成功案例 / 影音專區共用同一套語言)──────────
+   還沒有資料庫後端,但共用邏輯先在這裡定案,之後接後端只是換掉存取方式:
+   1. PRODUCT_TAGS 是固定的產品代碼,所有模組都能選,順序也一律排最前面(見 sortTags)。
+   2. 自訂標籤(非產品代碼)一律寫進同一個 TAG_POOL_KEY,不分模組,新聞中心加的標籤
+      成功案例選標籤時馬上看得到,反之亦然。
+   3. 「常用標籤」的使用次數統計要橫跨所有模組,不能只看新聞中心自己的資料,
+      不然使用者在成功案例常用的標籤在新聞中心編輯頁完全排不到前面,語言就不是真的共用。
+      TAG_SOURCES 註冊每個模組的 storage key + 種子資料,之後新增影音專區只要在這裡加一行。 */
 const TAG_POOL_KEY = 'ux_admin_tags_v1';
+
+const TAG_SOURCES = [
+  { key: STORAGE_KEY, seed: SEED_NEWS },
+  { key: 'ux_admin_cases_v1', seed: SEED_CASES },
+];
 
 function loadCustomTags() {
   try { return JSON.parse(localStorage.getItem(TAG_POOL_KEY)) || []; } catch (e) { return []; }
@@ -471,10 +482,14 @@ function addTagsToPool(tags) {
   localStorage.setItem(TAG_POOL_KEY, JSON.stringify([...set]));
 }
 
-/* 常用標籤 = 標籤池 + 目前新聞用到的標籤(扣掉產品標籤),依使用次數排序 */
+/* 常用標籤 = 標籤池 + 所有模組(TAG_SOURCES)目前用到的標籤(扣掉產品標籤),依使用次數排序 */
 function getCommonTags() {
   const count = new Map();
-  loadNews().forEach(n => (n.tags || []).forEach(t => count.set(t, (count.get(t) || 0) + 1)));
+  TAG_SOURCES.forEach(src => {
+    let list = src.seed;
+    try { const raw = localStorage.getItem(src.key); if (raw) list = JSON.parse(raw); } catch (e) {}
+    (list || []).forEach(item => (item.tags || []).forEach(t => count.set(t, (count.get(t) || 0) + 1)));
+  });
   loadCustomTags().forEach(t => { if (!count.has(t)) count.set(t, 0); });
   return [...count.entries()].filter(([t]) => !PRODUCT_TAGS.includes(t)).sort((a, b) => b[1] - a[1]).map(([t]) => t);
 }
@@ -705,7 +720,7 @@ function createColumnToggle(root, storageKey, columns, onChange) {
 
   root.classList.add('col-toggle');
   root.innerHTML = `
-    <button type="button" class="btn" id="colToggleBtn">欄位設定 <i class="fa-solid fa-chevron-down" style="font-size:10px"></i></button>
+    <button type="button" class="btn" id="colToggleBtn">顯示欄位 <i class="fa-solid fa-chevron-down" style="font-size:10px"></i></button>
     <div class="col-toggle__panel" id="colTogglePanel" hidden>
       ${columns.map((c, i) => `
         <label class="col-toggle__item ${c.locked ? 'is-locked' : ''}">
