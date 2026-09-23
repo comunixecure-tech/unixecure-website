@@ -19,7 +19,10 @@ const SOLUTION_PRESETS = [
   { name: 'SIVAS', nameEn: 'SIVAS', nameJa: 'SIVAS', url: '', logo: null, tag: 'SIVAS' },
   { name: '資安健診', nameEn: 'Security Health Checkup', nameJa: 'セキュリティ健診', url: '', logo: null, tag: '資安健診' },
 ];
-/* 代理品牌 logo(對齊 partners.html 的 logo 路徑,從 admin/ 底下引用要加 ../) */
+/* 代理品牌 logo(對齊 partners.html 的 logo 路徑,從 admin/ 底下引用要加 ../)
+   TODO:目前只到「品牌」這層,但導入方案實務上常常是某品牌底下的某個產品(不是品牌本身)。
+   代理產品的品牌→產品階層資料之後會在後台維護,屆時這裡要改成品牌+底下產品清單的巢狀結構,
+   「導入方案」的挑選清單也要跟著改成兩層(先選品牌,再選該品牌的產品)。 */
 const PARTNER_LOGOS = {
   CHELPIS: 'assets/agents/chelpis.png',
   Delinea: 'assets/agents/delinea.png',
