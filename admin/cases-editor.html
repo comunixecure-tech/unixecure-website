@@ -398,7 +398,7 @@ function renderPreview() {
       <div class="mock-case-product__label">導入方案</div>
       ${d.solutions.map(s => `
         <div class="mock-case-product__item">
-          <div class="mock-case-product__logobox"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="mock-case-product__logobox">${solutionLogoHtml(s.name, '../')}</div>
           ${s.url
             ? `<a class="mock-case-product__link" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.name)} <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
             : `<span class="mock-case-product__name">${escapeHtml(s.name)}</span>`}
