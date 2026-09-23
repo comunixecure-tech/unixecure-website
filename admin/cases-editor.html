@@ -35,25 +35,36 @@
     </div>
   </div>
 
+  <div class="lang-tabs" id="langTabs">
+    <button type="button" class="lang-tab is-active" data-lang="zh">繁中</button>
+    <button type="button" class="lang-tab" data-lang="en">EN<span class="lang-tab__dot" style="display:none"></span></button>
+    <button type="button" class="lang-tab" data-lang="ja">日本語<span class="lang-tab__dot" style="display:none"></span></button>
+  </div>
+
   <div class="editor-layout">
     <!-- 表單 -->
     <div class="editor-form">
 
       <div class="meta-hint" id="metaHint" style="display:none"></div>
 
+      <div class="lang-lock-note" id="langLockNote">
+        <i class="fa-solid fa-circle-info"></i>
+        產業別／標籤／導入方案／封面／發布時間／CTA 連結不分語言，這裡的值一律跟著「繁中」分頁，要改請切回繁中；產業別、導入方案的產品名稱畫面上會自動套用翻譯字典顯示。
+      </div>
+
       <div class="form-field">
         <label>標題</label>
         <input type="text" id="f_title" placeholder="請輸入案例標題" />
       </div>
 
-      <div class="form-field">
+      <div class="form-field" id="industryField">
         <label>產業別</label>
         <select id="f_industry">
           <option value="">請選擇產業別</option>
         </select>
       </div>
 
-      <div class="form-field">
+      <div class="form-field" id="publishAtField">
         <label>發布日期時間 <span class="hint">留空 = 立即發布目前時間，選未來時間 = 自動排程</span></label>
         <input type="datetime-local" id="f_publishAt" />
       </div>
@@ -63,7 +74,7 @@
         <textarea id="f_desc" style="min-height:70px" placeholder="請輸入摘要，約 1–2 句話"></textarea>
       </div>
 
-      <div class="form-field">
+      <div class="form-field" id="coverField">
         <label>封面圖網址 <span class="hint">用於列表縮圖 / 內頁 Banner</span></label>
         <input type="url" id="f_cover" placeholder="貼上圖片網址，例如 https://..." />
         <img class="cover-preview" id="coverPreview" src="" alt="" style="display:none" />
@@ -107,24 +118,24 @@
         <textarea id="f_value" style="min-height:80px" placeholder="導入後帶來的具體成效"></textarea>
       </div>
 
-      <div class="form-field">
+      <div class="form-field" id="solutionsField">
         <label>導入方案 <span class="hint">可新增多筆，連結網址選填</span></label>
         <div class="repeat-list" id="solutionsList"></div>
         <button type="button" class="btn btn-sm repeat-add" id="addSolutionBtn"><i class="fa-solid fa-plus"></i> 新增方案</button>
       </div>
 
-      <div class="form-field">
-        <label>標籤 <span class="hint">挑選導入方案會自動帶入對應標籤</span></label>
+      <div class="form-field" id="tagPickerField">
+        <label>標籤 <span class="hint">挑選導入方案會自動帶入對應標籤，不分語言</span></label>
         <div id="tagPicker"></div>
       </div>
 
       <div class="form-field">
-        <label>頁尾 CTA 按鈕 <span class="hint">都填才會顯示</span></label>
+        <label>頁尾 CTA 按鈕 <span class="hint">都填才會顯示，文字可翻譯、連結不分語言</span></label>
         <div class="form-row">
           <div class="form-field" style="margin-bottom:0">
             <input type="text" id="f_ctaText" placeholder="按鈕文字，例如：了解更多" />
           </div>
-          <div class="form-field" style="margin-bottom:0">
+          <div class="form-field" style="margin-bottom:0" id="ctaUrlField">
             <select id="f_ctaUrlPreset" style="margin-bottom:6px">
               <option value="">自訂網址…</option>
               <option value="contact.html">聯絡我們</option>
@@ -141,9 +152,9 @@
         <summary>SEO 設定</summary>
         <div class="seo-details__body">
           <div class="form-field">
-            <label>網址代稱(Slug)</label>
+            <label>網址代稱(Slug) <span class="hint">各語言可以有自己的網址</span></label>
             <div class="slug-row">
-              <span class="slug-row__prefix">/cases/</span>
+              <span class="slug-row__prefix" id="slugPrefix">/cases/</span>
               <input type="text" id="f_slug" placeholder="會依標題自動產生，可手動修改" />
             </div>
             <div class="slug-hint" id="slugHint"></div>
@@ -201,7 +212,7 @@ const existing = editId ? casesStore.getById(editId) : null;
 let slugTouched = !!existing;
 const tagPicker = createTagPicker(document.getElementById('tagPicker'), existing ? existing.tags : [], () => renderPreview());
 
-/* 導入方案:可新增/刪除多筆,狀態存在 solutions 陣列 */
+/* 導入方案:可新增/刪除多筆,不分語言(產品名稱翻譯走 app.js 的字典) */
 let solutions = (existing && existing.solutions && existing.solutions.length)
   ? existing.solutions.map(s => ({ ...s }))
   : [{ name: '', url: '' }];
@@ -259,27 +270,109 @@ document.getElementById('addSolutionBtn').addEventListener('click', () => {
 });
 renderSolutions();
 
-/* 編輯模式帶入既有資料 */
+/* ── 多語系:content[lang] 存自由文案欄位的值,表單欄位只是目前語言分頁的畫面。
+   繁中一定存在(基礎內容);en/ja 只存有翻的欄位,沒填的欄位就是空字串。
+   實際顯示邏輯統一交給 app.js 的 getLocalizedField() 處理(有翻用翻譯,沒翻 fallback 回繁中),
+   跟真的存檔後、未來公開頁要顯示時的邏輯完全一致。
+   有限選項欄位(產業別、標籤、導入方案的產品名稱)不在這裡處理,那些是翻譯字典,不分文章,
+   見 app.js 的 CASE_INDUSTRIES_I18N / getSolutionDisplayName。──────────────────────── */
+let activeLang = 'zh';
+const TRANSLATABLE_FIELDS = [
+  { id: 'f_title', path: 'title', placeholder: '請輸入案例標題' },
+  { id: 'f_desc', path: 'desc', placeholder: '請輸入摘要，約 1–2 句話' },
+  { id: 'f_intro', path: 'body.intro', placeholder: '客戶背景與面臨的情境概述' },
+  { id: 'f_need', path: 'body.need', placeholder: '客戶原本遇到的問題與痛點' },
+  { id: 'f_solution', path: 'body.solution', placeholder: 'uniXecure 導入了什麼方案來解決問題' },
+  { id: 'f_value', path: 'body.value', placeholder: '導入後帶來的具體成效' },
+  { id: 'f_ctaText', path: 'ctaText', placeholder: '按鈕文字，例如：了解更多' },
+  { id: 'f_slug', path: 'slug', placeholder: '會依標題自動產生，可手動修改' },
+  { id: 'f_seoTitle', path: 'seoTitle', placeholder: '搜尋結果顯示的標題' },
+  { id: 'f_seoDesc', path: 'seoDesc', placeholder: '搜尋結果顯示的描述文字' },
+];
+/* 不分語言的欄位:切到 en/ja 分頁時鎖起來,提醒使用者回繁中分頁改 */
+const LANG_LOCKED_INPUTS = ['f_industry', 'f_cover', 'f_publishAt', 'f_ctaUrlPreset', 'f_ctaUrl'];
+
+function getAtPath(obj, path) { return path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj); }
+function setAtPath(obj, path, value) {
+  const keys = path.split('.');
+  let o = obj;
+  for (let i = 0; i < keys.length - 1; i++) { if (!o[keys[i]]) o[keys[i]] = {}; o = o[keys[i]]; }
+  o[keys[keys.length - 1]] = value;
+}
+function cloneTranslation(t) {
+  return {
+    title: (t && t.title) || '', desc: (t && t.desc) || '',
+    body: {
+      intro: (t && t.body && t.body.intro) || '', need: (t && t.body && t.body.need) || '',
+      solution: (t && t.body && t.body.solution) || '', value: (t && t.body && t.body.value) || '',
+    },
+    ctaText: (t && t.ctaText) || '', slug: (t && t.slug) || '',
+    seoTitle: (t && t.seoTitle) || '', seoDesc: (t && t.seoDesc) || '',
+  };
+}
+
+const content = {
+  zh: cloneTranslation(existing),
+  en: cloneTranslation(existing && existing.translations ? existing.translations.en : null),
+  ja: cloneTranslation(existing && existing.translations ? existing.translations.ja : null),
+};
+
+function populateFieldsForLang(lang) {
+  TRANSLATABLE_FIELDS.forEach(f => {
+    const el = document.getElementById(f.id);
+    el.value = getAtPath(content[lang], f.path) || '';
+    el.placeholder = lang === 'zh' ? f.placeholder : '尚未翻譯，畫面會自動顯示繁中內容';
+  });
+  document.getElementById('slugPrefix').textContent = lang === 'zh' ? '/cases/' : `/${lang}/cases/`;
+}
+
+function updateLangTabDots() {
+  ['en', 'ja'].forEach(lang => {
+    const has = TRANSLATABLE_FIELDS.some(f => getAtPath(content[lang], f.path));
+    const dot = document.querySelector(`.lang-tab[data-lang="${lang}"] .lang-tab__dot`);
+    if (dot) dot.style.display = has ? 'inline-block' : 'none';
+  });
+}
+
+function switchLang(lang) {
+  activeLang = lang;
+  document.querySelectorAll('.lang-tab').forEach(btn => btn.classList.toggle('is-active', btn.dataset.lang === lang));
+  populateFieldsForLang(lang);
+  const locked = lang !== 'zh';
+  LANG_LOCKED_INPUTS.forEach(id => { document.getElementById(id).disabled = locked; });
+  document.getElementById('tagPickerField').classList.toggle('is-lang-locked', locked);
+  document.getElementById('solutionsField').classList.toggle('is-lang-locked', locked);
+  document.getElementById('langLockNote').style.display = locked ? 'flex' : 'none';
+  renderPreview();
+}
+document.getElementById('langTabs').addEventListener('click', e => {
+  const btn = e.target.closest('.lang-tab');
+  if (!btn) return;
+  switchLang(btn.dataset.lang);
+});
+
+TRANSLATABLE_FIELDS.forEach(f => {
+  document.getElementById(f.id).addEventListener('input', e => {
+    setAtPath(content[activeLang], f.path, e.target.value);
+    updateLangTabDots();
+    renderPreview();
+  });
+});
+
+populateFieldsForLang('zh');
+updateLangTabDots();
+
+/* 編輯模式帶入既有資料(不分語言的共用欄位;可翻譯欄位已經由上面的 content 帶入) */
 if (existing) {
   document.getElementById('pageTitle').textContent = 'uniXecure 後台｜編輯案例';
   document.getElementById('formTitle').textContent = '編輯案例';
   document.getElementById('crumbCurrent').textContent = '編輯案例';
-  document.getElementById('f_title').value = existing.title || '';
   document.getElementById('f_industry').value = existing.industry || '';
   document.getElementById('f_publishAt').value = existing.publishAt || '';
-  document.getElementById('f_desc').value = existing.desc || '';
   document.getElementById('f_cover').value = existing.cover || '';
-  document.getElementById('f_intro').value = existing.body ? existing.body.intro || '' : '';
-  document.getElementById('f_need').value = existing.body ? existing.body.need || '' : '';
-  document.getElementById('f_solution').value = existing.body ? existing.body.solution || '' : '';
-  document.getElementById('f_value').value = existing.body ? existing.body.value || '' : '';
-  document.getElementById('f_ctaText').value = existing.ctaText || '';
   document.getElementById('f_ctaUrl').value = existing.ctaUrl || '';
   const ctaPresetInit = document.getElementById('f_ctaUrlPreset');
   if ([...ctaPresetInit.options].some(o => o.value === existing.ctaUrl)) ctaPresetInit.value = existing.ctaUrl;
-  document.getElementById('f_slug').value = existing.slug || '';
-  document.getElementById('f_seoTitle').value = existing.seoTitle || '';
-  document.getElementById('f_seoDesc').value = existing.seoDesc || '';
 
   if (existing.updatedAt) {
     const hint = document.getElementById('metaHint');
@@ -290,9 +383,10 @@ if (existing) {
   }
 }
 
-/* slug 撞網址檢查:垃圾桶裡的案例也算佔用,永久刪除過的不算 */
+/* slug 撞網址檢查:只檢查繁中(基礎)網址,垃圾桶裡的案例也算佔用,永久刪除過的不算。
+   英文/日文網址這版先不做撞號檢查(見跟 Aimi 的討論,之後有需要再補)。 */
 function checkSlugAndRender() {
-  const slug = document.getElementById('f_slug').value.trim();
+  const slug = (content.zh.slug || '').trim();
   const hint = document.getElementById('slugHint');
   const result = casesStore.checkSlugStatus(slug, existing ? existing.id : null);
   if (result.status === 'live') {
@@ -308,14 +402,20 @@ function checkSlugAndRender() {
   return result.status;
 }
 
-/* 標題變動時自動帶出 slug(除非使用者已手動編輯過 slug)*/
+/* 標題變動時自動帶出 slug(除非使用者已手動編輯過 slug);只對繁中分頁生效,
+   英文/日文的網址需要自己填,slugify() 處理不了日文假名。 */
 document.getElementById('f_title').addEventListener('input', () => {
-  if (slugTouched) return;
-  const s = slugify(document.getElementById('f_title').value);
+  if (activeLang !== 'zh' || slugTouched) return;
+  const s = slugify(content.zh.title);
+  content.zh.slug = s;
   document.getElementById('f_slug').value = s;
   checkSlugAndRender();
 });
-document.getElementById('f_slug').addEventListener('input', () => { slugTouched = true; checkSlugAndRender(); });
+document.getElementById('f_slug').addEventListener('input', () => {
+  if (activeLang !== 'zh') return;
+  slugTouched = true;
+  checkSlugAndRender();
+});
 checkSlugAndRender();
 
 /* SEO 字數提示 */
@@ -347,35 +447,63 @@ document.querySelectorAll('.md-toolbar[data-target]').forEach(bar => {
   });
 });
 
-const fields = ['f_title','f_industry','f_publishAt','f_desc','f_cover','f_intro','f_need','f_solution','f_value','f_ctaText','f_ctaUrl','f_slug','f_seoTitle','f_seoDesc'];
+function buildTranslationPayload(lang) {
+  const t = content[lang];
+  const out = {};
+  if (t.title) out.title = t.title;
+  if (t.desc) out.desc = t.desc;
+  if (t.ctaText) out.ctaText = t.ctaText;
+  if (t.slug) out.slug = t.slug;
+  if (t.seoTitle) out.seoTitle = t.seoTitle;
+  if (t.seoDesc) out.seoDesc = t.seoDesc;
+  const body = {};
+  ['intro', 'need', 'solution', 'value'].forEach(k => { if (t.body[k]) body[k] = t.body[k]; });
+  if (Object.keys(body).length) out.body = body;
+  return out;
+}
 
-function currentData() {
+function buildItemData() {
   return {
-    id: existing ? existing.id : null,
-    title: document.getElementById('f_title').value.trim(),
+    title: content.zh.title.trim(),
     industry: document.getElementById('f_industry').value,
     publishAt: document.getElementById('f_publishAt').value,
-    desc: document.getElementById('f_desc').value.trim(),
+    desc: content.zh.desc.trim(),
     cover: document.getElementById('f_cover').value.trim(),
     body: {
-      intro: document.getElementById('f_intro').value,
-      need: document.getElementById('f_need').value,
-      solution: document.getElementById('f_solution').value,
-      value: document.getElementById('f_value').value,
+      intro: content.zh.body.intro,
+      need: content.zh.body.need,
+      solution: content.zh.body.solution,
+      value: content.zh.body.value,
     },
     solutions: solutions.filter(s => s.name.trim()).map(s => ({ name: s.name.trim(), url: s.url.trim() })),
-    ctaText: document.getElementById('f_ctaText').value.trim(),
+    ctaText: content.zh.ctaText.trim(),
     ctaUrl: document.getElementById('f_ctaUrl').value.trim(),
     tags: tagPicker.getTags(),
-    slug: document.getElementById('f_slug').value.trim(),
-    seoTitle: document.getElementById('f_seoTitle').value.trim(),
-    seoDesc: document.getElementById('f_seoDesc').value.trim(),
-    createdAt: existing ? existing.createdAt : null,
+    slug: content.zh.slug.trim(),
+    seoTitle: content.zh.seoTitle.trim(),
+    seoDesc: content.zh.seoDesc.trim(),
+    translations: { en: buildTranslationPayload('en'), ja: buildTranslationPayload('ja') },
   };
 }
 
+function currentData() {
+  return { id: existing ? existing.id : null, ...buildItemData(), createdAt: existing ? existing.createdAt : null };
+}
+
+/* 預覽會依目前選的語言分頁,套用跟真實資料一樣的 fallback 邏輯(getLocalizedField / getIndustryLabel /
+   getSolutionDisplayName,都定義在 app.js,共用同一套規則)。沒翻譯的欄位會自動顯示繁中內容,
+   這就是拿來示範多語系 fallback 概念的地方。 */
 function renderPreview() {
-  const d = currentData();
+  const d = buildItemData();
+  const lang = activeLang;
+  const title = getLocalizedField(d, lang, 'title');
+  const desc = getLocalizedField(d, lang, 'desc');
+  const introText = getLocalizedField(d, lang, 'body.intro');
+  const needText = getLocalizedField(d, lang, 'body.need');
+  const solutionText = getLocalizedField(d, lang, 'body.solution');
+  const valueText = getLocalizedField(d, lang, 'body.value');
+  const ctaTextLocalized = getLocalizedField(d, lang, 'ctaText');
+  const industryLabel = getIndustryLabel(d.industry, lang);
   const scheduled = d.publishAt && new Date(d.publishAt).getTime() > Date.now();
 
   const coverImg = document.getElementById('coverPreview');
@@ -390,11 +518,11 @@ function renderPreview() {
       <img class="mock-card__thumb" src="${d.cover || ''}" alt="" onerror="this.removeAttribute('src')" />
       <div class="mock-card__body">
         <div class="mock-card__meta">
-          <span class="mock-card__industry">${escapeHtml(d.industry) || '尚未選擇產業'}</span>
+          <span class="mock-card__industry">${escapeHtml(industryLabel) || '尚未選擇產業'}</span>
           <div style="display:flex;gap:4px;flex-wrap:wrap">${tagsHtml}</div>
         </div>
-        <p class="mock-card__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</p>
-        <p class="mock-card__desc">${escapeHtml(d.desc) || '(尚未輸入摘要)'}</p>
+        <p class="mock-card__title">${escapeHtml(title) || '(尚未輸入標題)'}</p>
+        <p class="mock-card__desc">${escapeHtml(desc) || '(尚未輸入摘要)'}</p>
       </div>
     </div>
   `;
@@ -406,8 +534,8 @@ function renderPreview() {
         <div class="mock-case-product__item">
           <div class="mock-case-product__logobox">${solutionLogoHtml(s.name, '../')}</div>
           ${s.url
-            ? `<a class="mock-case-product__link" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.name)} <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
-            : `<span class="mock-case-product__name">${escapeHtml(s.name)}</span>`}
+            ? `<a class="mock-case-product__link" href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(getSolutionDisplayName(s.name, lang))} <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
+            : `<span class="mock-case-product__name">${escapeHtml(getSolutionDisplayName(s.name, lang))}</span>`}
         </div>`).join('')}
     </div>` : '';
 
@@ -415,20 +543,20 @@ function renderPreview() {
     ${scheduled ? '<div class="status-badge status-badge--scheduled" style="margin-bottom:10px">已排程，尚未到發布時間</div>' : ''}
     <div class="mock-article">
       <div class="mock-article__crumb">首頁 / 最新消息 / 成功案例</div>
-      ${d.industry ? `<span class="mock-article__industry">${escapeHtml(d.industry)}</span>` : ''}
-      <h2 class="mock-article__title">${escapeHtml(d.title) || '(尚未輸入標題)'}</h2>
-      <div class="mock-article__body"><p>${mdInline(d.body.intro) || '(尚未輸入說明)'}</p></div>
+      ${industryLabel ? `<span class="mock-article__industry">${escapeHtml(industryLabel)}</span>` : ''}
+      <h2 class="mock-article__title">${escapeHtml(title) || '(尚未輸入標題)'}</h2>
+      <div class="mock-article__body"><p>${mdInline(introText) || '(尚未輸入說明)'}</p></div>
       ${d.cover ? `<img class="mock-article__banner" src="${d.cover}" alt="" onerror="this.style.display='none'" />` : ''}
       <div class="mock-article__body">
         <div class="mock-article__h2">客戶需求</div>
-        ${mdToHtml(d.body.need)}
+        ${mdToHtml(needText)}
         <div class="mock-article__h2">解決方案</div>
-        ${mdToHtml(d.body.solution)}
+        ${mdToHtml(solutionText)}
         <div class="mock-article__h2">創造價值</div>
-        ${mdToHtml(d.body.value)}
+        ${mdToHtml(valueText)}
       </div>
       ${solutionsHtml}
-      ${d.ctaText && d.ctaUrl ? `<div class="mock-article__cta-row"><a class="mock-article__cta" href="${escapeHtml(d.ctaUrl)}" target="_blank" rel="noopener">${escapeHtml(d.ctaText)}</a></div>` : ''}
+      ${ctaTextLocalized && d.ctaUrl ? `<div class="mock-article__cta-row"><a class="mock-article__cta" href="${escapeHtml(d.ctaUrl)}" target="_blank" rel="noopener">${escapeHtml(ctaTextLocalized)}</a></div>` : ''}
       <div class="mock-article__tags">
         ${sortTags(d.tags).map(t => `<span class="mock-article__tag">#${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--ink-4);font-size:12px">(尚未輸入標籤)</span>'}
       </div>
@@ -445,7 +573,8 @@ function updatePublishBtnLabel() {
 document.getElementById('f_publishAt').addEventListener('input', updatePublishBtnLabel);
 updatePublishBtnLabel();
 
-fields.forEach(id => document.getElementById(id).addEventListener('input', renderPreview));
+/* 不分語言的欄位,輸入時照常觸發預覽更新 */
+['f_industry', 'f_publishAt', 'f_cover', 'f_ctaUrl'].forEach(id => document.getElementById(id).addEventListener('input', renderPreview));
 
 /* CTA 網址下拉:選了就幫忙帶入,仍可在下面文字框改成其他網址 */
 document.getElementById('f_ctaUrlPreset').addEventListener('change', function () {

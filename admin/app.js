@@ -3,19 +3,21 @@ const STORAGE_KEY = 'ux_admin_news_v2';
 
 const PRODUCT_TAGS = ['RAVEN', 'HEIS', 'SRMAS', 'LUCAS', 'SESC', 'SIVAS', '資安健診'];
 
-/* 自家產品全名/連結/logo/標籤、代理品牌清單與 logo 路徑(對齊官網首頁產品卡與 partners.html),
+/* 自家產品全名/連結/logo/標籤/多語系名稱、代理品牌清單與 logo 路徑(對齊官網首頁產品卡與 partners.html),
    給「導入方案」這類需要挑選方案/品牌的欄位共用,之後其他模組也能直接套用。
    logo 對應官網共用的 SVG symbol(見本檔案下方 Logo Sprite);沒有 logo 的產品(SESC/SIVAS/資安健診)
    留 null,畫面上會改用 uniXecure 自己的 logo 代替。
-   tag 是選了這個方案時要自動帶入標籤欄位的值。 */
+   tag 是選了這個方案時要自動帶入標籤欄位的值。
+   nameEn/nameJa:產品全名的翻譯,是「翻一次全站共用」的字典值,不是每篇文章各自翻譯
+   (標籤代碼如 RAVEN/HEIS 一律不翻,只有描述性的中文名稱才需要翻)。 */
 const SOLUTION_PRESETS = [
-  { name: 'RAVEN 資安監控維運中心', url: 'raven.html', logo: 'raven', tag: 'RAVEN' },
-  { name: 'HEIS 資安意識人因分析系統', url: 'heis.html', logo: 'heis', tag: 'HEIS' },
-  { name: 'SRMAS 系統資源監控暨告警系統', url: '', logo: 'srmas', tag: 'SRMAS' },
-  { name: 'LUCAS 跡證保存系統', url: '', logo: 'lucas', tag: 'LUCAS' },
-  { name: 'SESC 次世代郵件安全雲', url: '', logo: null, tag: 'SESC' },
-  { name: 'SIVAS', url: '', logo: null, tag: 'SIVAS' },
-  { name: '資安健診', url: '', logo: null, tag: '資安健診' },
+  { name: 'RAVEN 資安監控維運中心', nameEn: 'RAVEN Managed Security Operations Center', nameJa: 'RAVEN セキュリティ運用監視センター', url: 'raven.html', logo: 'raven', tag: 'RAVEN' },
+  { name: 'HEIS 資安意識人因分析系統', nameEn: 'HEIS Human Error Insight System', nameJa: 'HEIS セキュリティ意識ヒューマンエラー分析システム', url: 'heis.html', logo: 'heis', tag: 'HEIS' },
+  { name: 'SRMAS 系統資源監控暨告警系統', nameEn: 'SRMAS System Resource Monitoring & Alerting System', nameJa: 'SRMAS システムリソース監視・アラートシステム', url: '', logo: 'srmas', tag: 'SRMAS' },
+  { name: 'LUCAS 跡證保存系統', nameEn: 'LUCAS Log Unified Central Analysis System', nameJa: 'LUCAS ログ統合保存システム', url: '', logo: 'lucas', tag: 'LUCAS' },
+  { name: 'SESC 次世代郵件安全雲', nameEn: 'SESC Smart Email Security Cloud', nameJa: 'SESC 次世代メールセキュリティクラウド', url: '', logo: null, tag: 'SESC' },
+  { name: 'SIVAS', nameEn: 'SIVAS', nameJa: 'SIVAS', url: '', logo: null, tag: 'SIVAS' },
+  { name: '資安健診', nameEn: 'Security Health Checkup', nameJa: 'セキュリティ健診', url: '', logo: null, tag: '資安健診' },
 ];
 /* 代理品牌 logo(對齊 partners.html 的 logo 路徑,從 admin/ 底下引用要加 ../) */
 const PARTNER_LOGOS = {
@@ -342,6 +344,60 @@ function createContentStore(storageKey, seedData, idPrefix) {
    產業別固定選項,跟官網 cases.html 的篩選下拉選單對齊。 */
 const CASE_INDUSTRIES = ['一般製造', '科技製造', '零售/流通', '一般服務', '政府/教育', '醫療', '金融', '資訊服務', '其他產業'];
 
+/* 產業別翻譯字典(翻一次全站共用,不是每篇文章各自翻)。 */
+const CASE_INDUSTRIES_I18N = {
+  en: {
+    '一般製造': 'General Manufacturing', '科技製造': 'Tech Manufacturing', '零售/流通': 'Retail / Distribution',
+    '一般服務': 'General Services', '政府/教育': 'Government / Education', '醫療': 'Healthcare',
+    '金融': 'Financial Services', '資訊服務': 'IT Services', '其他產業': 'Other Industries',
+  },
+  ja: {
+    '一般製造': '一般製造業', '科技製造': 'テクノロジー製造', '零售/流通': '小売・流通',
+    '一般服務': '一般サービス', '政府/教育': '政府・教育', '醫療': '医療',
+    '金融': '金融', '資訊服務': 'IT サービス', '其他產業': 'その他業種',
+  },
+};
+
+/* ── 多語系(新聞中心／成功案例共用同一套邏輯)──────────────────
+   支援語言:繁中(基礎/永遠存在) + 英文 + 日文。
+   有限選項欄位(標籤、產業別、自家產品名稱)翻一次存成上面這種全站共用字典,不會不一致。
+   標籤本身依你的決定不翻譯,維持代碼原文。
+   自由文案欄位(標題/摘要/內文/SEO/網址代稱)才需要每篇文章各自翻譯,存在該篇文章的
+   translations[lang] 底下,只存「有翻的欄位」,沒填的欄位畫面上自動 fallback 回繁中內容。
+   之後要接 AI 自動翻譯,只是把結果寫進 translations[lang],資料結構不用改。──────────── */
+const SUPPORTED_LANGS = [
+  { code: 'zh', label: '繁中' },
+  { code: 'en', label: 'EN' },
+  { code: 'ja', label: '日本語' },
+];
+
+/* 取得某語言 + 欄位的「有效顯示值」:該語言有填就用該語言的,沒填就 fallback 回繁中基礎內容。
+   field 支援 'body.intro' 這種路徑,給巢狀欄位用。 */
+function getLocalizedField(item, lang, field) {
+  const path = field.split('.');
+  const digFrom = root => path.reduce((o, k) => (o == null ? o : o[k]), root);
+  if (lang !== 'zh') {
+    const v = digFrom(item.translations && item.translations[lang]);
+    if (v !== undefined && v !== null && v !== '') return v;
+  }
+  return digFrom(item);
+}
+
+/* 產業別的翻譯顯示值(字典查詢,查不到就照原文顯示) */
+function getIndustryLabel(industry, lang) {
+  if (!industry || lang === 'zh') return industry || '';
+  return (CASE_INDUSTRIES_I18N[lang] && CASE_INDUSTRIES_I18N[lang][industry]) || industry;
+}
+
+/* 導入方案名稱的翻譯顯示值:對到自家產品字典就翻,代理品牌/自訂名稱維持原文
+   (品牌名字全球通用不翻譯;自訂名稱這版還沒有逐篇翻譯的欄位)。 */
+function getSolutionDisplayName(name, lang) {
+  if (!name || lang === 'zh') return name || '';
+  const preset = SOLUTION_PRESETS.find(p => p.name === name);
+  if (!preset) return name;
+  return (lang === 'en' ? preset.nameEn : lang === 'ja' ? preset.nameJa : null) || name;
+}
+
 const SEED_CASES = [
   {
     id: 'c1', slug: 'gov-cross-agency-raven',
@@ -361,6 +417,24 @@ const SEED_CASES = [
       { name: 'RAVEN 資安監控維運中心', url: 'raven.html' },
       { name: 'Claroty OT 資安防護平台', url: '' },
     ],
+    /* 多語系示範:EN 全部翻完,JA 只翻了標題／摘要,其餘留空示範 fallback 回繁中內容 */
+    translations: {
+      en: {
+        slug: 'gov-agency-raven-cross-department-defense',
+        title: 'Government Agency Strengthens Cross-Department Defense with RAVEN',
+        desc: 'Around-the-clock security monitoring consolidates cross-agency threat intel, cutting average incident response time by over 60%.',
+        body: {
+          intro: 'Facing increasingly frequent cross-agency cyberattacks, this government agency previously relied on each unit’s independent monitoring, with no unified channel for incident triage or intelligence sharing.',
+          need: 'Each of the 27 subordinate agencies maintained its own protections with inconsistent alert rules and reporting flows. When a coordinated cross-agency attack occurred, the security team had to manually consolidate reports from every unit, often missing the golden window for first response.',
+          solution: 'uniXecure deployed the [RAVEN](raven.html) risk analytics and visualization platform to build a cross-agency defense command center, consolidating security events and threat intelligence across all subordinate agencies with a visual dashboard showing attack paths and impact scope in real time.',
+          value: 'After deployment, the agency completed connectivity integration across all 27 subordinate agencies, establishing a cross-agency threat intelligence defense mechanism that significantly strengthened overall security resilience.',
+        },
+      },
+      ja: {
+        title: '某政府機関、RAVEN で省庁間連携防御を強化',
+        desc: '24 時間体制のセキュリティ監視により省庁間の脅威インテリジェンスを統合し、平均インシデント対応時間を 60% 以上短縮。',
+      },
+    },
     ctaText: '', ctaUrl: '', seoTitle: '', seoDesc: '', status: 'published',
     createdAt: '2026-05-15T10:00', updatedAt: '2026-05-20T09:00',
   },
