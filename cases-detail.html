@@ -45,6 +45,12 @@
 .read-subnav__logo{height:20px;width:auto;color:var(--b-ink)}
 .read-subnav__logo-img{height:16px;width:auto;object-fit:contain}
 .read-subnav__title{flex:1;min-width:0}
+.read-subnav__title-mobile{display:none;flex:1;min-width:0;font-size:14px;font-weight:700;color:var(--b-ink)}
+@media(max-width:640px){
+  .read-subnav__title{display:none}
+  .read-subnav__title-mobile{display:block}
+  .read-subnav__meta .tag{display:none}
+}
 .breadcrumb__current-mid{color:var(--b-ink-4)}
 .article__lead{font-size:18px;line-height:1.75;color:var(--b-ink-3);margin:0 0 32px;max-width:none}
 .article__banner{border-radius:12px;overflow:hidden;aspect-ratio:16/9;margin-bottom:36px;box-shadow:var(--b-shadow-sm)}
@@ -126,6 +132,7 @@
   <div class="wrap">
   <div class="read-subnav__inner">
     <span class="read-subnav__title">某政府機關導入 RAVEN 強化跨部會聯防監控</span>
+    <span class="read-subnav__title-mobile">成功案例</span>
     <div class="read-subnav__meta">
       <span class="tag tag--indigo">政府/教育</span>
       <svg class="read-subnav__logo" viewBox="0 0 1770 500" role="img" aria-label="RAVEN"><use href="#lg-raven"></use></svg>
@@ -148,7 +155,7 @@
         <h2>客戶需求</h2>
         <p>27 個下屬機關各自建置防護措施，告警規則與通報流程不一致，一旦發生跨機關串連攻擊，資安團隊得耗費大量人力彙整各單位回報資料，往往在釐清全貌時已錯失第一時間應變的黃金時機。</p>
         <h2>解決方案</h2>
-        <p>uniXecure 導入 <a href="raven.html" style="color:var(--b-indigo);text-decoration:underline;text-decoration-color:var(--b-indigo-100);text-underline-offset:2px;font-weight:600">RAVEN</a> 風險分析暨視覺化平台，建置跨機關聯防指揮中心，統一彙整各下屬機關的資安事件與威脅情資，並以視覺化儀表板呈現攻擊路徑與影響範圍，讓資安團隊能即時掌握全局。</p>
+        <p>uniXecure 導入 <a href="raven.html">RAVEN</a> 風險分析暨視覺化平台，建置跨機關聯防指揮中心，統一彙整各下屬機關的資安事件與威脅情資，並以視覺化儀表板呈現攻擊路徑與影響範圍，讓資安團隊能即時掌握全局。</p>
         <blockquote>「過去光是確認攻擊是否已擴散到其他機關就要花上大半天，現在透過 RAVEN 的跨機關關聯視圖，我們能在第一時間鎖定受影響範圍。」該機關資安主管表示。</blockquote>
         <h2>創造價值</h2>
         <p>導入後，該機關已完成 27 個下屬機關的連線整合，建立起跨機關威脅情資聯防機制，大幅提升整體資安韌性。</p>
