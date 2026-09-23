@@ -401,6 +401,24 @@ function getSolutionDisplayName(name, lang) {
   return (lang === 'en' ? preset.nameEn : lang === 'ja' ? preset.nameJa : null) || name;
 }
 
+/* ── 成功案例欄位完成度(只看必要欄位:標題／摘要／內文四段,選填欄位不算)────
+   純顯示用,不擋存檔/發布;之後其他模組要套用同樣邏輯,換這份欄位清單就好。 */
+const CASE_REQUIRED_FIELDS = [
+  { key: 'title', label: '標題' },
+  { key: 'desc', label: '摘要' },
+  { key: 'body.intro', label: '說明' },
+  { key: 'body.need', label: '客戶需求' },
+  { key: 'body.solution', label: '解決方案' },
+  { key: 'body.value', label: '創造價值' },
+];
+function getCaseCompletion(item) {
+  const items = CASE_REQUIRED_FIELDS.map(f => {
+    const v = f.key.split('.').reduce((o, k) => (o == null ? o : o[k]), item);
+    return { ...f, done: !!(v && String(v).trim()) };
+  });
+  return { items, filled: items.filter(i => i.done).length, total: items.length };
+}
+
 const SEED_CASES = [
   {
     id: 'c1', slug: 'gov-cross-agency-raven',

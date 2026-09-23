@@ -42,6 +42,8 @@
     <button type="button" class="lang-tab" data-lang="ja">日本語<span class="lang-tab__dot" style="display:none"></span></button>
   </div>
 
+  <div class="completion-check" id="completionCheck"></div>
+
   <div class="editor-layout">
     <!-- 表單 -->
     <div class="editor-form">
@@ -548,6 +550,17 @@ function renderPreview() {
         ${sortTags(d.tags).map(t => `<span class="mock-article__tag">#${escapeHtml(t)}</span>`).join('') || '<span style="color:var(--ink-4);font-size:12px">(尚未輸入標籤)</span>'}
       </div>
     </div>
+  `;
+
+  renderCompletionCheck(d);
+}
+
+/* 必要欄位完成度(標題／摘要／內文四段),只看繁中基礎內容,不看翻譯、也不影響存檔 */
+function renderCompletionCheck(d) {
+  const { items, filled, total } = getCaseCompletion(d);
+  document.getElementById('completionCheck').innerHTML = `
+    <span class="completion-check__summary">必要欄位 ${filled} / ${total}</span>
+    ${items.map(i => `<span class="completion-check__item ${i.done ? 'is-done' : ''}"><i class="fa-solid ${i.done ? 'fa-circle-check' : 'fa-circle'}"></i>${escapeHtml(i.label)}</span>`).join('')}
   `;
 }
 
