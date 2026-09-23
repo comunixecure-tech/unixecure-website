@@ -124,6 +124,13 @@ a{color:inherit;text-decoration:none}
 }
 .data-row:last-child{border-bottom:none}
 .data-row--head{background:#fafafd;color:var(--ink-3);font-size:12px;font-weight:700;letter-spacing:.02em}
+/* 操作欄(一律鎖定顯示、永遠是最後一欄)固定在橫向捲動區的右側,不用捲到底、捲一半看起來很怪
+   才能點到編輯/刪除;捲動時後面的內容會被這欄蓋住,所以要給實色背景。 */
+@media(min-width:640px){
+  /* 窄螢幕(<640px)空間本來就不夠,操作欄固定右側反而會蓋住標題,所以只在放得下的寬度才啟用 */
+  .data-row > :last-child{position:sticky;right:-20px;z-index:2;background:var(--card);box-shadow:-8px 0 8px -8px rgba(20,22,40,.12)}
+  .data-row--head > :last-child{background:#fafafd}
+}
 .data-thumb{width:64px;height:44px;border-radius:6px;object-fit:cover;background:var(--line);flex-shrink:0}
 .data-title{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .data-sub{font-size:12px;color:var(--ink-3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
