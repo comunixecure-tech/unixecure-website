@@ -45,13 +45,6 @@
     <!-- 表單 -->
     <div class="editor-form">
 
-      <div class="meta-hint" id="metaHint" style="display:none"></div>
-
-      <div class="lang-lock-note" id="langLockNote">
-        <i class="fa-solid fa-circle-info"></i>
-        產業別／標籤／導入方案／封面／發布時間／CTA 連結不分語言，這裡的值一律跟著「繁中」分頁，要改請切回繁中；產業別、導入方案的產品名稱畫面上會自動套用翻譯字典顯示。
-      </div>
-
       <div class="form-field">
         <label>標題</label>
         <input type="text" id="f_title" placeholder="請輸入案例標題" />
@@ -151,10 +144,10 @@
       <details class="seo-details">
         <summary>SEO 設定</summary>
         <div class="seo-details__body">
-          <div class="form-field">
-            <label>網址代稱(Slug) <span class="hint">各語言可以有自己的網址</span></label>
+          <div class="form-field" id="slugField">
+            <label>網址代稱(Slug) <span class="hint">不分語言，各語言網址只差前面的語系代碼</span></label>
             <div class="slug-row">
-              <span class="slug-row__prefix" id="slugPrefix">/cases/</span>
+              <span class="slug-row__prefix" id="slugPrefix">/tw/cases/</span>
               <input type="text" id="f_slug" placeholder="會依標題自動產生，可手動修改" />
             </div>
             <div class="slug-hint" id="slugHint"></div>
@@ -190,8 +183,9 @@
 
 <div class="action-bar">
   <div class="wrap action-bar__inner">
-    <a class="btn btn-ghost" href="cases.html">取消</a>
+    <div class="action-bar__meta" id="metaHint"></div>
     <div class="action-bar__group">
+      <a class="btn btn-ghost" href="cases.html">取消</a>
       <button class="btn" id="draftBtn">儲存草稿</button>
       <button class="btn btn-primary" id="publishBtn">立即發布</button>
     </div>
@@ -285,12 +279,13 @@ const TRANSLATABLE_FIELDS = [
   { id: 'f_solution', path: 'body.solution', placeholder: 'uniXecure 導入了什麼方案來解決問題' },
   { id: 'f_value', path: 'body.value', placeholder: '導入後帶來的具體成效' },
   { id: 'f_ctaText', path: 'ctaText', placeholder: '按鈕文字，例如：了解更多' },
-  { id: 'f_slug', path: 'slug', placeholder: '會依標題自動產生，可手動修改' },
   { id: 'f_seoTitle', path: 'seoTitle', placeholder: '搜尋結果顯示的標題' },
   { id: 'f_seoDesc', path: 'seoDesc', placeholder: '搜尋結果顯示的描述文字' },
 ];
-/* 不分語言的欄位:切到 en/ja 分頁時鎖起來,提醒使用者回繁中分頁改 */
-const LANG_LOCKED_INPUTS = ['f_industry', 'f_cover', 'f_publishAt', 'f_ctaUrlPreset', 'f_ctaUrl'];
+/* 不分語言的欄位(含網址代稱:同一篇文章各語言網址只差語系代碼,slug 本身不翻譯):
+   切到 en/ja 分頁時直接隱藏整個欄位,不用文字說明,UI 本身就是引導。 */
+const LANG_LOCKED_FIELDS = ['industryField', 'publishAtField', 'coverField', 'tagPickerField', 'solutionsField', 'ctaUrlField', 'slugField'];
+const SLUG_LANG_PREFIX = { zh: 'tw', en: 'en', ja: 'jp' };
 
 function getAtPath(obj, path) { return path.split('.').reduce((o, k) => (o == null ? o : o[k]), obj); }
 function setAtPath(obj, path, value) {
@@ -306,7 +301,7 @@ function cloneTranslation(t) {
       intro: (t && t.body && t.body.intro) || '', need: (t && t.body && t.body.need) || '',
       solution: (t && t.body && t.body.solution) || '', value: (t && t.body && t.body.value) || '',
     },
-    ctaText: (t && t.ctaText) || '', slug: (t && t.slug) || '',
+    ctaText: (t && t.ctaText) || '',
     seoTitle: (t && t.seoTitle) || '', seoDesc: (t && t.seoDesc) || '',
   };
 }
@@ -323,7 +318,7 @@ function populateFieldsForLang(lang) {
     el.value = getAtPath(content[lang], f.path) || '';
     el.placeholder = lang === 'zh' ? f.placeholder : '尚未翻譯，畫面會自動顯示繁中內容';
   });
-  document.getElementById('slugPrefix').textContent = lang === 'zh' ? '/cases/' : `/${lang}/cases/`;
+  document.getElementById('slugPrefix').textContent = `/${SLUG_LANG_PREFIX[lang]}/cases/`;
 }
 
 function updateLangTabDots() {
@@ -339,10 +334,7 @@ function switchLang(lang) {
   document.querySelectorAll('.lang-tab').forEach(btn => btn.classList.toggle('is-active', btn.dataset.lang === lang));
   populateFieldsForLang(lang);
   const locked = lang !== 'zh';
-  LANG_LOCKED_INPUTS.forEach(id => { document.getElementById(id).disabled = locked; });
-  document.getElementById('tagPickerField').classList.toggle('is-lang-locked', locked);
-  document.getElementById('solutionsField').classList.toggle('is-lang-locked', locked);
-  document.getElementById('langLockNote').style.display = locked ? 'flex' : 'none';
+  LANG_LOCKED_FIELDS.forEach(id => { document.getElementById(id).style.display = locked ? 'none' : ''; });
   renderPreview();
 }
 document.getElementById('langTabs').addEventListener('click', e => {
@@ -371,22 +363,20 @@ if (existing) {
   document.getElementById('f_publishAt').value = existing.publishAt || '';
   document.getElementById('f_cover').value = existing.cover || '';
   document.getElementById('f_ctaUrl').value = existing.ctaUrl || '';
+  document.getElementById('f_slug').value = existing.slug || '';
   const ctaPresetInit = document.getElementById('f_ctaUrlPreset');
   if ([...ctaPresetInit.options].some(o => o.value === existing.ctaUrl)) ctaPresetInit.value = existing.ctaUrl;
 
   if (existing.updatedAt) {
-    const hint = document.getElementById('metaHint');
     const d = new Date(existing.updatedAt);
-    hint.style.display = 'block';
     const timeStr = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-    hint.textContent = `最後編輯時間：${timeStr}，目前狀態：${STATUS_LABEL[getStatus(existing)]}`;
+    document.getElementById('metaHint').textContent = `最後編輯時間：${timeStr}，目前狀態：${STATUS_LABEL[getStatus(existing)]}`;
   }
 }
 
-/* slug 撞網址檢查:只檢查繁中(基礎)網址,垃圾桶裡的案例也算佔用,永久刪除過的不算。
-   英文/日文網址這版先不做撞號檢查(見跟 Aimi 的討論,之後有需要再補)。 */
+/* slug 撞網址檢查:網址不分語言,垃圾桶裡的案例也算佔用,永久刪除過的不算 */
 function checkSlugAndRender() {
-  const slug = (content.zh.slug || '').trim();
+  const slug = document.getElementById('f_slug').value.trim();
   const hint = document.getElementById('slugHint');
   const result = casesStore.checkSlugStatus(slug, existing ? existing.id : null);
   if (result.status === 'live') {
@@ -402,17 +392,14 @@ function checkSlugAndRender() {
   return result.status;
 }
 
-/* 標題變動時自動帶出 slug(除非使用者已手動編輯過 slug);只對繁中分頁生效,
-   英文/日文的網址需要自己填,slugify() 處理不了日文假名。 */
+/* 標題變動時自動帶出 slug(除非使用者已手動編輯過 slug);網址欄位在非繁中分頁本來就隱藏,
+   這裡只需要在繁中分頁生效。 */
 document.getElementById('f_title').addEventListener('input', () => {
   if (activeLang !== 'zh' || slugTouched) return;
-  const s = slugify(content.zh.title);
-  content.zh.slug = s;
-  document.getElementById('f_slug').value = s;
+  document.getElementById('f_slug').value = slugify(content.zh.title);
   checkSlugAndRender();
 });
 document.getElementById('f_slug').addEventListener('input', () => {
-  if (activeLang !== 'zh') return;
   slugTouched = true;
   checkSlugAndRender();
 });
@@ -453,7 +440,6 @@ function buildTranslationPayload(lang) {
   if (t.title) out.title = t.title;
   if (t.desc) out.desc = t.desc;
   if (t.ctaText) out.ctaText = t.ctaText;
-  if (t.slug) out.slug = t.slug;
   if (t.seoTitle) out.seoTitle = t.seoTitle;
   if (t.seoDesc) out.seoDesc = t.seoDesc;
   const body = {};
@@ -479,7 +465,7 @@ function buildItemData() {
     ctaText: content.zh.ctaText.trim(),
     ctaUrl: document.getElementById('f_ctaUrl').value.trim(),
     tags: tagPicker.getTags(),
-    slug: content.zh.slug.trim(),
+    slug: document.getElementById('f_slug').value.trim(),
     seoTitle: content.zh.seoTitle.trim(),
     seoDesc: content.zh.seoDesc.trim(),
     translations: { en: buildTranslationPayload('en'), ja: buildTranslationPayload('ja') },

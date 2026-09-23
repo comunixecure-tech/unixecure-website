@@ -232,7 +232,7 @@ a{color:inherit;text-decoration:none}
 .mock-case-product__label{font-size:12px;font-weight:700;color:var(--ink-4);letter-spacing:.04em;text-transform:uppercase;margin-bottom:14px}
 .mock-case-product__item{display:grid;grid-template-columns:88px 1fr;align-items:center;gap:18px;padding:12px 0}
 .mock-case-product__item+.mock-case-product__item{border-top:1px solid var(--line)}
-.mock-case-product__logobox{width:88px;height:30px;display:flex;align-items:center;justify-content:flex-start;flex-shrink:0}
+.mock-case-product__logobox{width:88px;height:30px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .mock-case-product__logo-svg{height:26px;width:auto;max-width:100%;color:var(--ink)}
 .mock-case-product__logo-img{height:22px;width:auto;max-width:100%;object-fit:contain;display:block}
 .mock-case-product__link{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--indigo);text-decoration:none}
@@ -266,11 +266,6 @@ a{color:inherit;text-decoration:none}
 .lang-tab:hover{border-color:var(--indigo);color:var(--indigo)}
 .lang-tab.is-active{background:var(--indigo);border-color:var(--indigo);color:#fff}
 .lang-tab__dot{width:6px;height:6px;border-radius:50%;background:var(--amber);flex-shrink:0}
-.lang-lock-note{
-  display:none;align-items:flex-start;gap:8px;font-size:12px;line-height:1.6;color:var(--ink-3);
-  background:var(--bg);border-radius:8px;padding:10px 14px;margin-bottom:18px;
-}
-.is-lang-locked{position:relative;pointer-events:none;opacity:.45}
 
 @media(max-width:960px){
   .editor-layout{grid-template-columns:1fr}
@@ -343,7 +338,8 @@ a{color:inherit;text-decoration:none}
 /* ── 底部固定按鈕列(窄螢幕取消固定)──────── */
 .action-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(20,22,40,.06);padding:12px 0}
 .action-bar__inner{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.action-bar__group{display:flex;gap:10px}
+.action-bar__group{display:flex;align-items:center;gap:10px}
+.action-bar__meta{font-size:12px;color:var(--ink-4)}
 body.has-action-bar{padding-bottom:76px}
 @media(max-width:960px){
   .action-bar{position:static;box-shadow:none;margin-top:0;padding:16px 0 40px;background:transparent;border-top:0}
